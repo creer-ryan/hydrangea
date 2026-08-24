@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法人客戶關係管理系統 - 權限設定</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="marketing.css">
+    <link rel="stylesheet" href="permissions.css">
+    <script src="navbar.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Main Container -->
+    <div class="permissions-container">
+        
+        <!-- Header -->
+        <div class="marketing-header" style="margin-bottom: 24px;">
+            <h2 id="permissions-page-title" style="font-size: 24px; color: var(--text-main); font-weight: 700;">權限與代理人管理 - 權限設定 - 角色管理</h2>
+        </div>
+
+        <!-- TOP LEVEL TABS -->
+        <div class="marketing-tabs">
+            <button class="marketing-tab-btn active" id="tab-role-mode" onclick="switchTab('roles')" style="line-height: 1.2; padding: 10px 24px; cursor: pointer;">角色管理<br><span style="font-size: 11px; font-weight: normal; color: #666; pointer-events: none;">Role Mgt.</span></button>
+            <button class="marketing-tab-btn" id="tab-user-mode" onclick="switchTab('users')" style="line-height: 1.2; padding: 10px 24px; cursor: pointer;">使用者管理<br><span style="font-size: 11px; font-weight: normal; color: #666; pointer-events: none;">User Mgt.</span></button>
+            <button class="marketing-tab-btn" id="tab-agent-mode" onclick="switchTab('agent')" style="line-height: 1.2; padding: 10px 24px; cursor: pointer;">代理人設定<br><span style="font-size: 11px; font-weight: normal; color: #666; pointer-events: none;">Agent Settings</span></button>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- PANEL 1: Role Management -->
+        <!-- ============================================== -->
+        <div id="panel-roles" style="display:block;">
+            
+            <!-- Key Architecture Info Banner -->
+            <div class="info-banner-decouple" style="margin-top: 16px; margin-bottom: 16px;">
+                <span style="font-size: 18px;">💡</span>
+                <div>
+                    <strong>系統架構說明：</strong>本系統「角色 (Role)」僅控管<strong>功能使用權與操作動作 (包含檢視/編輯/刪除/匯出)</strong>。關於使用者可查看的「客戶範圍與轄區 (如內法一部、外法全體)」，請至【使用者管理】進行指派，避免角色膨脹與過度授權。
+                </div>
+            </div>
+
+            <!-- Role Statistics Overview Cards -->
+            <div class="role-stats-grid">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-label">系統總角色數</div>
+                        <div class="stat-value" id="stat-total-roles">6</div>
+                    </div>
+                    <div class="stat-icon-wrapper icon-blue">🛡️</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-label">啟用中角色</div>
+                        <div class="stat-value" id="stat-active-roles">5</div>
+                    </div>
+                    <div class="stat-icon-wrapper icon-green">✅</div>
+                </div>
+
+            </div>
+
+            <!-- Filter & Action Bar -->
+            <div class="role-filter-bar">
+                <div class="filter-left-inputs">
+                    <div class="search-box-wrapper">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="role-search-input" placeholder="搜尋角色名稱關鍵字...">
+                    </div>
+                    <div class="custom-multiselect-dropdown" id="role-multiselect-dropdown">
+                        <button type="button" class="multiselect-btn" id="role-multiselect-btn">
+                            <span class="multiselect-btn-text" id="role-multiselect-label">🛡️ 選擇角色 (全部)</span>
+                            <span class="multiselect-arrow">▼</span>
+                        </button>
+                        <div class="multiselect-panel" id="role-multiselect-panel">
+                            <div class="multiselect-panel-header">
+                                <label class="multiselect-item select-all">
+                                    <input type="checkbox" id="role-cb-select-all" checked>
+                                    <span>全選 (All Roles)</span>
+                                </label>
+                            </div>
+                            <div class="multiselect-panel-divider"></div>
+                            <div class="multiselect-panel-body" id="role-multiselect-list">
+                                <!-- Dynamically populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                    <select class="filter-select" id="role-category-filter">
+                        <option value="ALL">所有主功能模組 (All Modules)</option>
+                        <option value="HOME">🌐 【首頁】行程、庫存與搜尋</option>
+                        <option value="MARKETING">📢 【行銷展業】訪談紀錄、活動與投顧</option>
+                        <option value="INQUIRY">👥 【客戶綜合查詢】法人總帳戶與商品視角</option>
+                        <option value="REPORT">📊 【報表專區】業績市佔與分潤</option>
+                        <option value="TOOLS">🛠️ 【工具】權限管理與代理設定</option>
+                    </select>
+
+                    <select class="filter-select" id="role-status-filter">
+                        <option value="ALL">所有狀態 (All Status)</option>
+                        <option value="ACTIVE">啟用 (Active)</option>
+                        <option value="INACTIVE">停用 (Inactive)</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap: 10px;">
+                    <button class="btn btn-secondary" id="btn-export-roles" style="padding: 8px 16px; font-weight: 500;">↑ 匯出</button>
+                    <button class="btn btn-primary trigger-role-manage" style="padding: 8px 18px; background: var(--fubon-blue); border-color: var(--fubon-blue);">+ 新增角色</button>
+                </div>
+
+            </div>
+
+            <!-- Main Data Table -->
+            <div class="data-table-wrapper scrollable-table-wrapper" style="margin-top: 16px;">
+                <table class="data-table" id="role-table" style="text-align:left;">
+                    <thead>
+                        <tr>
+                            <th style="width: 16%;"><div class="sortable-header">角色名稱 <span>↑↓</span></div></th>
+                            <th style="width: 48%;"><div class="sortable-header">授權功能範圍 <span>↑↓</span></div></th>
+                            <th style="width: 8%; text-align:center;"><div class="sortable-header">使用人數 <span>↑↓</span></div></th>
+                            <th style="width: 11%; text-align:center;"><div class="sortable-header">最後編輯 <span>↑↓</span></div></th>
+                            <th style="width: 5%; text-align:center;">狀態</th>
+                            <th style="width: 12%; text-align:center;">操作與權限設定</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-role-id="r1" data-category="TOOLS">
+                            <td>
+                                <strong>系統管理員</strong>
+                            </td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                    <span class="category-badge cat-tools">【工具】權限代理/全模組</span>
+                                    <div class="perm-summary-pills">
+                                        <span class="perm-pill">【工具】權限管理</span>
+                                        <span class="perm-pill">【工具】代理人</span>
+                                        <span class="perm-pill">全模組管理</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="text-align:center;"><span style="background:#E0F2FE; color:#0369A1; padding:2px 8px; border-radius:10px; font-weight:600; font-size:12px;">3 人</span></td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2026/02/10<br>管理員 A</td>
+                            <td style="text-align:center;"><span class="tag-active">● 啟用</span></td>
+                            <td style="text-align:center;">
+                                <div style="display:flex; justify-content:center; gap: 6px;">
+                                    <button class="btn-action-manage trigger-permissions-manage" data-role-name="系統管理員" title="設定功能與敏感權限">🔑 權限設定</button>
+                                    <button class="icon-btn-secondary trigger-role-manage" title="編輯基本資料">📝</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr data-role-id="r2" data-category="REPORT">
+                            <td>
+                                <strong>主管</strong>
+                            </td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                    <span class="category-badge cat-report">【報表專區】業績與分潤</span>
+                                    <div class="perm-summary-pills">
+                                        <span class="perm-pill">【報表專區】業績市佔</span>
+                                        <span class="perm-pill">【行銷展業】審核</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="text-align:center;"><span style="background:#F1F5F9; color:#334155; padding:2px 8px; border-radius:10px; font-weight:600; font-size:12px;">8 人</span></td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2026/02/08<br>管理員 B</td>
+                            <td style="text-align:center;"><span class="tag-active">● 啟用</span></td>
+                            <td style="text-align:center;">
+                                <div style="display:flex; justify-content:center; gap: 6px;">
+                                    <button class="btn-action-manage trigger-permissions-manage" data-role-name="主管" title="設定功能與敏感權限">🔑 權限設定</button>
+                                    <button class="icon-btn-secondary trigger-role-manage" title="編輯基本資料">📝</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr data-role-id="r3" data-category="MARKETING">
+                            <td>
+                                <strong>營業員</strong>
+                            </td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                    <span class="category-badge cat-marketing">【行銷展業】服務與活動</span>
+                                    <div class="perm-summary-pills">
+                                        <span class="perm-pill">【行銷展業】服務紀錄</span>
+                                        <span class="perm-pill">【行銷展業】活動管理</span>
+                                        <span class="perm-pill">【行銷展業】智能語音</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="text-align:center;"><span style="background:#F1F5F9; color:#334155; padding:2px 8px; border-radius:10px; font-weight:600; font-size:12px;">45 人</span></td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2026/01/20<br>管理員 A</td>
+                            <td style="text-align:center;"><span class="tag-active">● 啟用</span></td>
+                            <td style="text-align:center;">
+                                <div style="display:flex; justify-content:center; gap: 6px;">
+                                    <button class="btn-action-manage trigger-permissions-manage" data-role-name="營業員" title="設定功能與敏感權限">🔑 權限設定</button>
+                                    <button class="icon-btn-secondary trigger-role-manage" title="編輯基本資料">📝</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr data-role-id="r4" data-category="INQUIRY">
+                            <td>
+                                <strong>交易員</strong>
+                            </td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                    <span class="category-badge cat-inquiry">【客戶綜合查詢】總帳戶</span>
+                                    <div class="perm-summary-pills">
+                                        <span class="perm-pill">【綜合查詢】法人總帳戶</span>
+                                        <span class="perm-pill">【首頁】即時庫存</span>
+                                        <span class="perm-pill">【新增項目】商品視角</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="text-align:center;"><span style="background:#F1F5F9; color:#334155; padding:2px 8px; border-radius:10px; font-weight:600; font-size:12px;">15 人</span></td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2026/01/15<br>管理員 C</td>
+                            <td style="text-align:center;"><span class="tag-active">● 啟用</span></td>
+                            <td style="text-align:center;">
+                                <div style="display:flex; justify-content:center; gap: 6px;">
+                                    <button class="btn-action-manage trigger-permissions-manage" data-role-name="交易員" title="設定功能與敏感權限">🔑 權限設定</button>
+                                    <button class="icon-btn-secondary trigger-role-manage" title="編輯基本資料">📝</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr data-role-id="r5" data-category="HOME">
+                            <td>
+                                <strong>一般員工</strong>
+                            </td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                    <span class="category-badge cat-home">【首頁】行程與搜尋</span>
+                                    <div class="perm-summary-pills">
+                                        <span class="perm-pill">【首頁】個人行程</span>
+                                        <span class="perm-pill">【首頁】客戶搜尋</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="text-align:center;"><span style="background:#F1F5F9; color:#334155; padding:2px 8px; border-radius:10px; font-weight:600; font-size:12px;">60 人</span></td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2025/11/10<br>管理員 B</td>
+                            <td style="text-align:center;"><span class="tag-active">● 啟用</span></td>
+                            <td style="text-align:center;">
+                                <div style="display:flex; justify-content:center; gap: 6px;">
+                                    <button class="btn-action-manage trigger-permissions-manage" data-role-name="一般員工" title="設定功能與敏感權限">🔑 權限設定</button>
+                                    <button class="icon-btn-secondary trigger-role-manage" title="編輯基本資料">📝</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr data-role-id="r6" data-category="TOOLS">
+                            <td>
+                                <strong>專案實習角色</strong>
+                            </td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                    <span class="category-badge cat-tools">【工具】權限代理</span>
+                                    <div class="perm-summary-pills">
+                                        <span class="perm-pill" style="opacity:0.6;">(無權限)</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="text-align:center;"><span style="background:#FEE2E2; color:#B91C1C; padding:2px 8px; border-radius:10px; font-weight:600; font-size:12px;">0 人</span></td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2025/10/01<br>管理員 A</td>
+                            <td style="text-align:center;"><span class="tag-inactive">● 停用</span></td>
+                            <td style="text-align:center;">
+                                <div style="display:flex; justify-content:center; gap: 6px;">
+                                    <button class="btn-action-manage trigger-permissions-manage" data-role-name="專案實習角色" title="設定功能與敏感權限" style="opacity: 0.6;">🔑 權限設定</button>
+                                    <button class="icon-btn-secondary trigger-role-manage" title="編輯基本資料">📝</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- PANEL 2: User Management (使用者管理) -->
+        <!-- ============================================== -->
+        <div id="panel-users" style="display:none;">
+
+            <!-- User Stat Cards Grid -->
+            <div class="role-stats-grid" style="margin-top: 16px;">
+                <div class="role-stat-card">
+                    <div class="stat-icon" style="background:#E0F2FE; color:#0369A1;">👥</div>
+                    <div class="stat-info">
+                        <div class="stat-label">總使用者人數 (Total Users)</div>
+                        <div class="stat-value">126 <span class="stat-unit">人</span></div>
+                    </div>
+                </div>
+                <div class="role-stat-card">
+                    <div class="stat-icon" style="background:#DCFCE7; color:#15803D;">🟢</div>
+                    <div class="stat-info">
+                        <div class="stat-label">正常啟用中帳號 (Active)</div>
+                        <div class="stat-value" style="color:#15803D;">118 <span class="stat-unit">人</span></div>
+                    </div>
+                </div>
+
+                <div class="role-stat-card">
+                    <div class="stat-icon" style="background:#FFEDD5; color:#C2410C;">🔄</div>
+                    <div class="stat-info">
+                        <div class="stat-label">目前代理中人數 (Delegating)</div>
+                        <div class="stat-value" style="color:#C2410C;">4 <span class="stat-unit">人</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architecture Banner -->
+            <div class="role-info-banner" style="margin-top:16px;">
+                <div class="banner-title">
+                    <span>💡</span> 雙維度授權模型說明 (Dual-Dimension Permission Model)
+                </div>
+                <div class="banner-desc">
+                    使用者權限由 <strong>「功能角色 (Role)」</strong> 與 <strong>「資料管轄範圍 (Data Scope)」</strong> 兩大維度共同決定：<br>
+                    • <strong>功能角色 (Role)</strong>：決定選單與按鈕操作權限（如：營業員、主管、交易員），可單一使用者賦予多重角色。<br>
+                    • <strong>資料管轄範圍 (Data Scope)</strong>：決定可檢視的客戶資料區域（如：全公司跨區、內法業務區、外法業務區、僅本人經辦客戶）。
+                </div>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="role-filter-bar" style="margin-top: 16px;">
+                <div class="filter-inputs">
+                    <div style="position:relative; width:220px;">
+                        <input type="text" id="user-search-input" placeholder="搜尋姓名、員編或 EIP 帳號...">
+                    </div>
+                    <select class="filter-select" id="user-role-filter">
+                        <option value="ALL">所有角色 (All Roles)</option>
+                        <option value="SALES">營業員</option>
+                        <option value="MANAGER">主管</option>
+                        <option value="TRADER">交易員</option>
+                        <option value="ADMIN">系統管理員</option>
+                    </select>
+                    <select class="filter-select" id="user-scope-filter">
+                        <option value="ALL">所有資料管轄範圍 (All Scopes)</option>
+                        <option value="COMPANY">🌐 全公司 (Company-Wide)</option>
+                        <option value="DOMESTIC">🏢 內法業務區 (Domestic)</option>
+                        <option value="FOREIGN">🏢 外法業務區 (Foreign)</option>
+                        <option value="PERSONAL">👤 僅限本人客戶 (Personal)</option>
+                    </select>
+                    <select class="filter-select" id="user-status-filter">
+                        <option value="ALL">所有狀態 (All Status)</option>
+                        <option value="ACTIVE">啟用 (Active)</option>
+                        <option value="INACTIVE">停用 (Inactive)</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap: 10px;">
+                    <button class="btn btn-secondary" id="btn-export-users" style="padding: 8px 16px; font-weight: 500;">↑ 匯出</button>
+                    <button class="btn btn-primary trigger-user-manage" style="padding: 8px 18px; background: var(--fubon-blue); border-color: var(--fubon-blue);">+ 新增使用者</button>
+                </div>
+            </div>
+
+            <!-- User Main Data Table -->
+            <div class="data-table-wrapper scrollable-table-wrapper" style="margin-top: 16px;">
+                <table class="data-table" id="user-table" style="text-align:left;">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;"><div class="sortable-header">姓名 / EIP 帳號 <span>↑↓</span></div></th>
+                            <th style="width: 14%;"><div class="sortable-header">部門 / 職稱 <span>↑↓</span></div></th>
+                            <th style="width: 22%; text-align:center;">已指派功能角色 (Multi-Role)</th>
+                            <th style="width: 15%; text-align:center;"><div class="sortable-header">資料管轄範圍 (Data Scope) <span>↑↓</span></div></th>
+                            <th style="width: 12%; text-align:center;">代理狀態</th>
+                            <th style="width: 10%; text-align:center;"><div class="sortable-header">最後編輯 <span>↑↓</span></div></th>
+                            <th style="width: 5%; text-align:center;">狀態</th>
+                            <th style="width: 7%; text-align:center;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-user-id="u1">
+                            <td>
+                                <strong>張大明</strong> <span style="font-size:12px; color:var(--text-muted);">(A1234)</span>
+                                <div style="font-size:12px; color:#0369A1; font-family:monospace;">sang.chang@fubon.com</div>
+                            </td>
+                            <td>
+                                <div style="font-weight:600; font-size:13.5px;">內法業務一部</div>
+                                <div style="font-size:12px; color:var(--text-muted);">資深營業員</div>
+                            </td>
+                            <td>
+                                <div class="perm-summary-pills">
+                                    <span class="perm-pill">營業員</span>
+                                    <span class="perm-pill">投顧專員</span>
+                                </div>
+                            </td>
+                            <td style="text-align:center;">
+                                <span class="category-badge cat-inquiry">🏢 內法業務區</span>
+                            </td>
+                            <td style="text-align:center;">
+                                <span style="font-size:12.5px; color:#15803D; font-weight:600;">🟢 正常出勤</span>
+                            </td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2026/02/10<br>管理員 A</td>
+                            <td style="text-align:center;"><span class="tag-active">● 啟用</span></td>
+                            <td style="text-align:center;">
+                                <button class="icon-btn-secondary trigger-user-manage" title="編輯使用者資料與權限">📝</button>
+                            </td>
+                        </tr>
+                        <tr data-user-id="u2">
+                            <td>
+                                <strong>李美玲</strong> <span style="font-size:12px; color:var(--text-muted);">(B5678)</span>
+                                <div style="font-size:12px; color:#0369A1; font-family:monospace;">meiling.li@fubon.com</div>
+                            </td>
+                            <td>
+                                <div style="font-weight:600; font-size:13.5px;">外法業務二部</div>
+                                <div style="font-size:12px; color:var(--text-muted);">業務主管</div>
+                            </td>
+                            <td>
+                                <div class="perm-summary-pills">
+                                    <span class="perm-pill">主管</span>
+                                </div>
+                            </td>
+                            <td style="text-align:center;">
+                                <span class="category-badge cat-report">🏢 外法業務區</span>
+                            </td>
+                            <td style="text-align:center;">
+                                <span style="font-size:12px; color:#C2410C; background:#FFEDD5; padding:2px 8px; border-radius:10px; font-weight:600; display:inline-block;">
+                                    🟠 代理中<br><span style="font-size:11px; font-weight:normal;">(由 王小明 代理)</span>
+                                </span>
+                            </td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2026/02/08<br>管理員 B</td>
+                            <td style="text-align:center;"><span class="tag-active">● 啟用</span></td>
+                            <td style="text-align:center;">
+                                <button class="icon-btn-secondary trigger-user-manage" title="編輯使用者資料與權限">📝</button>
+                            </td>
+                        </tr>
+                        <tr data-user-id="u3">
+                            <td>
+                                <strong>陳建國</strong> <span style="font-size:12px; color:var(--text-muted);">(C9012)</span>
+                                <div style="font-size:12px; color:#0369A1; font-family:monospace;">jianguo.chen@fubon.com</div>
+                            </td>
+                            <td>
+                                <div style="font-weight:600; font-size:13.5px;">法人交易桌</div>
+                                <div style="font-size:12px; color:var(--text-muted);">資深交易員</div>
+                            </td>
+                            <td>
+                                <div class="perm-summary-pills">
+                                    <span class="perm-pill">交易員</span>
+                                </div>
+                            </td>
+                            <td style="text-align:center;">
+                                <span class="category-badge cat-home">🌐 全公司跨區</span>
+                            </td>
+                            <td style="text-align:center;">
+                                <span style="font-size:12.5px; color:#15803D; font-weight:600;">🟢 正常出勤</span>
+                            </td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2026/01/25<br>管理員 A</td>
+                            <td style="text-align:center;"><span class="tag-active">● 啟用</span></td>
+                            <td style="text-align:center;">
+                                <button class="icon-btn-secondary trigger-user-manage" title="編輯使用者資料與權限">📝</button>
+                            </td>
+                        </tr>
+                        <tr data-user-id="u4">
+                            <td>
+                                <strong>王小明</strong> <span style="font-size:12px; color:var(--text-muted);">(D3456)</span>
+                                <div style="font-size:12px; color:#0369A1; font-family:monospace;">xiaoming.wang@fubon.com</div>
+                            </td>
+                            <td>
+                                <div style="font-weight:600; font-size:13.5px;">外法業務一部</div>
+                                <div style="font-size:12px; color:var(--text-muted);">營業員</div>
+                            </td>
+                            <td>
+                                <div class="perm-summary-pills">
+                                    <span class="perm-pill">營業員</span>
+                                </div>
+                            </td>
+                            <td style="text-align:center;">
+                                <span class="category-badge cat-tools">👤 僅限本人客戶</span>
+                            </td>
+                            <td style="text-align:center;">
+                                <span style="font-size:12.5px; color:#15803D; font-weight:600;">🟢 正常出勤</span>
+                            </td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2026/01/18<br>管理員 C</td>
+                            <td style="text-align:center;"><span class="tag-active">● 啟用</span></td>
+                            <td style="text-align:center;">
+                                <button class="icon-btn-secondary trigger-user-manage" title="編輯使用者資料與權限">📝</button>
+                            </td>
+                        </tr>
+                        <tr data-user-id="u5">
+                            <td>
+                                <strong>林志強</strong> <span style="font-size:12px; color:var(--text-muted);">(E7890)</span>
+                                <div style="font-size:12px; color:#0369A1; font-family:monospace;">zhiqiang.lin@fubon.com</div>
+                            </td>
+                            <td>
+                                <div style="font-weight:600; font-size:13.5px;">資訊處專案組</div>
+                                <div style="font-size:12px; color:var(--text-muted);">前離職實習生</div>
+                            </td>
+                            <td>
+                                <div class="perm-summary-pills">
+                                    <span class="perm-pill" style="opacity:0.6;">(無權限)</span>
+                                </div>
+                            </td>
+                            <td style="text-align:center;">
+                                <span class="category-badge cat-tools">👤 僅限本人客戶</span>
+                            </td>
+                            <td style="text-align:center;">
+                                <span style="font-size:12.5px; color:var(--text-muted);">一 離職停用</span>
+                            </td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2025/11/01<br>管理員 B</td>
+                            <td style="text-align:center;"><span class="tag-inactive">● 停用</span></td>
+                            <td style="text-align:center;">
+                                <button class="icon-btn-secondary trigger-user-manage" title="編輯使用者資料與權限">📝</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- PANEL 3: Agent Management -->
+        <!-- ============================================== -->
+        <!-- ============================================== -->
+        <!-- PANEL 3: Agent Management (代理人設定) -->
+        <!-- ============================================== -->
+        <div id="panel-agent" style="display:none;">
+
+            <!-- Agent Stat Cards Grid -->
+            <div class="role-stats-grid" style="margin-top: 16px;">
+                <div class="role-stat-card">
+                    <div class="stat-icon" style="background:#FFEDD5; color:#C2410C;">🔄</div>
+                    <div class="stat-info">
+                        <div class="stat-label">代理生效中 (Active Agent)</div>
+                        <div class="stat-value" style="color:#C2410C;">4 <span class="stat-unit">筆</span></div>
+                    </div>
+                </div>
+                <div class="role-stat-card">
+                    <div class="stat-icon" style="background:#FEF3C7; color:#B45309;">⏳</div>
+                    <div class="stat-info">
+                        <div class="stat-label">即將到期代理 (Expiring Soon)</div>
+                        <div class="stat-value" style="color:#B45309;">1 <span class="stat-unit">筆</span></div>
+                    </div>
+                </div>
+                <div class="role-stat-card">
+                    <div class="stat-icon" style="background:#E0F2FE; color:#0369A1;">📅</div>
+                    <div class="stat-info">
+                        <div class="stat-label">預約排程代理 (Upcoming)</div>
+                        <div class="stat-value" style="color:#0369A1;">2 <span class="stat-unit">筆</span></div>
+                    </div>
+                </div>
+                <div class="role-stat-card">
+                    <div class="stat-icon" style="background:#F3F4F6; color:#374151;">📜</div>
+                    <div class="stat-info">
+                        <div class="stat-label">歷史代理稽核總數 (History)</div>
+                        <div class="stat-value">38 <span class="stat-unit">筆</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architecture Banner -->
+            <div class="role-info-banner" style="margin-top:16px;">
+                <div class="banner-title">
+                    <span>💡</span> 代理人權限與雙重資安軌跡機制 (Agent Delegation & Dual Audit Log)
+                </div>
+                <div class="banner-desc">
+                    代理人機制用於休假或公務差旅期間，暫時將<strong>「被代理人 (委託人)」</strong>之功能角色與客戶資料檢視權限移交給<strong>「指定代理人 (受託人)」</strong>。<br>
+                    • <strong>時間排程控制</strong>：代理權限僅於設定之起訖時間內自動生效，到期後系統自動收回代理權。<br>
+                    • <strong>資安 Audit Log 雙標記</strong>：代理期間發生的所有訪談、修改與下載動作，系統 Log 均自動載示 <strong>`操作者: 代理人 (代理 被代理人)`</strong>。
+                </div>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="role-filter-bar" style="margin-top: 16px;">
+                <div class="filter-inputs">
+                    <div style="position:relative; width:240px;">
+                        <input type="text" id="agent-search-input" placeholder="搜尋被代理人、代理人或員編...">
+                    </div>
+                    <select class="filter-select" id="agent-status-filter">
+                        <option value="ALL">所有狀態 (All Status)</option>
+                        <option value="ACTIVE">🟢 代理生效中 (Active)</option>
+                        <option value="SCHEDULED">🟡 預約排程中 (Scheduled)</option>
+                        <option value="EXPIRED">⚪ 已過期到期 (Expired)</option>
+                    </select>
+                    <select class="filter-select" id="agent-scope-filter">
+                        <option value="ALL">所有授權範圍 (All Scope)</option>
+                        <option value="WITH_DATA">🌐 包含客戶資料存取</option>
+                        <option value="FUNC_ONLY">🔒 僅功能權限代理</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap: 10px;">
+                    <button class="btn btn-secondary" id="btn-export-agents" style="padding: 8px 16px; font-weight: 500;">↑ 匯出</button>
+                    <button class="btn btn-primary trigger-agent-manage" style="padding: 8px 18px; background: var(--fubon-blue); border-color: var(--fubon-blue);">+ 新增代理設定</button>
+                </div>
+            </div>
+
+            <!-- Agent Data Table -->
+            <div class="data-table-wrapper scrollable-table-wrapper" style="margin-top: 16px;">
+                <table class="data-table" id="agent-table" style="text-align:left;">
+                    <thead>
+                        <tr>
+                            <th style="width: 16%;"><div class="sortable-header">被代理人 (委託人) <span>↑↓</span></div></th>
+                            <th style="width: 16%;"><div class="sortable-header">指定代理人 (受託人) <span>↑↓</span></div></th>
+                            <th style="width: 22%; text-align:center;">代理角色與權限範圍</th>
+                            <th style="width: 20%; text-align:center;"><div class="sortable-header">代理起訖時間 <span>↑↓</span></div></th>
+                            <th style="width: 10%; text-align:center;">代理狀態</th>
+                            <th style="width: 9%; text-align:center;"><div class="sortable-header">最後編輯 <span>↑↓</span></div></th>
+                            <th style="width: 7%; text-align:center;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-agent-id="a1">
+                            <td>
+                                <strong>李美玲</strong> <span style="font-size:12px; color:var(--text-muted);">(B5678)</span>
+                                <div style="font-size:12px; color:var(--text-muted);">外法業務二部 / 主管</div>
+                            </td>
+                            <td>
+                                <strong>王小明</strong> <span style="font-size:12px; color:var(--text-muted);">(D3456)</span>
+                                <div style="font-size:12px; color:var(--text-muted);">外法業務一部 / 營業員</div>
+                            </td>
+                            <td>
+                                <div class="perm-summary-pills">
+                                    <span class="perm-pill">主管</span>
+                                    <span class="perm-pill">營業員</span>
+                                    <span class="perm-pill" style="background:#E0F2FE; color:#0369A1;">🌐 含客戶資料</span>
+                                </div>
+                            </td>
+                            <td style="text-align:center; font-size:12.5px;">
+                                <div>2026/02/10 08:00</div>
+                                <div style="color:var(--text-muted); font-size:11px;">至 2026/02/20 18:00</div>
+                            </td>
+                            <td style="text-align:center;">
+                                <span class="tag-active" style="background:#FFEDD5; color:#C2410C; border:1px solid #FED7AA;">🟢 代理生效中</span>
+                            </td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2026/02/09<br>管理員 A</td>
+                            <td style="text-align:center;">
+                                <button class="icon-btn-secondary trigger-agent-manage" title="編輯代理人設定">📝</button>
+                            </td>
+                        </tr>
+                        <tr data-agent-id="a2">
+                            <td>
+                                <strong>張大明</strong> <span style="font-size:12px; color:var(--text-muted);">(A1234)</span>
+                                <div style="font-size:12px; color:var(--text-muted);">內法業務一部 / 營業員</div>
+                            </td>
+                            <td>
+                                <strong>陳建國</strong> <span style="font-size:12px; color:var(--text-muted);">(C9012)</span>
+                                <div style="font-size:12px; color:var(--text-muted);">法人交易桌 / 交易員</div>
+                            </td>
+                            <td>
+                                <div class="perm-summary-pills">
+                                    <span class="perm-pill">營業員</span>
+                                    <span class="perm-pill" style="background:#F3F4F6; color:#4B5563;">🔒 僅功能代理</span>
+                                </div>
+                            </td>
+                            <td style="text-align:center; font-size:12.5px;">
+                                <div>2026/03/01 08:00</div>
+                                <div style="color:var(--text-muted); font-size:11px;">至 2026/03/05 18:00</div>
+                            </td>
+                            <td style="text-align:center;">
+                                <span style="background:#FEF3C7; color:#B45309; border:1px solid #FDE68A; padding:2px 8px; border-radius:10px; font-size:12px; font-weight:600; display:inline-block;">🟡 預約排程中</span>
+                            </td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2026/02/12<br>李美玲</td>
+                            <td style="text-align:center;">
+                                <button class="icon-btn-secondary trigger-agent-manage" title="編輯代理人設定">📝</button>
+                            </td>
+                        </tr>
+                        <tr data-agent-id="a3">
+                            <td>
+                                <strong>陳建國</strong> <span style="font-size:12px; color:var(--text-muted);">(C9012)</span>
+                                <div style="font-size:12px; color:var(--text-muted);">法人交易桌 / 交易員</div>
+                            </td>
+                            <td>
+                                <strong>張大明</strong> <span style="font-size:12px; color:var(--text-muted);">(A1234)</span>
+                                <div style="font-size:12px; color:var(--text-muted);">內法業務一部 / 營業員</div>
+                            </td>
+                            <td>
+                                <div class="perm-summary-pills">
+                                    <span class="perm-pill">交易員</span>
+                                    <span class="perm-pill" style="background:#E0F2FE; color:#0369A1;">🌐 含客戶資料</span>
+                                </div>
+                            </td>
+                            <td style="text-align:center; font-size:12.5px;">
+                                <div>2026/01/10 08:00</div>
+                                <div style="color:var(--text-muted); font-size:11px;">至 2026/01/15 18:00</div>
+                            </td>
+                            <td style="text-align:center;">
+                                <span class="tag-inactive">⚪ 已過期到期</span>
+                            </td>
+                            <td style="text-align:center; font-size:12px; color:var(--text-muted);">2026/01/09<br>管理員 B</td>
+                            <td style="text-align:center;">
+                                <button class="icon-btn-secondary trigger-agent-manage" title="檢視歷程" style="opacity:0.6;">📝</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div> <!-- /permissions-container -->
+
+    <!-- ============================================== -->
+    <!-- MODALS -->
+    <!-- ============================================== -->
+
+    <!-- Modal 1: Add/Edit Role -->
+    <div class="modal-overlay" id="modal-role-manage">
+        <div class="modal-content" style="max-width: 720px; max-height: 90vh; padding: 24px; border-radius: var(--radius-lg); display: flex; flex-direction: column;">
+            <div class="modal-header" style="margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display:flex; justify-content:space-between; align-items:flex-start;">
+                <div>
+                    <h2 style="font-size: 20px; font-weight: 700; color: var(--text-main); display:flex; align-items:center; gap:8px; margin:0;">
+                        <span>📝</span> <span id="modal-role-title">角色新增/編輯</span>
+                    </h2>
+                    <span style="font-size: 13px; color: var(--text-muted);">設定角色名稱、多選歸屬主功能模組，並預覽或微調細粒度權限</span>
+                </div>
+                <button class="icon-btn-secondary" id="btn-close-role-x" style="font-size: 16px; border:none; padding:4px 8px;">✕</button>
+            </div>
+
+            <div class="modal-body" style="overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:16px; padding-right:4px;">
+                <!-- Section 1: Role Name -->
+                <div style="display:flex; flex-direction:column; gap: 6px;">
+                    <label style="font-weight:600; font-size:13.5px; color: var(--text-main);">角色名稱 <span style="color:red;">*</span></label>
+                    <input type="text" id="input-role-name" value="外法專案交易員" placeholder="請輸入角色名稱（如：外法專案交易員）" style="padding:10px 12px; border:1px solid var(--border-color); border-radius:6px; font-size:14px; outline:none;">
+                </div>
+
+                <!-- Section 2: Multi-Select Role Attribution Main Modules -->
+                <div style="display:flex; flex-direction:column; gap: 8px; background:#F8FAFC; padding:14px 16px; border-radius:8px; border:1px solid var(--border-color);">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <label style="font-weight:700; font-size:13.5px; color: var(--fubon-dark); display:flex; align-items:center; gap:6px;">
+                            <span>🏷️</span> 角色歸屬主功能模組 <span style="color:red;">*</span> <span style="font-size:12px; font-weight:normal; color:var(--text-muted);">(可複選勾選多個模組)</span>
+                        </label>
+                        <button type="button" id="btn-role-cat-select-all" style="background:transparent; border:none; color:var(--fubon-blue); font-size:12px; cursor:pointer; font-weight:600;">⚡ 全選模組</button>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px;" id="role-category-checkbox-group">
+                        <label style="display:flex; align-items:center; gap:8px; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color); cursor:pointer; font-size:13px;">
+                            <input type="checkbox" class="role-cat-cb" value="HOME" style="width:16px; height:16px;">
+                            <span>🌐 1. 【首頁】行程與庫存</span>
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color); cursor:pointer; font-size:13px;">
+                            <input type="checkbox" class="role-cat-cb" value="MARKETING" checked style="width:16px; height:16px;">
+                            <span>📢 2. 【行銷展業】訪談與活動</span>
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color); cursor:pointer; font-size:13px;">
+                            <input type="checkbox" class="role-cat-cb" value="INQUIRY" style="width:16px; height:16px;">
+                            <span>👥 3. 【客戶綜合查詢】總帳戶</span>
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color); cursor:pointer; font-size:13px;">
+                            <input type="checkbox" class="role-cat-cb" value="REPORT" style="width:16px; height:16px;">
+                            <span>📊 4. 【報表專區】業績與分潤</span>
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color); cursor:pointer; font-size:13px;">
+                            <input type="checkbox" class="role-cat-cb" value="TOOLS" style="width:16px; height:16px;">
+                            <span>🛠️ 5. 【工具】權限與代理</span>
+                        </label>
+                    </div>
+
+                    <div style="font-size: 12px; color: #0369A1; background: #E0F2FE; border: 1px solid #BAE6FD; border-radius: 6px; padding: 8px 12px; margin-top: 2px; line-height: 1.5;">
+                        💡 <strong>多選連動提示：</strong>勾選上方主功能模組，下方清單將<strong>自動開啟對應子功能之權限</strong>；建立後仍可透過【🔑 權限設定】進一步進行細粒度調整。
+                    </div>
+                </div>
+
+                <!-- Section 3: Template Preset Select -->
+                <div style="display:flex; flex-direction:column; gap: 6px;">
+                    <label style="font-weight:600; font-size:13.5px; color: var(--text-main);">權限複製模板 (選填)</label>
+                    <select id="input-role-template" style="padding:8px 12px; border:1px solid var(--border-color); border-radius:6px; font-size:13.5px; outline:none; background:white;">
+                        <option value="">-- 不複製，依據上方勾選模組載入預設權限 --</option>
+                        <option value="SALES">複製「營業員」預設權限模板</option>
+                        <option value="MANAGER">複製「主管」預設權限模板</option>
+                        <option value="TRADER">複製「交易員」預設權限模板</option>
+                    </select>
+                </div>
+
+                <!-- Section 4: Full Feature Permission List (Detailed Checklist) -->
+                <div style="background:white; border:1px solid var(--border-color); border-radius:8px; padding:12px; display:flex; flex-direction:column; gap:10px;">
+                    <div style="font-weight:700; font-size:13.5px; color:var(--text-main); display:flex; justify-content:space-between; align-items:center;">
+                        <span>🔑 授權功能與細粒度操作清單 (全功能列出)</span>
+                        <span style="font-size:12px; color:var(--text-muted); font-weight:normal;">已勾選 <strong id="modal-role-active-count" style="color:var(--fubon-blue);">0</strong> / 12 項功能</span>
+                    </div>
+
+                    <!-- Scrollable Feature List Table inside Add Modal -->
+                    <div style="max-height: 220px; overflow-y: auto; border: 1px solid #E2E8F0; border-radius: 6px;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 12.5px;" id="modal-role-feature-table">
+                            <thead>
+                                <tr style="background:#F1F5F9; border-bottom:1px solid #E2E8F0; position:sticky; top:0; z-index:2;">
+                                    <th style="padding:8px 12px; text-align:left;">子功能模組</th>
+                                    <th style="width: 15%; text-align:center;">👁️ 檢視</th>
+                                    <th style="width: 15%; text-align:center;">➕ 編輯</th>
+                                    <th style="width: 18%; text-align:center;">📥 匯出</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Group 1: 首頁 -->
+                                <tr style="background:#F8FAFC; font-weight:700; color:#0369A1;" data-mod-group="HOME">
+                                    <td colspan="4" style="padding:6px 12px;">🌐 【首頁】行程、交易庫存與搜尋</td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="HOME" data-feature-name="個人行事曆與行程管理">
+                                    <td style="padding:6px 12px;">個人行事曆與行程管理</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="HOME" data-feature-name="即時交易庫存彙整">
+                                    <td style="padding:6px 12px;">即時交易庫存彙整</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+
+                                <!-- Group 2: 行銷展業 -->
+                                <tr style="background:#F8FAFC; font-weight:700; color:#C2410C;" data-mod-group="MARKETING">
+                                    <td colspan="4" style="padding:6px 12px;">📢 【行銷展業】訪談紀錄、活動管理與投顧</td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="MARKETING" data-feature-name="客戶訪談與服務紀錄">
+                                    <td style="padding:6px 12px;">客戶訪談與服務紀錄</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="MARKETING" data-feature-name="活動管理法說會論壇">
+                                    <td style="padding:6px 12px;">活動管理法說會論壇</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="MARKETING" data-feature-name="投顧使用紀錄研究資源">
+                                    <td style="padding:6px 12px;">投顧使用紀錄研究資源</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+
+                                <!-- Group 3: 客戶綜合查詢 -->
+                                <tr style="background:#F8FAFC; font-weight:700; color:#0F766E;" data-mod-group="INQUIRY">
+                                    <td colspan="4" style="padding:6px 12px;">👥 【客戶綜合查詢】法人總帳戶、單一客戶與商品視角</td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="INQUIRY" data-feature-name="法人總帳戶綜合查詢">
+                                    <td style="padding:6px 12px;">法人總帳戶綜合查詢</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="INQUIRY" data-feature-name="單一客戶標籤與群組">
+                                    <td style="padding:6px 12px;">單一客戶標籤與群組</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="INQUIRY" data-feature-name="商品視角橫向透視">
+                                    <td style="padding:6px 12px;">商品視角橫向透視</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+
+                                <!-- Group 4: 報表專區 -->
+                                <tr style="background:#F8FAFC; font-weight:700; color:#B91C1C;" data-mod-group="REPORT">
+                                    <td colspan="4" style="padding:6px 12px;">📊 【報表專區】業績市佔與拆帳分潤</td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="REPORT" data-feature-name="報表專區業績與市佔">
+                                    <td style="padding:6px 12px;">報表專區業績與市佔</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="REPORT" data-feature-name="營業員手續統計與分潤設定">
+                                    <td style="padding:6px 12px;">營業員手續統計與分潤設定</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+
+                                <!-- Group 5: 工具 -->
+                                <tr style="background:#F8FAFC; font-weight:700; color:#374151;" data-mod-group="TOOLS">
+                                    <td colspan="4" style="padding:6px 12px;">🛠️ 【工具】權限管理與代理人設定</td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="TOOLS" data-feature-name="組織權限管轄與功能管理">
+                                    <td style="padding:6px 12px;">組織權限管轄與功能管理</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+                                <tr class="modal-feature-row" data-mod-group="TOOLS" data-feature-name="代理人設定與角色權限">
+                                    <td style="padding:6px 12px;">代理人設定與角色權限</td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-read"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-edit"></td>
+                                    <td style="text-align:center;"><input type="checkbox" class="custom-cb mcb-export"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Section 5: Role Active Switch -->
+                <div style="display:flex; align-items:center; justify-content:space-between; background:#F8FAFC; padding:12px 16px; border-radius:6px; border:1px solid var(--border-color);">
+                    <div>
+                        <div style="font-weight:600; font-size:14px;">啟用此角色 (Active Status)</div>
+                        <div style="font-size:12px; color:var(--text-muted);">停用後已指派此角色的使用者將暫時無法使用相關功能</div>
+                    </div>
+                    <label class="switch-label">
+                        <input type="checkbox" id="input-role-active" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Section 6: Audit Box -->
+                <div id="role-audit-info-box" style="background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 6px; padding: 12px 16px; margin-top: 4px;">
+                    <div style="font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 8px; display:flex; align-items:center; gap:6px;">
+                        <span>📋</span> 完整資安稽核與異動軌跡 (Audit Metadata)
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12.5px; color: var(--text-muted);">
+                        <div>• 創建日期：<span id="audit-created-date" style="color:var(--text-main); font-weight:600;">2025/08/01</span></div>
+                        <div>• 創建者：<span id="audit-created-by" style="color:var(--text-main); font-weight:600;">張三 (EIP: sang.chang)</span></div>
+                        <div>• 最後編輯：<span id="audit-updated-date" style="color:var(--text-main); font-weight:600;">2026/02/10</span></div>
+                        <div>• 編輯者：<span id="audit-updated-by" style="color:var(--text-main); font-weight:600;">管理員 A (EIP: admin.a)</span></div>
+                    </div>
+                    <div id="audit-deactivated-box" style="display:none; color:#B91C1C; background:#FEE2E2; border:1px solid #FCA5A5; padding:6px 10px; border-radius:4px; margin-top:8px; font-size:12px;">
+                        ⚠️ 停用紀錄：<span id="audit-deactivated-info" style="font-weight:600;">2026/03/01 由 王五 (EIP: wu.wang) 停用</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions" style="justify-content: flex-end; margin-top: 16px; gap: 12px;">
+                <button class="btn btn-secondary" id="btn-cancel-role" style="padding: 8px 24px; border-radius:6px;">取消</button>
+                <button class="btn btn-primary" id="btn-save-role" style="padding: 8px 28px; background:var(--fubon-blue); border-color:var(--fubon-blue); border-radius:6px; font-weight:600;">儲存</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal 2: Enhanced Comprehensive Permission Matrix Modal -->
+    <div class="modal-overlay" id="modal-permissions-manage">
+        <div class="modal-content-lg">
+            
+            <!-- Modal Header -->
+            <div class="matrix-header">
+                <div class="matrix-header-info">
+                    <h3>
+                        <span>🔑 角色權限設定</span>
+                        <span id="target-role-badge" class="category-badge cat-sales" style="font-size:13px; font-weight:600;">主管</span>
+                    </h3>
+
+                    <p>針對 CRM 全系統三大核心分區進行細粒度操作授權 (檢視/編輯/刪除/匯出) 與高風險敏感數據防護。</p>
+                </div>
+                <button class="icon-btn-secondary" id="btn-close-perms-x" style="font-size: 16px; border:none; padding:4px 8px;">✕</button>
+            </div>
+
+            <!-- Quick Action Toolbar -->
+            <div class="matrix-quick-toolbar" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                <div class="search-box-wrapper" style="max-width: 260px;">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="matrix-search-input" placeholder="在權限矩陣中搜尋功能關鍵字...">
+                </div>
+
+                <!-- Tree View Multi-select Dropdown -->
+                <div class="custom-multiselect-dropdown" id="matrix-tree-dropdown">
+                    <button type="button" class="multiselect-btn" id="matrix-tree-btn" style="min-width: 210px;">
+                        <span class="multiselect-btn-text" id="matrix-tree-label">🌲 選擇功能模組 (全部)</span>
+                        <span class="multiselect-arrow">▼</span>
+                    </button>
+                    <div class="tree-multiselect-panel" id="matrix-tree-panel">
+                        <div class="tree-panel-header">
+                            <label class="tree-node-item select-all">
+                                <input type="checkbox" id="matrix-tree-cb-select-all" checked>
+                                <strong style="color:var(--fubon-blue);">全選功能模組 (All Features)</strong>
+                            </label>
+                        </div>
+                        <div class="tree-panel-divider"></div>
+                        <div class="tree-panel-body" id="matrix-tree-container">
+                            <!-- Dynamically generated Tree View -->
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-left: auto; display:flex; gap: 8px;">
+                    <button class="btn btn-secondary" id="btn-matrix-select-all" style="font-size:12.5px; padding:6px 12px;">⚡ 一鍵全選</button>
+                    <button class="btn btn-secondary" id="btn-matrix-clear-all" style="font-size:12.5px; padding:6px 12px;">🧹 一鍵全清</button>
+                    <button class="btn btn-secondary" id="btn-matrix-reset-default" style="font-size:12.5px; padding:6px 12px;">🔄 重置預設範本</button>
+                </div>
+            </div>
+
+
+
+            <!-- Matrix Modal Body -->
+            <div class="matrix-body">
+                
+                <!-- Tab Panel 1: Functional & Action Matrix -->
+                <div id="mpanel-func" style="display:block;">
+                    <table class="matrix-table" id="matrix-main-table">
+                        <thead>
+                            <tr>
+                                <th class="col-feature">CRM 主功能與子功能模組</th>
+
+                                <th style="width: 12%;">👁️ 檢視 (Read)</th>
+                                <th style="width: 13%;">➕ 新增/編輯 (Edit)</th>
+                                <th style="width: 12%;">🗑️ 刪除 (Delete)</th>
+                                <th style="width: 15%;">📥 資料匯出 (Export)</th>
+                                <th style="width: 10%;">⚡ 全選</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr class="feature-row" data-feature-name="個人行事曆與行程管理">
+                                <td>
+                                    <strong>【首頁】個人行事曆與行程管理</strong>
+                                    <div style="font-size:12px; color:var(--text-muted);">Outlook 雙向串接，免重複登打行程與客戶約訪</div>
+                                </td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+                            <tr class="feature-row" data-feature-name="即時交易庫存彙整">
+                                <td>
+                                    <strong>【首頁】即時交易庫存彙整</strong>
+                                    <div style="font-size:12px; color:var(--text-muted);">首頁即時顯示客戶各商品庫存總覽與重點提醒</div>
+                                </td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export"><span class="badge-export">敏感</span></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+                            <tr class="feature-row" data-feature-name="客戶訪談與服務紀錄">
+                                <td>
+                                    <strong>【行銷展業】服務管理 - 訪談與服務紀錄建立</strong>
+                                    <div style="font-size:12px; color:var(--text-muted);">新增/維護訪談內容、智能語音紀錄與批次檔案上傳</div>
+                                </td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export" checked><span class="badge-export">敏感</span></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+                            <tr class="feature-row" data-feature-name="活動管理法說會論壇">
+                                <td>
+                                    <strong>【行銷展業】活動管理 - 法說會/座談會/論壇名單與發送通知</strong>
+                                    <div style="font-size:12px; color:var(--text-muted);">活動邀請名單篩選、線上發送通知與出席紀錄統計</div>
+                                </td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+                            <tr class="feature-row" data-feature-name="投顧使用紀錄研究資源">
+                                <td>
+                                    <strong>【行銷展業】投顧使用紀錄 - 研究資源管理</strong>
+                                    <div style="font-size:12px; color:var(--text-muted);">查看與下載投顧報告、研究資源發送與讀取紀錄</div>
+                                </td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+
+
+                            <tr class="feature-row" data-feature-name="法人總帳戶綜合查詢">
+                                <td>
+                                    <strong>【客戶綜合查詢】法人總帳戶</strong>
+                                    <div style="font-size:12px; color:var(--text-muted);">法人層級基本資料、帳務明細、跨商品交易庫存彙整、服務紀錄</div>
+                                </td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export" checked><span class="badge-export">敏感</span></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+                            <tr class="feature-row" data-feature-name="單一客戶標籤與群組">
+                                <td>
+                                    <strong>【客戶綜合查詢】單一客戶及標籤群組管理</strong>
+                                    <div style="font-size:12px; color:var(--text-muted);">個別客戶基本資料、帳務查詢與自訂客群標籤分組</div>
+                                </td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+                            <tr class="feature-row" data-feature-name="商品視角橫向透視">
+                                <td>
+                                    <strong>【客戶綜合查詢】商品視角查詢各項業務指標</strong>
+                                    <div style="font-size:12px; color:var(--text-muted);">橫向透視內外法客群資產配置與商品市佔表現</div>
+                                </td>
+
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export" checked><span class="badge-export">敏感</span></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+
+
+                            <tr class="feature-row" data-feature-name="報表專區業績與市佔">
+                                <td>
+                                    <strong>【報表專區】內外法各客群業績與市佔表現總覽</strong>
+                                    <div style="font-size:12px; color:var(--text-muted);">統計內法與外法客群交易業績、市佔與商品統計分析</div>
+                                </td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export" checked><span class="badge-export">敏感</span></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+                            <tr class="feature-row" data-feature-name="營業員手續統計與分潤設定" style="background:#FFFBEB;">
+                                <td>
+                                    <strong style="color:#B45309;">【報表專區】營業員手續統計與分潤設定</strong>
+                                    <div style="font-size:12px; color:#92400E;">高風險財務數據：包含營業員拆帳手續費、業績分潤比例與設定</div>
+                                </td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export" checked><span class="badge-export">高敏感</span></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+                            <tr class="feature-row" data-feature-name="組織權限管轄與功能管理">
+                                <td>
+                                    <strong>【工具】組織權限管轄與功能管理</strong>
+                                    <div style="font-size:12px; color:var(--text-muted);">系統角色維護、權限矩陣維護與使用者權限派發</div>
+                                </td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+                            <tr class="feature-row" data-feature-name="代理人設定與角色權限">
+                                <td>
+                                    <strong>【工具】代理人設定與角色權限</strong>
+                                    <div style="font-size:12px; color:var(--text-muted);">設定代理期間、代理角色與代理人權限維護</div>
+                                </td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-read" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-edit" checked></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-delete"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-export"></td>
+                                <td class="matrix-checkbox-cell"><input type="checkbox" class="custom-cb cb-row-all"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="matrix-footer">
+                <div class="perm-counter-summary">
+                    已勾選 <strong id="matrix-active-count">11</strong> / 11 項功能頁面，其中包含 <strong id="matrix-export-count" style="color:#DC2626;">6</strong> 項資料匯出特權。
+                </div>
+                <div style="display:flex; gap:12px;">
+                    <button class="btn btn-secondary" id="btn-cancel-perms" style="padding: 8px 24px; border-radius:6px;">取消變更</button>
+                    <button class="btn btn-primary" id="btn-save-perms" style="padding: 8px 32px; background:var(--fubon-blue); border-color:var(--fubon-blue); border-radius:6px; font-weight:600;">儲存</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal 3: Add/Edit User (使用者新增/編輯視窗) -->
+    <div class="modal-overlay" id="modal-user-manage">
+        <div class="modal-content" style="max-width: 580px; padding: 24px; border-radius: var(--radius-lg);">
+            <div class="modal-header" style="margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display:flex; justify-content:space-between; align-items:flex-start;">
+                <div>
+                    <h2 style="font-size: 20px; font-weight: 700; color: var(--text-main); display:flex; align-items:center; gap:8px; margin:0;">
+                        <span>👤</span> <span id="modal-user-title">使用者帳號與權限編輯</span>
+                    </h2>
+                    <span style="font-size: 13px; color: var(--text-muted);">管理使用者 AD 帳號資料、指派功能角色與資料管轄權限邊界</span>
+                </div>
+                <button class="icon-btn-secondary" id="btn-close-user-x" style="font-size: 16px; border:none; padding:4px 8px;">✕</button>
+            </div>
+            
+            <div class="modal-body" style="display:flex; flex-direction:column; gap:18px;">
+                
+                <!-- Section 1: Basic & AD Info -->
+                <div style="background:#F8FAFC; padding:14px 16px; border-radius:8px; border:1px solid var(--border-color); display:flex; flex-direction:column; gap:12px;">
+                    <div style="font-size:13.5px; font-weight:700; color:var(--fubon-dark); display:flex; align-items:center; gap:6px;">
+                        <span>🆔</span> 基本與 AD 帳號資料 (Basic & AD Account Info)
+                    </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <label style="font-size:12.5px; font-weight:600; color:var(--text-main);">姓名 <span style="color:red;">*</span></label>
+                            <input type="text" id="input-user-name" value="張大明" placeholder="如：張大明" style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13.5px;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <label style="font-size:12.5px; font-weight:600; color:var(--text-main);">員工編號 (Emp. ID) <span style="color:red;">*</span></label>
+                            <input type="text" id="input-user-empid" value="A1234" placeholder="如：A1234" style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13.5px;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <label style="font-size:12.5px; font-weight:600; color:var(--text-main);">EIP 企業帳號 <span style="color:red;">*</span></label>
+                            <input type="text" id="input-user-eip" value="sang.chang" placeholder="如：sang.chang" style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13.5px;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <label style="font-size:12.5px; font-weight:600; color:var(--text-main);">電子郵件 (E-mail)</label>
+                            <input type="text" id="input-user-email" value="sang.chang@fubon.com" placeholder="email@fubon.com" style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13.5px;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <label style="font-size:12.5px; font-weight:600; color:var(--text-main);">所屬部門</label>
+                            <input type="text" id="input-user-dept" value="內法業務一部" placeholder="如：內法業務一部" style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13.5px;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <label style="font-size:12.5px; font-weight:600; color:var(--text-main);">職稱</label>
+                            <input type="text" id="input-user-title" value="資深營業員" placeholder="如：資深營業員" style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13.5px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Multi-Role Assignment -->
+                <div style="background:#FFF; padding:14px 16px; border-radius:8px; border:1px solid var(--border-color); display:flex; flex-direction:column; gap:10px;">
+                    <div style="font-size:13.5px; font-weight:700; color:var(--fubon-dark); display:flex; align-items:center; gap:6px;">
+                        <span>🔑</span> 指派功能角色 (Multi-Role Assignment) <span style="font-size:12px; font-weight:normal; color:var(--text-muted);">(可多選)</span>
+                    </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; background:#F8FAFC; padding:12px; border-radius:6px; border:1px solid #E2E8F0;">
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;">
+                            <input type="checkbox" name="user-roles" value="SALES" checked style="width:16px; height:16px;">
+                            <strong>營業員</strong> <span style="color:var(--text-muted); font-size:12px;">(行程/訪談/活動)</span>
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;">
+                            <input type="checkbox" name="user-roles" value="MANAGER" style="width:16px; height:16px;">
+                            <strong>主管</strong> <span style="color:#B91C1C; font-size:12px;">(分潤/審核)</span>
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;">
+                            <input type="checkbox" name="user-roles" value="TRADER" style="width:16px; height:16px;">
+                            <strong>交易員</strong> <span style="color:var(--text-muted); font-size:12px;">(庫存/下單)</span>
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;">
+                            <input type="checkbox" name="user-roles" value="ANALYST" checked style="width:16px; height:16px;">
+                            <strong>投顧專員</strong> <span style="color:var(--text-muted); font-size:12px;">(研究資源)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Section 3: Data Scope Jurisdiction -->
+                <div style="background:#FFF; padding:14px 16px; border-radius:8px; border:1px solid var(--border-color); display:flex; flex-direction:column; gap:10px;">
+                    <div style="font-size:13.5px; font-weight:700; color:var(--fubon-dark); display:flex; align-items:center; gap:6px;">
+                        <span>🌐</span> 資料管轄範圍 (Data Scope Jurisdiction) <span style="color:red;">*</span>
+                    </div>
+                    <select id="input-user-scope" style="padding:10px 12px; border:1px solid var(--border-color); border-radius:6px; font-size:13.5px; background:white; font-weight:600; color:#014865;">
+                        <option value="DOMESTIC" selected>🏢 內法業務區 (僅可存取內法機構客戶與團隊紀錄)</option>
+                        <option value="FOREIGN">🏢 外法業務區 (僅可存取外法機構客戶與團隊紀錄)</option>
+                        <option value="COMPANY">🌐 全公司跨區 (可查看全公司所有內外法客戶資料 - 高權限)</option>
+                        <option value="PERSONAL">👤 僅限本人經辦客戶 (僅能存取本人名下維護之客戶)</option>
+                    </select>
+                </div>
+
+                <!-- Section 4: Account Active Status -->
+                <div style="display:flex; align-items:center; justify-content:space-between; background:#F8FAFC; padding:12px 16px; border-radius:6px; border:1px solid var(--border-color);">
+                    <div>
+                        <div style="font-weight:600; font-size:14px;">啟用此使用者帳號 (Active Status)</div>
+                        <div style="font-size:12px; color:var(--text-muted);">停用後該使用者將無法登入 CRM 系統</div>
+                    </div>
+                    <label class="switch-label">
+                        <input type="checkbox" id="input-user-active" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Section 5: Audit Metadata -->
+                <div id="user-audit-info-box" style="background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 6px; padding: 12px 16px;">
+                    <div style="font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 6px;">📋 資安稽核軌跡 (Audit Metadata)</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 12px; color: var(--text-muted);">
+                        <div>• 創建日期：<span id="user-audit-created-date" style="color:var(--text-main); font-weight:600;">2025/08/01</span></div>
+                        <div>• 創建者：<span id="user-audit-created-by" style="color:var(--text-main); font-weight:600;">系統同步 (AD Sync)</span></div>
+                        <div>• 最後編輯：<span id="user-audit-updated-date" style="color:var(--text-main); font-weight:600;">2026/02/10</span></div>
+                        <div>• 編輯者：<span id="user-audit-updated-by" style="color:var(--text-main); font-weight:600;">管理員 A</span></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-actions" style="justify-content: flex-end; margin-top: 20px; gap: 12px;">
+                <button class="btn btn-secondary" id="btn-cancel-user" style="padding: 8px 24px; border-radius:6px;">取消</button>
+                <button class="btn btn-primary" id="btn-save-user" style="padding: 8px 32px; background:var(--fubon-blue); border-color:var(--fubon-blue); border-radius:6px; font-weight:600;">儲存</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal 4: Agent Management (代理人設定視窗) -->
+    <div class="modal-overlay" id="modal-agent-manage">
+        <div class="modal-content" style="max-width: 560px; padding: 24px; border-radius: var(--radius-lg);">
+            <div class="modal-header" style="margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display:flex; justify-content:space-between; align-items:flex-start;">
+                <div>
+                    <h2 style="font-size: 20px; font-weight: 700; color: var(--text-main); display:flex; align-items:center; gap:8px; margin:0;">
+                        <span>🔄</span> <span id="modal-agent-title">代理權限與排程設定</span>
+                    </h2>
+                    <span style="font-size: 13px; color: var(--text-muted);">設定請假或公務期間之功能權限移交與客戶資料開放邊界</span>
+                </div>
+                <button class="icon-btn-secondary" id="btn-close-agent-x" style="font-size: 16px; border:none; padding:4px 8px;">✕</button>
+            </div>
+
+            <div class="modal-body" style="display:flex; flex-direction:column; gap:16px;">
+                
+                <!-- Section 1: Delegator & Agent Person Select -->
+                <div style="background:#F8FAFC; padding:14px 16px; border-radius:8px; border:1px solid var(--border-color); display:flex; flex-direction:column; gap:12px;">
+                    <div style="font-size:13.5px; font-weight:700; color:var(--fubon-dark); display:flex; align-items:center; gap:6px;">
+                        <span>👥</span> 代理人雙方對照 (Delegator & Agent)
+                    </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <label style="font-size:12.5px; font-weight:600; color:var(--text-main);">被代理人 (委託人) <span style="color:red;">*</span></label>
+                            <select id="input-agent-delegator" style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13.5px; background:white; font-weight:600;">
+                                <option value="B5678" selected>李美玲 (B5678 / 外法業務主管)</option>
+                                <option value="A1234">張大明 (A1234 / 內法營業員)</option>
+                                <option value="C9012">陳建國 (C9012 / 法人交易員)</option>
+                                <option value="D3456">王小明 (D3456 / 外法營業員)</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <label style="font-size:12.5px; font-weight:600; color:var(--text-main);">指定代理人 (受託人) <span style="color:red;">*</span></label>
+                            <select id="input-agent-assignee" style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13.5px; background:white; font-weight:600; color:#0369A1;">
+                                <option value="D3456" selected>王小明 (D3456 / 外法營業員)</option>
+                                <option value="C9012">陳建國 (C9012 / 法人交易員)</option>
+                                <option value="A1234">張大明 (A1234 / 內法營業員)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Delegated Roles -->
+                <div style="background:#FFF; padding:14px 16px; border-radius:8px; border:1px solid var(--border-color); display:flex; flex-direction:column; gap:10px;">
+                    <div style="font-size:13.5px; font-weight:700; color:var(--fubon-dark); display:flex; align-items:center; gap:6px;">
+                        <span>🔑</span> 授權代理之功能角色 (Delegated Roles)
+                    </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; background:#F8FAFC; padding:12px; border-radius:6px; border:1px solid #E2E8F0;">
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;">
+                            <input type="checkbox" checked style="width:16px; height:16px;">
+                            <strong>主管權限</strong> <span style="color:var(--text-muted); font-size:12px;">(訪談審核/團隊總覽)</span>
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer;">
+                            <input type="checkbox" checked style="width:16px; height:16px;">
+                            <strong>營業員權限</strong> <span style="color:var(--text-muted); font-size:12px;">(建立訪談/活動)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Section 3: Data Scope Delegation Switch -->
+                <div style="display:flex; align-items:center; justify-content:space-between; background:#FFF; padding:14px 16px; border-radius:8px; border:1px solid var(--border-color);">
+                    <div>
+                        <div style="font-weight:700; font-size:13.5px; color:var(--fubon-dark);">開放被代理人之「客戶資料檢視權限」</div>
+                        <div style="font-size:12px; color:var(--text-muted);">開啟後，代理人可跨區檢視被代理人名下經辦之所有機構客戶資料與歷史紀錄</div>
+                    </div>
+                    <label class="switch-label">
+                        <input type="checkbox" id="switch-agent-datascope" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Section 4: Period Setting -->
+                <div style="background:#F8FAFC; padding:14px 16px; border-radius:8px; border:1px solid var(--border-color); display:flex; flex-direction:column; gap:10px;">
+                    <div style="font-size:13.5px; font-weight:700; color:var(--fubon-dark); display:flex; align-items:center; gap:6px;">
+                        <span>📅</span> 代理起訖時間 (Delegation Period) <span style="color:red;">*</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <input type="datetime-local" id="input-agent-start" value="2026-02-10T08:00" style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13px; flex:1; background:white;">
+                        <span style="font-size:13px; font-weight:600; color:var(--text-muted);">至</span>
+                        <input type="datetime-local" id="input-agent-end" value="2026-02-20T18:00" style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13px; flex:1; background:white;">
+                    </div>
+                </div>
+
+                <!-- Section 5: Dual Audit Log Info -->
+                <div style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #92400E;">
+                    🛡️ <strong>資安連動提醒：</strong>代理期間該代理人於系統進行之所有操作，Log 日誌均自動註記 <code style="background:#FEF3C7; padding:2px 4px; border-radius:3px;">操作者: 王小明 (代理 李美玲)</code>。
+                </div>
+
+            </div>
+
+            <div class="modal-actions" style="justify-content: flex-end; margin-top: 20px; gap: 12px;">
+                <button class="btn btn-secondary" id="btn-cancel-agent" style="padding: 8px 24px; border-radius:6px;">取消</button>
+                <button class="btn btn-primary" id="btn-save-agent" style="padding: 8px 32px; background:var(--fubon-blue); border-color:var(--fubon-blue); border-radius:6px; font-weight:600;">儲存</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="permissions.js"></script>
+</body>
+</html>

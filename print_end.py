@@ -1,0 +1,4 @@
+js = open('marketing.js', 'r', encoding='utf-8').read().splitlines()
+for i, line in enumerate(js[1899:1989]):
+    safe_line = line.encode('ascii', errors='backslashreplace').decode('ascii')
+    print(f"Line {i+1900}: {safe_line}")

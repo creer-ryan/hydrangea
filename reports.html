@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法人客戶關係管理系統 - 報表專區</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reports.css">
+    <script src="navbar.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Main Container -->
+    <div class="reports-container">
+        
+        <!-- Header -->
+        <div class="report-header">
+            <h2 id="report-page-title" style="line-height: 1.2;">報表專區 - 內法基礎報表<br><span style="font-size: 14px; font-weight: normal; color: #666;">Report Zone - Domestic Basic Report</span></h2>
+            <div class="presentation-badge" id="report-page-badge">洋蔥式呈現</div>
+        </div>
+
+        <!-- Sub Tabs -->
+        <div class="report-tabs">
+            <button class="report-tab-btn active" data-target="panel-domestic-basic" data-badge="洋蔥式呈現" style="line-height: 1.2; padding: 10px 20px;">內法基礎報表<br><span style="font-size: 11px; font-weight: normal; color: #666;">Domestic Basic Report</span></button>
+            <button class="report-tab-btn" data-target="panel-foreign-basic" data-badge="洋蔥式呈現" style="line-height: 1.2; padding: 10px 20px;">外法基礎報表<br><span style="font-size: 11px; font-weight: normal; color: #666;">Foreign Basic Report</span></button>
+            <button class="report-tab-btn" data-target="panel-overview" data-badge="洋蔥式呈現" style="line-height: 1.2; padding: 10px 20px;">客群業績總覽<br><span style="font-size: 11px; font-weight: normal; color: #666;">Group Perf. Overview</span></button>
+            <button class="report-tab-btn" data-target="panel-analysis" data-badge="固定式呈現" style="line-height: 1.2; padding: 10px 20px;">客群業績分析<br><span style="font-size: 11px; font-weight: normal; color: #666;">Group Perf. Analysis</span></button>
+            <button class="report-tab-btn" data-target="panel-commission" data-badge="洋蔥式呈現" style="line-height: 1.2; padding: 10px 20px;">營業員手收分潤<br><span style="font-size: 11px; font-weight: normal; color: #666;">Broker Commission</span></button>
+            <button class="report-tab-btn" data-target="panel-commission-settings" data-badge="固定式呈現" style="line-height: 1.2; padding: 10px 20px;">營業員分潤設定<br><span style="font-size: 11px; font-weight: normal; color: #666;">Commission Settings</span></button>
+        </div>
+
+        <!-- Panel 1: 客群業績總覽 (Overview) -->
+        <div id="panel-overview" class="report-content-panel">
+            <!-- Filter -->
+            <div class="report-filter-panel">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">資料月份：<br><span style="font-size:11px; font-weight:normal; color:#666;">Data Month</span></label>
+                        <select id="filter-month">
+                            <option value="202606" selected>202606</option>
+                            <option value="202605">202605</option>
+                            <option value="202604">202604</option>
+                            <option value="202603">202603</option>
+                            <option value="202602">202602</option>
+                            <option value="202601">202601</option>
+                            <option value="202512">202512</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">績效指標：<br><span style="font-size:11px; font-weight:normal; color:#666;">Performance KPI</span></label>
+                        <select id="filter-kpi">
+                            <option value="volume" selected>交易量</option>
+                            <option value="commission">淨手收</option>
+                            <option value="market_share">市佔率</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">單位：<br><span style="font-size:11px; font-weight:normal; color:#666;">Unit Level</span></label>
+                        <select id="filter-org">
+                            <option value="all" selected>全選 (All)</option>
+                            <option value="domestic">內法 (Domestic)</option>
+                            <option value="foreign">外法 (Foreign)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">商品：<br><span style="font-size:11px; font-weight:normal; color:#666;">Product</span></label>
+                        <select id="filter-product">
+                            <option value="all" selected>全選 (All)</option>
+                            <option value="tw_stock">台股</option>
+                            <option value="foreign_stock">海外股</option>
+                            <option value="foreign_bond">海外債</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">關係企業：<br><span style="font-size:11px; font-weight:normal; color:#666;">Affiliate</span></label>
+                        <select id="filter-affiliate">
+                            <option value="all" selected>全選 (All)</option>
+                            <option value="related">關係</option>
+                            <option value="general">一般</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">客群類別：<br><span style="font-size:11px; font-weight:normal; color:#666;">Coverage Segment</span></label>
+                        <select id="filter-group1">
+                            <option value="all" selected>全選 (All)</option>
+                            <option value="site">投信</option>
+                            <option value="pc_life">產壽險</option>
+                            <option value="foreign_invest">外資</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">外資客群：<br><span style="font-size:11px; font-weight:normal; color:#666;">Foreign Coverage</span></label>
+                        <select id="filter-group2">
+                            <option value="all" selected>全選 (All)</option>
+                            <option value="co-cover">Co-Cover</option>
+                            <option value="fubon-general">Fubon一般</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions-right">
+                        <button class="btn btn-secondary" id="btn-reset-filters">重設條件 <span style="font-size:11px; font-weight:normal;">Reset</span></button>
+                        <button class="btn btn-primary" id="btn-query-report">查詢 <span style="font-size:11px; font-weight:normal;">Search</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="export-btn-container" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span style="font-size:13px; color:var(--text-muted); font-weight:500;" id="report-latest-date">交易資料最新日期：2026/06/30</span>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <label style="font-size:13px; color:var(--text-muted); font-weight:500;">每頁顯示：</label>
+                    <select id="select-row-limit" style="padding:6px 12px; border:1px solid var(--border-color); border-radius:var(--radius-sm); font-size:13px; outline:none; background:white; cursor:pointer;">
+                        <option value="50">50 列</option>
+                        <option value="100">100 列</option>
+                        <option value="300">300 列</option>
+                        <option value="all" selected>全部</option>
+                    </select>
+                    <button class="btn-export">↑ 匯出報表 <span style="font-size:11px; font-weight:normal;">Export</span></button>
+                </div>
+            </div>
+
+            <!-- Onion Table Container -->
+            <div class="table-wrapper">
+                <table class="onion-table" id="onion-table-container">
+                    <!-- Table rendered dynamically via JavaScript -->
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel 2: 客群業績分析 (Analysis) Placeholder -->
+        <div id="panel-analysis" class="report-content-panel">
+            <div class="report-filter-panel">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">組織：<br><span style="font-size:11px; font-weight:normal; color:#666;">Org Level</span></label><select><option>內法</option></select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">商品：<br><span style="font-size:11px; font-weight:normal; color:#666;">Product</span></label><select><option>台股</option></select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">績效指標：<br><span style="font-size:11px; font-weight:normal; color:#666;">Performance KPI</span></label><select><option>交易量</option></select>
+                    </div>
+                    <div class="filter-actions-right">
+                        <button class="btn btn-secondary">重設條件 <span style="font-size:11px; font-weight:normal;">Reset</span></button>
+                        <button class="btn btn-primary">查詢 <span style="font-size:11px; font-weight:normal;">Search</span></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="export-btn-container" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span style="font-size:13px; color:var(--text-muted); font-weight:500;">交易資料最新日期：2026/06/30</span>
+                <button class="btn-export">↑ 匯出報表 <span style="font-size:11px; font-weight:normal;">Export</span></button>
+            </div>
+            
+            <div class="table-wrapper" style="padding: 48px; text-align: center; color: var(--text-muted);">
+                客群業績分析報表內容 (固定式呈現示意)
+            </div>
+        </div>
+
+        <!-- Panel 3: 內法基礎報表 -->
+        <div id="panel-domestic-basic" class="report-content-panel active">
+            <div class="report-filter-panel">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">績效指標：<br><span style="font-size:11px; font-weight:normal; color:#666;">Perf. KPI</span></label>
+                        <select id="filter-kpi-domestic">
+                            <option value="volume" selected>交易量</option>
+                            <option value="commission">淨手收</option>
+                            <option value="market_share">市佔率</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">商品：<br><span style="font-size:11px; font-weight:normal; color:#666;">Product</span></label>
+                        <select id="filter-product-domestic">
+                            <option value="all">全選 (All)</option>
+                            <option value="tw_stock" selected>台股</option>
+                            <option value="foreign_stock">海外股</option>
+                            <option value="foreign_bond">海外債</option>
+                            <option value="dom_structure">境內結構型商品</option>
+                            <option value="foreign_structure">境外結構型商品</option>
+                        </select>
+                    </div>
+                    <div class="filter-group date-range">
+                        <label style="line-height: 1.2;">資料日期：<br><span style="font-size:11px; font-weight:normal; color:#666;">Data Date</span></label>
+                        <div style="display:flex; gap: 8px; align-items:center;">
+                            <input type="date" value="2025-01-01" style="flex:1; padding: 6px 8px;" id="filter-start-date-domestic"> ~ <input type="date" value="2026-08-18" style="flex:1; padding: 6px 8px;" id="filter-end-date-domestic">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">機構法人：<br><span style="font-size:11px; font-weight:normal; color:#666;">Inst. Entity</span></label>
+                        <select id="filter-inst-domestic">
+                            <option value="all" selected>全選 (All)</option>
+                            <option value="inst">機構法人</option>
+                            <option value="general">一般</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group custom-multiselect-group" style="position: relative; min-width: 240px;">
+                        <label style="line-height: 1.2;">客群類別 (可多選)：<br><span style="font-size:11px; font-weight:normal; color:#666;">Group Category</span></label>
+                        <div class="multiselect-trigger" id="group-domestic-trigger">
+                            <span class="multiselect-label" id="group-domestic-label">全選 (16項客群)</span>
+                            <span class="multiselect-arrow">▾</span>
+                        </div>
+                        <div class="multiselect-dropdown" id="group-domestic-dropdown">
+                            <div class="multiselect-header">
+                                <input type="text" class="multiselect-search" id="group-domestic-search" placeholder="搜尋客群類別...">
+                                <div class="multiselect-actions">
+                                    <button type="button" id="btn-select-all-groups">全選</button>
+                                    <button type="button" id="btn-clear-all-groups">清空</button>
+                                </div>
+                            </div>
+                            <div class="multiselect-options-list" id="group-domestic-options">
+                                <label class="multiselect-option-item"><input type="checkbox" value="site" checked> 投信</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="pc_life" checked> 產壽險</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="inv_co" checked> 投資公司</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="futures" checked> 期貨</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="bank" checked> 銀行</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="sec" checked> 證券</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="acc_98" checked> 98戶</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="gen_corp" checked> 一般法人</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="listed" checked> 上市櫃</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="retail" checked> 自然人</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="sice" checked> 投顧代操</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="corp_bank" checked> 法金客群</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="gov_fund" checked> 政府基金</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="hnw" checked> 高端客戶</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="bills" checked> 票券</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="other" checked> 其他</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-group custom-multiselect-group" style="position: relative; min-width: 240px;">
+                        <label style="line-height: 1.2;">總歸戶 (可多選)：<br><span style="font-size:11px; font-weight:normal; color:#666;">Parent Account</span></label>
+                        <div class="multiselect-trigger" id="parent-acc-domestic-trigger">
+                            <span class="multiselect-label" id="parent-acc-domestic-label">全選 (6個總歸戶)</span>
+                            <span class="multiselect-arrow">▾</span>
+                        </div>
+                        <div class="multiselect-dropdown" id="parent-acc-domestic-dropdown">
+                            <div class="multiselect-header">
+                                <input type="text" class="multiselect-search" id="parent-acc-domestic-search" placeholder="搜尋總歸戶...">
+                                <div class="multiselect-actions">
+                                    <button type="button" id="btn-select-all-parent-acc">全選</button>
+                                    <button type="button" id="btn-clear-all-parent-acc">清空</button>
+                                </div>
+                            </div>
+                            <div class="multiselect-options-list" id="parent-acc-domestic-options">
+                                <label class="multiselect-option-item"><input type="checkbox" value="富邦投信" checked> 富邦投信</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="復華投信" checked> 復華投信</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="國泰人壽" checked> 國泰人壽</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="富邦人壽" checked> 富邦人壽</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="元大投信" checked> 元大投信</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="中國信託投信" checked> 中國信託投信</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">帳號/ID：<br><span style="font-size:11px; font-weight:normal; color:#666;">Account / ID</span></label>
+                        <input type="text" list="account-id-list-domestic" id="filter-account-id-domestic" placeholder="key in 帳號或 ID">
+                        <datalist id="account-id-list-domestic">
+                            <option value="9812345 (A123456789)"></option>
+                            <option value="9856789 (B987654321)"></option>
+                            <option value="9888999 (C112233445)"></option>
+                            <option value="9711223 (D998877665)"></option>
+                            <option value="9733445 (E554433221)"></option>
+                        </datalist>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">營業員/員編：<br><span style="font-size:11px; font-weight:normal; color:#666;">Sales Rep / Emp ID</span></label>
+                        <input type="text" list="sales-list-domestic" id="filter-sales-domestic" placeholder="key in 營業員或員編">
+                        <datalist id="sales-list-domestic">
+                            <option value="Ann Liao (EMP001)"></option>
+                            <option value="Charlie Zhao (EMP002)"></option>
+                            <option value="David Lin (EMP003)"></option>
+                        </datalist>
+                    </div>
+                    <div class="filter-actions-right">
+                        <button class="btn btn-secondary" id="btn-reset-domestic">重設條件 <span style="font-size:11px; font-weight:normal;">Reset</span></button>
+                        <button class="btn btn-primary" id="btn-query-domestic">查詢 <span style="font-size:11px; font-weight:normal;">Search</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="export-btn-container" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span style="font-size:13px; color:var(--text-muted); font-weight:500;" id="report-latest-date-domestic">交易資料最新日期：2026/08/18</span>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <label style="font-size:13px; color:var(--text-muted); font-weight:500;">每頁顯示：</label>
+                    <select id="select-row-limit-domestic" style="padding:6px 12px; border:1px solid var(--border-color); border-radius:var(--radius-sm); font-size:13px; outline:none; background:white; cursor:pointer;">
+                        <option value="50">50 列</option>
+                        <option value="100">100 列</option>
+                        <option value="300">300 列</option>
+                        <option value="all" selected>全部</option>
+                    </select>
+                    <button class="btn-export">↑ 匯出報表 <span style="font-size:11px; font-weight:normal;">Export</span></button>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="onion-table" id="onion-table-domestic">
+                    <!-- Table rendered dynamically via JavaScript -->
+                </table>
+            </div>
+        </div>
+        
+        <!-- Panel 4: 外法基礎報表 -->
+        <div id="panel-foreign-basic" class="report-content-panel">
+            <div class="report-filter-panel">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">績效指標：<br><span style="font-size:11px; font-weight:normal; color:#666;">Perf. KPI</span></label>
+                        <select id="filter-kpi-foreign">
+                            <option value="volume" selected>交易量</option>
+                            <option value="commission">淨手收</option>
+                            <option value="market_share">市佔率</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">商品：<br><span style="font-size:11px; font-weight:normal; color:#666;">Product</span></label>
+                        <select id="filter-product-foreign">
+                            <option value="all">全選 (All)</option>
+                            <option value="tw_stock" selected>台股</option>
+                            <option value="foreign_stock">海外股</option>
+                            <option value="foreign_bond">海外債</option>
+                        </select>
+                    </div>
+                    <div class="filter-group date-range">
+                        <label style="line-height: 1.2;">資料日期：<br><span style="font-size:11px; font-weight:normal; color:#666;">Data Date</span></label>
+                        <div style="display:flex; gap: 8px; align-items:center;">
+                            <input type="date" value="2025-01-01" style="flex:1; padding: 6px 8px;" id="filter-start-date-foreign"> ~ <input type="date" value="2026-08-18" style="flex:1; padding: 6px 8px;" id="filter-end-date-foreign">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">機構法人：<br><span style="font-size:11px; font-weight:normal; color:#666;">Inst. Entity</span></label>
+                        <select id="filter-inst-foreign">
+                            <option value="all" selected>全選 (All)</option>
+                            <option value="inst">機構法人</option>
+                            <option value="general">一般</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group custom-multiselect-group" style="position: relative; min-width: 240px;">
+                        <label style="line-height: 1.2;">客群類別 (可多選)：<br><span style="font-size:11px; font-weight:normal; color:#666;">Group Category</span></label>
+                        <div class="multiselect-trigger" id="group-foreign-trigger">
+                            <span class="multiselect-label" id="group-foreign-label">全選 (10項客群)</span>
+                            <span class="multiselect-arrow">▾</span>
+                        </div>
+                        <div class="multiselect-dropdown" id="group-foreign-dropdown">
+                            <div class="multiselect-header">
+                                <input type="text" class="multiselect-search" id="group-foreign-search" placeholder="搜尋客群類別...">
+                                <div class="multiselect-actions">
+                                    <button type="button" id="btn-select-all-groups-foreign">全選</button>
+                                    <button type="button" id="btn-clear-all-groups-foreign">清空</button>
+                                </div>
+                            </div>
+                            <div class="multiselect-options-list" id="group-foreign-options">
+                                <label class="multiselect-option-item"><input type="checkbox" value="site" checked> 投信</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="pc_life" checked> 產壽險</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="inv_co" checked> 投資公司</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="acc_98" checked> 98戶</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="gen_corp" checked> 一般法人</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="listed" checked> 上市櫃</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="retail" checked> 自然人</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="sice" checked> 投顧代操</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="fini" checked> 外資/FINI</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="other" checked> 其他</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-group custom-multiselect-group" style="position: relative; min-width: 240px;">
+                        <label style="line-height: 1.2;">外資客群 (可多選)：<br><span style="font-size:11px; font-weight:normal; color:#666;">Foreign Category</span></label>
+                        <div class="multiselect-trigger" id="foreign-client-trigger">
+                            <span class="multiselect-label" id="foreign-client-label">全選 (6項外資客群)</span>
+                            <span class="multiselect-arrow">▾</span>
+                        </div>
+                        <div class="multiselect-dropdown" id="foreign-client-dropdown">
+                            <div class="multiselect-header">
+                                <input type="text" class="multiselect-search" id="foreign-client-search" placeholder="搜尋外資客群...">
+                                <div class="multiselect-actions">
+                                    <button type="button" id="btn-select-all-foreign-client">全選</button>
+                                    <button type="button" id="btn-clear-all-foreign-client">清空</button>
+                                </div>
+                            </div>
+                            <div class="multiselect-options-list" id="foreign-client-options">
+                                <label class="multiselect-option-item"><input type="checkbox" value="Co-Cover" checked> Co-Cover</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="Fubon一般" checked> Fubon一般</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="Fubon外資投行" checked> Fubon外資投行</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="Fubon高頻" checked> Fubon高頻</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="Referral Broker" checked> Referral Broker</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="其他" checked> 其他</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-group custom-multiselect-group" style="position: relative; min-width: 240px;">
+                        <label style="line-height: 1.2;">總歸戶/總歸戶代號 (可多選)：<br><span style="font-size:11px; font-weight:normal; color:#666;">Corporate Account</span></label>
+                        <div class="multiselect-trigger" id="parent-acc-foreign-trigger">
+                            <span class="multiselect-label" id="parent-acc-foreign-label">全選 (7個總歸戶)</span>
+                            <span class="multiselect-arrow">▾</span>
+                        </div>
+                        <div class="multiselect-dropdown" id="parent-acc-foreign-dropdown">
+                            <div class="multiselect-header">
+                                <input type="text" class="multiselect-search" id="parent-acc-foreign-search" placeholder="搜尋總歸戶/代號...">
+                                <div class="multiselect-actions">
+                                    <button type="button" id="btn-select-all-parent-acc-foreign">全選</button>
+                                    <button type="button" id="btn-clear-all-parent-acc-foreign">清空</button>
+                                </div>
+                            </div>
+                            <div class="multiselect-options-list" id="parent-acc-foreign-options">
+                                <label class="multiselect-option-item"><input type="checkbox" value="FMR" checked> FMR (Fidelity)</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="GIC" checked> GIC Singapore</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="BlackRock" checked> BlackRock</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="Point72" checked> Point72</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="UBS" checked> UBS AM</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="Morgan Stanley" checked> Morgan Stanley</label>
+                                <label class="multiselect-option-item"><input type="checkbox" value="JP Morgan" checked> J.P. Morgan</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">帳號/ID：<br><span style="font-size:11px; font-weight:normal; color:#666;">Account / ID</span></label>
+                        <input type="text" list="account-id-list-foreign" id="filter-account-id-foreign" placeholder="key in 帳號或 ID">
+                        <datalist id="account-id-list-foreign">
+                            <option value="F00123 (A998877665)"></option>
+                            <option value="F00234 (B112233445)"></option>
+                            <option value="F00456 (C554433221)"></option>
+                        </datalist>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">營業員/員編：<br><span style="font-size:11px; font-weight:normal; color:#666;">Sales Rep / Emp ID</span></label>
+                        <input type="text" list="sales-list-foreign" id="filter-sales-foreign" placeholder="key in 營業員或員編">
+                        <datalist id="sales-list-foreign">
+                            <option value="Charlie Zhao (EMP002)"></option>
+                            <option value="Ann Liao (EMP001)"></option>
+                            <option value="David Lin (EMP003)"></option>
+                        </datalist>
+                    </div>
+                    <div class="filter-actions-right">
+                        <button class="btn btn-secondary" id="btn-reset-foreign">重設條件 <span style="font-size:11px; font-weight:normal;">Reset</span></button>
+                        <button class="btn btn-primary" id="btn-query-foreign">查詢 <span style="font-size:11px; font-weight:normal;">Search</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="export-btn-container" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span style="font-size:13px; color:var(--text-muted); font-weight:500;" id="report-latest-date-foreign">交易資料最新日期：2026/08/18</span>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <label style="font-size:13px; color:var(--text-muted); font-weight:500;">每頁顯示：</label>
+                    <select id="select-row-limit-foreign" style="padding:6px 12px; border:1px solid var(--border-color); border-radius:var(--radius-sm); font-size:13px; outline:none; background:white; cursor:pointer;">
+                        <option value="50">50 列</option>
+                        <option value="100">100 列</option>
+                        <option value="300">300 列</option>
+                        <option value="all" selected>全部</option>
+                    </select>
+                    <button class="btn-export">↑ 匯出報表 <span style="font-size:11px; font-weight:normal;">Export</span></button>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="onion-table" id="onion-table-foreign">
+                    <!-- Table rendered dynamically via JavaScript -->
+                </table>
+            </div>
+        </div>
+        
+        <!-- Panel 5: 營業員手收分潤 -->
+        <div id="panel-commission" class="report-content-panel">
+            <div class="report-filter-panel">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">商品：<br><span style="font-size:11px; font-weight:normal; color:#666;">Product</span></label>
+                        <select id="filter-product-commission">
+                            <option value="all">全選 (All)</option>
+                            <option value="tw_stock">台股</option>
+                            <option value="foreign_stock" selected>海外股</option>
+                            <option value="foreign_bond">海外債</option>
+                        </select>
+                    </div>
+                    <div class="filter-group date-range">
+                        <label style="line-height: 1.2;">資料日期：<br><span style="font-size:11px; font-weight:normal; color:#666;">Data Date</span></label>
+                        <div style="display:flex; gap: 8px; align-items:center;">
+                            <input type="text" value="2025/1/1" style="flex:1"> ~ <input type="text" value="2026/06/30" style="flex:1">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">營業員或員編：<br><span style="font-size:11px; font-weight:normal; color:#666;">Sales Rep / ID</span></label>
+                        <input type="text" placeholder="例: Ann Liao 或 123456" id="filter-sales-commission">
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">客群：<br><span style="font-size:11px; font-weight:normal; color:#666;">Group</span></label>
+                        <select id="filter-group-commission">
+                            <option value="all" selected>全選 (All)</option>
+                            <option value="site">投信</option>
+                            <option value="pc_life">產壽險</option>
+                            <option value="foreign_invest">外資</option>
+                        </select>
+                    </div>
+                    <div class="filter-group" style="flex: 2;"><label style="line-height: 1.2;">總歸戶/法人戶：<br><span style="font-size:11px; font-weight:normal; color:#666;">Corporate Account</span></label><input type="text" placeholder="例: 富邦投信" id="filter-account-commission" style="width: 100%;"></div>
+                    <div class="filter-actions-right">
+                        <button class="btn btn-secondary" id="btn-reset-commission">重設條件 <span style="font-size:11px; font-weight:normal;">Reset</span></button>
+                        <button class="btn btn-primary" id="btn-query-commission">查詢 <span style="font-size:11px; font-weight:normal;">Search</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="export-btn-container" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span style="font-size:13px; color:var(--text-muted); font-weight:500;">交易資料最新日期：2026/06/30</span>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <label style="font-size:13px; color:var(--text-muted); font-weight:500;">每頁顯示：</label>
+                    <select id="select-row-limit-commission" style="padding:6px 12px; border:1px solid var(--border-color); border-radius:var(--radius-sm); font-size:13px; outline:none; background:white; cursor:pointer;">
+                        <option value="50">50 列</option>
+                        <option value="100">100 列</option>
+                        <option value="300">300 列</option>
+                        <option value="all" selected>全部</option>
+                    </select>
+                    <button class="btn-export">↑ 匯出報表 <span style="font-size:11px; font-weight:normal;">Export</span></button>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="onion-table" id="onion-table-commission">
+                    <!-- Table rendered dynamically via JavaScript -->
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel 6: 營業員分潤設定 -->
+        <div id="panel-commission-settings" class="report-content-panel">
+            <div class="report-filter-panel">
+                <div class="filter-row">
+                    <div class="filter-group" style="flex: 1.2;">
+                        <label style="line-height: 1.2;">總歸戶 / 法人戶：<br><span style="font-size:11px; font-weight:normal; color:#666;">Corporate Account</span></label>
+                        <input type="text" placeholder="例: 富邦投信" id="filter-setting-account" style="width:100%;">
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">商品：<br><span style="font-size:11px; font-weight:normal; color:#666;">Product</span></label>
+                        <select id="filter-setting-product" style="width:100%;">
+                            <option value="all">全選 (All)</option>
+                            <option value="tw_stock">台股</option>
+                            <option value="foreign_stock" selected>海外股票</option>
+                            <option value="foreign_bond">海外債</option>
+                            <option value="structured">結構型商品</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">營業員或員編：<br><span style="font-size:11px; font-weight:normal; color:#666;">Sales Rep / ID</span></label>
+                        <input type="text" placeholder="例: Ann Liao 或 123456" id="filter-setting-sales" style="width:100%;">
+                    </div>
+                    <div class="filter-group date-range" style="flex: 1.5;">
+                        <label style="line-height: 1.2;">分潤區間：<br><span style="font-size:11px; font-weight:normal; color:#666;">Period</span></label>
+                        <div style="display:flex; gap: 8px; align-items:center;">
+                            <input type="text" value="2025/1/1" style="flex:1" id="filter-setting-start"> ~ <input type="text" value="2026/12/31" style="flex:1" id="filter-setting-end">
+                        </div>
+                    </div>
+                    <div class="filter-actions-right" style="align-self: flex-end;">
+                        <button class="btn btn-secondary" id="btn-reset-settings">重設 <span style="font-size:11px; font-weight:normal;">Reset</span></button>
+                        <button class="btn btn-primary" id="btn-query-settings">查詢 <span style="font-size:11px; font-weight:normal;">Search</span></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="export-btn-container" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span style="font-size:13px; color:var(--text-muted); font-weight:500;" id="settings-count-text">共 3 筆分潤規則</span>
+                <div style="display:flex; gap:12px;">
+                    <button class="btn btn-success" id="btn-add-commission-setting" style="display:flex; align-items:center; gap:6px; background:#2E7D32; border:none; color:white; padding:8px 16px; border-radius:4px; font-weight:500; cursor:pointer;"><span style="font-size:16px; font-weight:bold;">＋</span> 新增分潤設定</button>
+                    <button class="btn-export">↑ 匯出報表 <span style="font-size:11px; font-weight:normal;">Export</span></button>
+                </div>
+            </div>
+            
+            <div class="table-wrapper">
+                <table class="onion-table" style="min-width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="line-height: 1.2; width: 22%;">總歸戶 / 法人戶<br><span style="font-size:11px; font-weight:normal; color:#666;">Corporate Account</span></th>
+                            <th style="line-height: 1.2; width: 12%;">商品<br><span style="font-size:11px; font-weight:normal; color:#666;">Product</span></th>
+                            <th style="line-height: 1.2; width: 38%;">分潤明細 (營業員 / 比例)<br><span style="font-size:11px; font-weight:normal; color:#666;">Commission Split Details</span></th>
+                            <th style="line-height: 1.2; width: 18%; text-align:center;">分潤區間<br><span style="font-size:11px; font-weight:normal; color:#666;">Period</span></th>
+                            <th style="line-height: 1.2; width: 10%; text-align:center;">設定日期<br><span style="font-size:11px; font-weight:normal; color:#666;">Setup Date</span></th>
+                            <th style="line-height: 1.2; width: 5%; text-align:center;">編輯<br><span style="font-size:11px; font-weight:normal; color:#666;">Edit</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="commission-settings-tbody">
+                        <!-- Rendered dynamically -->
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 12px; color: var(--color-personal); font-size: 13px; text-align: right; font-weight: 500;">
+                資料來源：系統分潤設定規則，有掛多個營業員的客戶進行 distinct 去重，系統會完整保留每一筆歷史變更紀錄
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal for Commission Setup -->
+    <div class="modal-overlay" id="commission-modal">
+        <div class="modal-content" style="max-width: 550px; border-radius: 8px;">
+            <h3 class="modal-title" style="line-height: 1.2; margin-bottom: 24px; border-bottom: 1px solid #eee; padding-bottom: 12px;" id="commission-modal-title">新增/編輯分潤設定<br><span style="font-size: 12px; font-weight: normal; color: #666;">Add / Edit Commission Settings</span></h3>
+            <form id="commission-form">
+                <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
+                    <div>
+                        <label style="font-weight: 600; font-size: 14px; margin-bottom: 6px; display: block;">總歸戶 / 法人戶名稱 *</label>
+                        <input type="text" id="modal-commission-account" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; font-size: 14px;" placeholder="例: 富邦投信" required>
+                    </div>
+                    <div style="display: flex; gap: 16px;">
+                        <div style="flex: 1;">
+                            <label style="font-weight: 600; font-size: 14px; margin-bottom: 6px; display: block;">商品種類 *</label>
+                            <select id="modal-commission-product" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; font-size: 14px;" required>
+                                <option value="tw_stock">台股</option>
+                                <option value="foreign_stock" selected>海外股票</option>
+                                <option value="foreign_bond">海外債</option>
+                                <option value="structured">結構型商品</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="font-weight: 600; font-size: 14px; margin-bottom: 6px; display: block;">設定日期</label>
+                            <input type="text" id="modal-commission-setup-date" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; font-size: 14px; background: #f5f5f5;" value="2026/06/30" readonly>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="font-weight: 600; font-size: 14px; margin-bottom: 6px; display: block;">分潤生效區間 *</label>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <input type="text" id="modal-commission-start-date" style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; font-size: 14px;" value="2026/07/01" placeholder="YYYY/MM/DD" required>
+                            <span>~</span>
+                            <input type="text" id="modal-commission-end-date" style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; font-size: 14px;" value="2026/12/31" placeholder="YYYY/MM/DD" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                    <span style="font-weight: 600; font-size: 14px;">營業員分潤明細</span>
+                    <button type="button" id="btn-add-modal-rep" style="background:#E3F2FD; color:#0D47A1; border:none; padding:4px 10px; border-radius:4px; font-size:12px; font-weight:600; cursor:pointer;">＋ 新增營業員</button>
+                </div>
+
+                <!-- Dynamic Rep Rows Container -->
+                <div id="modal-rep-rows-container" style="display: flex; flex-direction: column; gap: 12px; max-height: 200px; overflow-y: auto; padding-right: 4px;">
+                    <!-- Rows will be added dynamically by JS -->
+                </div>
+
+                <div style="margin-top: 16px; padding: 12px; background: #f9f9f9; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: 600; font-size: 13px;">分潤比例加總：</span>
+                    <span id="modal-commission-percentage-total" style="font-weight: bold; font-size: 16px; color: #C0392B;">0%</span>
+                </div>
+                <div id="modal-commission-warning" style="color: #C0392B; font-size: 12px; margin-top: 6px; font-weight: 500; display: none;">* 比例總和必須等於 100% 才能進行儲存</div>
+
+                <div class="modal-actions" style="margin-top: 24px; border-top: 1px solid #eee; padding-top: 16px;">
+                    <button type="button" class="btn btn-primary" id="save-commission-btn" style="padding: 8px 24px;" disabled>儲存</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-commission-btn" style="padding: 8px 24px;">取消</button>
+                </div>
+    <!-- Modal: 總歸戶客戶明細 (Parent Account Detail Modal) -->
+    <div id="modal-parent-detail" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div>
+                    <h3 id="modal-parent-title" style="margin:0; font-size:18px; color:var(--fubon-dark);">總歸戶客戶明細</h3>
+                    <p id="modal-parent-subtitle" style="margin:4px 0 0 0; font-size:13px; color:#64748B;">包含客戶全銜、帳號、ID與營業員之完整交易明細資料</p>
+                </div>
+                <button type="button" class="modal-close-btn" id="btn-close-modal">&times;</button>
+            </div>
+            <div class="modal-body" style="padding:16px; overflow-x:auto; max-height: 65vh;">
+                <div class="table-wrapper">
+                    <table class="onion-table" id="onion-table-domestic-detail">
+                        <!-- Detail table rendered dynamically via JS -->
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center; padding:14px 24px; background:#F8FAFC; border-top:1px solid #E2E8F0;">
+                <span id="modal-detail-count" style="font-size:13px; color:#475569; font-weight:500;">包含明細戶數：0 戶</span>
+                <button type="button" class="btn btn-secondary" id="btn-close-modal-footer" style="padding:6px 20px;">關閉 (Close)</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="reports.js"></script>
+</body>
+</html>

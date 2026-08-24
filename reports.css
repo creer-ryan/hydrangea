@@ -1,0 +1,648 @@
+/* reports.css */
+.reports-container {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+    gap: 24px;
+}
+
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.report-header h2 {
+    font-size: 24px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.presentation-badge {
+    background-color: #E67E22;
+    color: white;
+    padding: 6px 16px;
+    font-size: 14px;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+}
+
+.report-tabs {
+    display: flex;
+    gap: 12px;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 24px;
+}
+
+.report-tab-btn {
+    background: transparent;
+    border: none;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px; /* overlap border */
+    transition: all 0.2s;
+}
+
+.report-tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.report-content-panel {
+    display: none;
+}
+
+.report-content-panel.active {
+    display: block;
+}
+
+.report-tab-btn:hover:not(.active) {
+    color: var(--primary-hover);
+    background-color: #F1F5F9;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+/* Filter Section customized for Reports */
+.report-filter-panel {
+    background: var(--bg-panel);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 20px 24px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 160px;
+}
+
+.filter-group.date-range {
+    min-width: 320px;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-main);
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.filter-group select, .filter-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.filter-group select:focus, .filter-group input:focus {
+    border-color: var(--primary-color);
+}
+
+.filter-actions-right {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.export-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+}
+
+.btn-export {
+    background-color: var(--color-personal); /* Fubon Blue */
+    color: white;
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-export:hover {
+    background-color: #004680;
+}
+
+/* Onion Table Styles */
+.table-wrapper {
+    overflow: auto;
+    max-height: 80vh;
+    min-height: 450px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    scrollbar-gutter: stable;
+}
+
+/* 自訂捲軸樣式，確保滾動條清晰可見且美觀 */
+.table-wrapper::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+.table-wrapper::-webkit-scrollbar-track {
+    background: #F8FAFC;
+    border-radius: var(--radius-sm);
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: var(--radius-sm);
+    border: 2px solid #F8FAFC;
+}
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+}
+
+.onion-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 1200px;
+}
+
+.onion-table th, .onion-table td {
+    padding: 10px 12px;
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.onion-table th {
+    background-color: var(--fubon-dark); /* Fubon deep brand blue */
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.onion-table th:last-child, .onion-table td:last-child {
+    border-right: none;
+}
+
+.onion-table tbody tr:hover td {
+    background-color: #F1F5F9; /* Fubon hover gray background */
+}
+
+/* Highlighted Column Headers (Months, like 2026 1月) */
+.onion-table th.col-group-header {
+    background-color: var(--fubon-blue);
+}
+
+/* Sortable column headers styling */
+.sortable-header {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    user-select: none;
+}
+
+.sortable-header:hover {
+    background-color: var(--fubon-blue-hover) !important;
+}
+
+/* Expand / Collapse buttons inside table */
+.expand-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.expand-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.row-expand-btn {
+    background: white;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-right: 8px;
+}
+
+.row-expand-btn:hover {
+    background: #F1F5F9;
+    border-color: var(--primary-color);
+}
+
+/* Hide utility for JS toggling */
+.hidden {
+    display: none !important;
+}
+
+/* Indentation styling for visual hierarchy inside the table */
+.indent-1 { padding-left: 24px !important; }
+.indent-2 { padding-left: 48px !important; }
+.indent-3 { padding-left: 72px !important; }
+
+/* 橫向與縱向雙向固定 (Sticky Header & Left Columns) */
+.col-sticky-1, .col-sticky-2, .col-sticky-3, .col-sticky-4, .col-sticky-5, .col-sticky-6, .col-sticky-7, .col-sticky-8, .col-sticky-9, .col-sticky-10, .col-sticky-11 {
+    position: sticky !important;
+    background-color: white;
+    z-index: 5;
+}
+
+/* 各固定欄位橫向左側位移 (Left offsets for sticky columns) */
+.col-sticky-1 { left: 0px; width: 90px; min-width: 90px; max-width: 90px; }
+.col-sticky-2 { left: 90px; width: 90px; min-width: 90px; max-width: 90px; }
+.col-sticky-3 { left: 180px; width: 90px; min-width: 90px; max-width: 90px; }
+.col-sticky-4 { left: 270px; width: 110px; min-width: 110px; max-width: 110px; }
+.col-sticky-5 { left: 380px; width: 160px; min-width: 160px; max-width: 160px; }
+.col-sticky-6 { left: 540px; width: 90px; min-width: 90px; max-width: 90px; }
+.col-sticky-7 { left: 630px; width: 110px; min-width: 110px; max-width: 110px; }
+.col-sticky-8 { left: 740px; width: 90px; min-width: 90px; max-width: 90px; }
+
+/* 拖曳調整欄寬的手把樣式 */
+.resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 6px;
+    cursor: col-resize;
+    user-select: none;
+    z-index: 30;
+}
+.resizer:hover {
+    background-color: var(--primary-color);
+}
+
+/* 陰影分隔線以突顯固定欄位與右側數值邊界 */
+.col-sticky-5, .col-sticky-6, .col-sticky-7, .col-sticky-8, .col-sticky-9, .col-sticky-10, .col-sticky-11 {
+    box-shadow: 3px 0 6px rgba(0, 0, 0, 0.06);
+}
+#onion-table-container .col-sticky-5 {
+    border-right: 2px solid #CBD5E1 !important;
+}
+#onion-table-domestic .col-sticky-4 {
+    border-right: 2px solid #CBD5E1 !important;
+    box-shadow: 3px 0 6px rgba(0, 0, 0, 0.08);
+}
+#onion-table-foreign .col-sticky-6 {
+    border-right: 2px solid #CBD5E1 !important;
+    box-shadow: 3px 0 6px rgba(0, 0, 0, 0.08);
+}
+
+[id^="panel-parent-detail"] .col-sticky-8, #modal-parent-detail .col-sticky-8 {
+    border-right: 2px solid #CBD5E1 !important;
+    box-shadow: 3px 0 6px rgba(0, 0, 0, 0.08);
+}
+
+[id^="panel-foreign-detail"] .col-sticky-11 {
+    border-right: 2px solid #CBD5E1 !important;
+    box-shadow: 3px 0 6px rgba(0, 0, 0, 0.08);
+}
+[id^="panel-foreign-detail"] .col-sticky-6 {
+    border-right: none !important;
+    box-shadow: none !important;
+}
+
+/* Parent Account Clickable Link */
+.parent-account-link {
+    color: #0066CC;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.15s;
+}
+.parent-account-link:hover {
+    color: #003366;
+    text-decoration: underline;
+}
+
+/* Parent Account Details Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+.modal-overlay.active {
+    display: flex;
+}
+.modal-card {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 92%;
+    max-width: 1350px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalFadeIn 0.25s ease-out;
+}
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.97) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    background-color: #F8FAFC;
+    border-bottom: 1px solid #E2E8F0;
+}
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #64748B;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.15s;
+}
+.modal-close-btn:hover {
+    background-color: #E2E8F0;
+    color: #0F172A;
+}
+
+/* 表頭第一列固定於最上方 (Top row of header sticky) */
+.onion-table thead tr:first-child th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 45px;
+}
+
+/* 表頭第二列固定於第一列下方 (Second row of header sticky) */
+.onion-table thead tr:nth-child(2) th {
+    position: sticky;
+    top: 45px;
+    z-index: 10;
+}
+
+/* 雙向交叉點 (既在最上方又在左側) 的表頭需要更高的 z-index */
+.onion-table thead th.col-sticky-1,
+.onion-table thead th.col-sticky-2,
+.onion-table thead th.col-sticky-3,
+.onion-table thead th.col-sticky-4,
+.onion-table thead th.col-sticky-5,
+.onion-table thead th.col-sticky-6,
+.onion-table thead th.col-sticky-7,
+.onion-table thead th.col-sticky-8,
+.onion-table thead th.col-sticky-9,
+.onion-table thead th.col-sticky-10,
+.onion-table thead th.col-sticky-11 {
+    z-index: 35 !important;
+    background-color: var(--fubon-dark) !important;
+}
+
+/* Hover 時，左側固定欄位也需同步變色，防止覆蓋 */
+.onion-table tbody tr:hover td.col-sticky-1,
+.onion-table tbody tr:hover td.col-sticky-2,
+.onion-table tbody tr:hover td.col-sticky-3,
+.onion-table tbody tr:hover td.col-sticky-4,
+.onion-table tbody tr:hover td.col-sticky-5,
+.onion-table tbody tr:hover td.col-sticky-6,
+.onion-table tbody tr:hover td.col-sticky-7,
+.onion-table tbody tr:hover td.col-sticky-8,
+.onion-table tbody tr:hover td.col-sticky-9,
+.onion-table tbody tr:hover td.col-sticky-10,
+.onion-table tbody tr:hover td.col-sticky-11 {
+    background-color: #F1F5F9 !important;
+}
+
+.onion-table td {
+    text-align: right;
+}
+.onion-table td.text-left {
+    text-align: left;
+}
+
+.report-content-panel {
+    display: none;
+}
+.report-content-panel.active {
+    display: block;
+}
+
+/* Custom Multi-Select Dropdown Component */
+.multiselect-trigger {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 38px;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+.multiselect-trigger:hover, .multiselect-trigger.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 84, 166, 0.1);
+}
+
+.multiselect-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-main);
+    font-weight: 500;
+    max-width: 190px;
+}
+
+.multiselect-arrow {
+    color: #666;
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+
+.multiselect-trigger.active .multiselect-arrow {
+    transform: rotate(180deg);
+}
+
+.multiselect-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 270px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 100;
+    padding: 10px;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.multiselect-dropdown.show {
+    display: flex;
+}
+
+.multiselect-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.multiselect-search {
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 13px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.multiselect-search:focus {
+    border-color: var(--primary-color);
+}
+
+.multiselect-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    padding: 0 2px;
+}
+
+.multiselect-actions button {
+    background: transparent;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    transition: background 0.15s ease;
+}
+
+.multiselect-actions button:hover {
+    background: #EBF5FB;
+}
+
+.multiselect-options-list {
+    max-height: 220px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.multiselect-option-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    user-select: none;
+    color: var(--text-main);
+}
+
+.multiselect-option-item:hover {
+    background: #F1F5F9;
+}
+
+.multiselect-option-item input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+}
+
+/* Modern HTML5 Calendar Date Picker Styling */
+input[type="date"] {
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text-main);
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+input[type="date"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 84, 166, 0.1);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.75;
+    padding: 2px;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}

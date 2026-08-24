@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法人客戶關係管理系統</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="navbar.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Main Container -->
+    <div style="max-width: 1440px; margin: 0 auto; padding: 24px 24px 0 24px;">
+        <!-- Top Executive KPI Summary Grid -->
+        <div class="home-kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon icon-blue">🏢</div>
+                <div class="kpi-content">
+                    <div class="kpi-label">維護法人總客戶數</div>
+                    <div class="kpi-val">28 <span class="kpi-unit">戶</span> <span class="kpi-tag green">▲ +2 本月</span></div>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon icon-purple">📅</div>
+                <div class="kpi-content">
+                    <div class="kpi-label">本周預約與服務行程</div>
+                    <div class="kpi-val">12 <span class="kpi-unit">筆</span> <span class="kpi-tag blue">🔄 Outlook 串接</span></div>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon icon-orange">💬</div>
+                <div class="kpi-content">
+                    <div class="kpi-label">高價值服務追蹤</div>
+                    <div class="kpi-val">8 <span class="kpi-unit">筆</span> <span class="kpi-tag orange">4 筆效益評級佳</span></div>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon icon-green">📊</div>
+                <div class="kpi-content">
+                    <div class="kpi-label">當日成交總金額</div>
+                    <div class="kpi-val">$2,850 <span class="kpi-unit">萬</span> <span class="kpi-tag green">▲ 12.5%</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-container" style="padding-top: 16px;">
+        
+        <!-- Left Panel: Calendar Widget -->
+        <aside class="calendar-panel">
+            <div class="panel-header">
+                <div class="title-with-icon">
+                    <span class="calendar-icon">📅</span>
+                    <h3 style="line-height: 1.2;">個人行事曆<br><span style="font-size: 13px; font-weight: normal; color: #555;">Personal Calendar</span></h3>
+                    <select class="user-select">
+                        <option value="006698">006698-鍾xx</option>
+                        <option value="008888">008888-王xx</option>
+                        <option value="006898">006898-陳xx</option>
+                    </select>
+                </div>
+                <div class="outlook-sync-container" style="margin-top: 12px; display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; background: #F8FAFC; border-radius: 6px; border: 1px solid #E2E8F0; width: 100%; box-sizing: border-box; text-align: left;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <span style="font-size: 11px; font-weight: 600; color: #475569;">Outlook 串接</span>
+                            <span id="outlook-info-icon" style="cursor: pointer; color: #0284C7; font-size: 12px; font-weight: bold; background: #E0F2FE; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%;" title="查看同步規則說明">i</span>
+                        </div>
+                        <button class="btn btn-secondary" id="btn-outlook-sync" style="padding: 4px 10px; font-size: 11px; border-radius: 4px; display: flex; align-items: center; gap: 4px; border: 1px solid #D1D5DB; background: white; cursor: pointer;">
+                            <img src="https://img.icons8.com/color/16/000000/microsoft-outlook-2019.png" style="width: 14px; height: 14px;" alt="Outlook">
+                            <span id="outlook-sync-status">未啟用</span>
+                        </button>
+                    </div>
+                    <!-- Sync info alert inside the panel, hidden by default, toggled on click -->
+                    <div id="outlook-sync-rules-banner" style="display: none; font-size: 10px; color: #475569; background: #F1F5F9; padding: 8px; border-radius: 4px; border-left: 3px solid #0284C7; line-height: 1.4; box-sizing: border-box;">
+                        <strong>🔄 同步規則說明：</strong><br>
+                        • <strong>CRM ➡️ Outlook：</strong>CRM 新增之行程會<strong>自動同步</strong>至 Outlook。<br>
+                        • <strong>Outlook ➡️ CRM：</strong>僅同步「由 CRM 發起」之會議的後續異動。<br>
+                        • <strong>重要建議：</strong>新增、修改或刪除行程，請<strong>統一在 CRM 進行</strong>，以維護資料一致。
+                    </div>
+                </div>
+            </div>
+            <div class="calendar-controls" style="display: flex; flex-direction: column; width: 100%;">
+                <div class="calendar-nav-row" style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px;">
+                    <div class="month-year" id="calendar-month-year">2026年 3月 <small style="font-weight:normal; color:#666; font-size:14px;">Mar</small></div>
+                    <div class="nav-buttons">
+                        <button class="nav-btn" id="prev-month-btn">&lt;</button>
+                        <button class="today-btn" id="today-btn">今天 <span style="font-size:11px;">Today</span></button>
+                        <button class="nav-btn" id="next-month-btn">&gt;</button>
+                    </div>
+                </div>
+                <div class="legend" style="font-size: 11px; display: flex; gap: 8px; justify-content: space-around; width: 100%; border-top: 1px dashed var(--border-color); padding-top: 8px; margin-bottom: 8px;">
+                    <span class="legend-item"><span class="dot blue"></span>個人 <span style="color:#666;">Personal</span></span>
+                    <span class="legend-item"><span class="dot yellow"></span>服務 <span style="color:#666;">Service</span></span>
+                    <span class="legend-item"><span class="dot green"></span>活動 <span style="color:#666;">Event</span></span>
+                </div>
+            </div>
+            <div class="calendar-grid" id="calendar-grid">
+                <div class="day-header" style="line-height: 1.2;">日<br><span style="font-size:10px; font-weight:normal; color:#666;">Sun</span></div>
+                <div class="day-header" style="line-height: 1.2;">一<br><span style="font-size:10px; font-weight:normal; color:#666;">Mon</span></div>
+                <div class="day-header" style="line-height: 1.2;">二<br><span style="font-size:10px; font-weight:normal; color:#666;">Tue</span></div>
+                <div class="day-header" style="line-height: 1.2;">三<br><span style="font-size:10px; font-weight:normal; color:#666;">Wed</span></div>
+                <div class="day-header" style="line-height: 1.2;">四<br><span style="font-size:10px; font-weight:normal; color:#666;">Thu</span></div>
+                <div class="day-header" style="line-height: 1.2;">五<br><span style="font-size:10px; font-weight:normal; color:#666;">Fri</span></div>
+                <div class="day-header" style="line-height: 1.2;">六<br><span style="font-size:10px; font-weight:normal; color:#666;">Sat</span></div>
+                <!-- Cells will be generated dynamically by JS -->
+            </div>
+        </aside>
+
+        <!-- Right Panel: Main Content -->
+        <section class="content-panel">
+            <div class="tabs" style="align-items: flex-end;">
+                <button class="tab-btn active" data-target="tab-customer" style="line-height: 1.2; padding: 10px 24px;">客戶列表<br><span style="font-size: 11px; font-weight: normal; color: #666;">Customer List</span></button>
+                <div class="tab-with-dropdown">
+                    <button class="tab-btn" data-target="tab-calendar" style="line-height: 1.2; padding: 10px 24px;">
+                        行事曆<br><span style="font-size: 11px; font-weight: normal; color: #666;">Calendar</span> <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <ul class="tab-dropdown">
+                        <li data-value="personal">個人 <span style="font-size: 11px; color: #888;">Personal</span></li>
+                        <li data-value="service">服務 <span style="font-size: 11px; color: #888;">Service</span></li>
+                        <li data-value="activity">活動 <span style="font-size: 11px; color: #888;">Event</span></li>
+                    </ul>
+                </div>
+                <button class="tab-btn" data-target="tab-service-notice" style="background-color: #E2E8F0; line-height: 1.2; padding: 10px 24px;">服務通知 <span style="background:#EF4444; color:white; font-size:10px; padding:1px 6px; border-radius:10px; margin-left:4px; font-weight:bold;">2</span><br><span style="font-size: 11px; font-weight: normal; color: #666;">Service Notice</span></button>
+            </div>
+
+            <!-- Tab Content: Customer List -->
+            <div id="tab-customer" class="tab-content active">
+                <div class="filter-section" style="align-items: flex-end; gap: 12px; flex-wrap: wrap;">
+                    <div class="filter-group" style="flex-grow: 1; max-width: 240px;">
+                        <label style="line-height: 1.2;">關鍵字搜尋<br><span style="font-size:11px; font-weight:normal; color:#666;">Search</span></label>
+                        <input type="text" id="customer-search-input" placeholder="搜尋客戶名稱 / 統編..." style="padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; outline: none; width: 100%;">
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">總歸戶<br><span style="font-size:11px; font-weight:normal; color:#666;">Corporate</span></label>
+                        <select id="filter-corporate-select">
+                            <option value="ALL">全選 (All)</option>
+                            <option value="富邦">富邦 (Fubon)</option>
+                            <option value="富邦人壽">富邦人壽 (Fubon Life)</option>
+                            <option value="富邦投信">富邦投信 (Fubon Asset Mgt.)</option>
+                            <option value="富邦產險">富邦產險 (Fubon Insurance)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">客群類別<br><span style="font-size:11px; font-weight:normal; color:#666;">Coverage Segment</span></label>
+                        <select id="filter-group1-select">
+                            <option value="ALL">全選 (All)</option>
+                            <option value="外資">外資 (Foreign)</option>
+                            <option value="投信">投信 (Domestic)</option>
+                            <option value="產壽險">產壽險 (Insurance)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">外資客群<br><span style="font-size:11px; font-weight:normal; color:#666;">Foreign Coverage</span></label>
+                        <select id="filter-group2-select">
+                            <option value="ALL">全選 (All)</option>
+                            <option value="Co-Cover">Co-Cover</option>
+                            <option value="Fubon一般">Fubon一般 (Fubon General)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">商品<br><span style="font-size:11px; font-weight:normal; color:#666;">Product</span></label>
+                        <select id="filter-product-select">
+                            <option value="ALL">全選 (All)</option>
+                            <option value="台股">台股 (TW Equity)</option>
+                            <option value="海外股票">海外股票 (Overseas Stock)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label style="line-height: 1.2;">關係企業<br><span style="font-size:11px; font-weight:normal; color:#666;">Affiliates</span></label>
+                        <select id="filter-affiliates-select">
+                            <option value="ALL">全選 (All)</option>
+                            <option value="關係">關係 (Affiliated)</option>
+                            <option value="一般">一般 (General)</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-primary" id="btn-customer-search" style="padding: 6px 18px;">🔍 查詢</button>
+                        <button class="btn btn-secondary" id="btn-customer-reset" style="padding: 6px 16px;">🔄 重設</button>
+                    </div>
+                </div>
+
+                <div class="table-toolbar" style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 10px; padding: 8px 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px;">
+                    <div style="display: flex; gap: 16px; align-items: center; font-size: 13px; color: #475569;">
+                        <span>📅 <strong>資料日期 Data Date:</strong> <span id="data-date-label">2026/08/14</span></span>
+                        <span style="color: #CBD5E1;">|</span>
+                        <span>⏰ <strong>查詢時間 Query Time:</strong> <span id="query-time-label" style="font-family: monospace; font-weight: 600; color: #0284C7;">14:41:22</span></span>
+                        <span class="badge" style="background:#DCFCE7; color:#166534; font-size:11px; padding:2px 8px; border-radius:12px; font-weight:600;">● 即時連線 Real-time</span>
+                    </div>
+                    <button class="btn btn-secondary" id="btn-refresh-customer-data" style="padding: 4px 12px; font-size: 12px; display: inline-flex; align-items: center; gap: 4px; border-color: #CBD5E1; color: #334155; background: white; cursor: pointer;" title="重新整理與串接最新日成交金額">
+                        <span class="refresh-icon" style="transition: transform 0.4s;">🔄</span> 更新數據 Refresh
+                    </button>
+                </div>
+                
+                <table class="data-table" id="customer-main-table">
+                    <thead>
+                        <tr>
+                            <th style="line-height: 1.2;">單位<br><span style="font-size:11px; font-weight:normal; color:#666;">Unit</span></th>
+                            <th style="line-height: 1.2;">總歸戶/法人戶<br><span style="font-size:11px; font-weight:normal; color:#666;">Corporate/Firm</span></th>
+                            <th style="line-height: 1.2;">客群類別<br><span style="font-size:11px; font-weight:normal; color:#666;">Coverage Segment</span></th>
+                            <th style="line-height: 1.2;">外資客群<br><span style="font-size:11px; font-weight:normal; color:#666;">Foreign Coverage</span></th>
+                            <th style="line-height: 1.2;">商品<br><span style="font-size:11px; font-weight:normal; color:#666;">Product</span></th>
+                            <th style="line-height: 1.2;">關係企業<br><span style="font-size:11px; font-weight:normal; color:#666;">Affiliates</span></th>
+                            <th style="line-height: 1.2; text-align: right;">日成交金額<br><span style="font-size:11px; font-weight:normal; color:#666;">Daily Turnover</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="org-badge domestic">內法</span></td>
+                            <td><a href="customer.html#firm" class="link" style="font-weight:600;">富邦投信</a></td>
+                            <td><span class="group-badge">投信</span></td>
+                            <td>-</td>
+                            <td><span class="group-badge" style="background:#E0F2FE; color:#0369A1; font-weight:600;">台股</span></td>
+                            <td><span style="color:#0369A1; font-weight:600; font-size:12px;">🏢 關係</span></td>
+                            <td style="text-align: right; font-weight:600; color:#0F172A;">1,000 萬</td>
+                        </tr>
+                        <tr>
+                            <td><span class="org-badge domestic">內法</span></td>
+                            <td><a href="customer.html#firm" class="link" style="font-weight:600;">國泰人壽</a></td>
+                            <td><span class="group-badge">產壽險</span></td>
+                            <td>-</td>
+                            <td><span class="group-badge" style="background:#F3E8FF; color:#6B21A8; font-weight:600;">海外股票</span></td>
+                            <td><span style="color:#64748B; font-size:12px;">一般</span></td>
+                            <td style="text-align: right; font-weight:600; color:#0F172A;">2,000 萬</td>
+                        </tr>
+                        <tr>
+                            <td><span class="org-badge foreign">外法</span></td>
+                            <td><a href="customer.html#firm" class="link" style="font-weight:600;">FMR (Fidelity)</a></td>
+                            <td><span class="group-badge">外資</span></td>
+                            <td><span class="group-badge" style="background:#FEE2E2; color:#991B1B;">Co-Cover</span></td>
+                            <td><span class="group-badge" style="background:#F3E8FF; color:#6B21A8; font-weight:600;">海外股票</span></td>
+                            <td><span style="color:#64748B; font-size:12px;">一般</span></td>
+                            <td style="text-align: right; font-weight:600; color:#0F172A;">3,000 萬</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tab Content: Calendar List -->
+            <div id="tab-calendar" class="tab-content">
+                 <div class="calendar-list-header">
+                     <h4 id="calendar-list-title">行事曆 <span style="font-size:12px; font-weight:normal; color:#666;">Calendar</span> - 個人 <span style="font-size:12px; font-weight:normal; color:#666;">Personal</span> / 日期 <span style="font-size:12px; font-weight:normal; color:#666;">Date</span> : 2026/6/30</h4>
+                     <div style="display: flex; gap: 8px;">
+                         <button class="btn btn-text blue-text" id="add-schedule-btn" style="display: none;">+ 新增行程 <span style="font-size:12px; font-weight:normal;">New</span></button>
+                         <button class="btn btn-text yellow-text" id="add-service-shortcut-btn" style="display: none; border-color: #E67E22; color: #E67E22;" onclick="window.location.href='marketing.html#service?action=new-service'">+ 新增服務紀錄 <span style="font-size:12px; font-weight:normal;">New Service</span></button>
+                     </div>
+                 </div>
+                <table class="data-table" id="calendar-table">
+                    <!-- Table content generated dynamically via JS based on type -->
+                    <thead>
+                        <tr>
+                            <th style="line-height: 1.2;">標題<br><span style="font-size:11px; font-weight:normal; color:#666;">Title</span></th>
+                            <th style="line-height: 1.2;">時間<br><span style="font-size:11px; font-weight:normal; color:#666;">Time</span></th>
+                            <th style="line-height: 1.2;">備註<br><span style="font-size:11px; font-weight:normal; color:#666;">Notes</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="empty-state">請選擇左側行事曆日期</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tab Content: Service Notice -->
+            <div id="tab-service-notice" class="tab-content" style="background-color: #F2F8FC; border-radius: 8px; border: 1px solid #D1E4F3; padding: 16px;">
+                <div class="calendar-list-header" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <h4 id="service-notice-title" style="color: #0078D4; font-size: 16px; margin: 0; font-weight: 600;">行事曆 <span style="font-size:12px; font-weight:normal;">Calendar</span> - 服務通知 <span style="font-size:12px; font-weight:normal;">Service Notice</span> / 異動紀錄 <span style="font-size:12px; font-weight:normal;">Updated Schedules (2)</span></h4>
+                    <span class="badge" style="background: #FEF3C7; color: #92400E; font-size: 12px; padding: 4px 10px; border-radius: 6px; font-weight: 600;">🔔 共有 2 筆服務行程時間/內容異動</span>
+                </div>
+                <!-- 加上 wrapper 實現垂直捲動 -->
+                <div class="table-scroll-wrapper" style="max-height: 360px; overflow-y: auto; border: 1px solid #E1E9EF; border-radius: 6px; background: white;">
+                    <table class="data-table" style="background: white; border: none; margin: 0; width: 100%;">
+                        <thead style="position: sticky; top: 0; z-index: 10; background: #F8FAFC;">
+                            <tr>
+                                <th style="line-height: 1.2;">名稱 (主題)<br><span style="font-size:11px; font-weight:normal; color:#666;">Topic</span></th>
+                                <th style="line-height: 1.2;">時間<br><span style="font-size:11px; font-weight:normal; color:#666;">Time</span></th>
+                                <th style="line-height: 1.2;">類型<br><span style="font-size:11px; font-weight:normal; color:#666;">Type</span></th>
+                                <th style="line-height: 1.2;">講師/研究員<br><span style="font-size:11px; font-weight:normal; color:#666;">Speaker/Analyst</span></th>
+                                <th style="line-height: 1.2;">人數<br><span style="font-size:11px; font-weight:normal; color:#666;">Attendees</span></th>
+                                <th style="line-height: 1.2;">連結說明 / 操作<br><span style="font-size:11px; font-weight:normal; color:#666;">Action</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #F0FDF4;">
+                                <td>
+                                    <a href="marketing.html#service" class="link" style="font-weight:600; color:#0369A1;" title="已在服務管理 (點擊名稱直接開啟服務管理畫面)">【研究員會議】台積電法說會前個股聚焦與產業評估</a>
+                                </td>
+                                <td>
+                                    2026/08/17 10:00~11:30
+                                    <br><span class="badge" style="background:#FEE2E2; color:#991B1B; padding:2px 6px; font-size:11px; border-radius:4px; font-weight:bold; display:inline-block; margin-top:2px;">⚠️ 時間異動</span>
+                                    <span class="badge" style="background:#DCFCE7; color:#166534; padding:2px 6px; font-size:11px; border-radius:4px; font-weight:bold; display:inline-block; margin-top:2px; margin-left:4px;">✓ 已在服務管理</span>
+                                </td>
+                                <td><span class="group-badge" style="background:#FEF3C7; color:#B45309; font-weight:600;">研究員會議</span></td>
+                                <td><strong>Sherman Shang</strong></td>
+                                <td>15 人</td>
+                                <td>
+                                    <span style="font-size:13px; color:#475569;">研討 AI 晶片需求與 3nm 產能利用率</span>
+                                    <span style="font-size:12px; color:#166534; font-weight:600; margin-left:6px;">(點選名稱可連結至服務管理)</span>
+                                </td>
+                            </tr>
+                            <tr style="background: #FFFBEB;">
+                                <td>
+                                    <a href="marketing.html?action=new-service&topic=%E5%8F%B0%E8%82%A1%E4%B8%8B%E5%8D%8A%E5%B9%B4%20AI%20%E4%BE%9B%E6%87%89%E9%8F%85%E8%B6%A4%E5%8B%A2%E8%AB%96%E5%A3%87%20(%E6%B3%95%E8%AA%AA%E6%9C%83)&date=2026-08-28&time=14:00&analyst=%E5%BC%B5%E7%A0%94%E7%A9%B6%E5%93%A1&notes=%E5%AF%A6%E9%AB%94%E8%AB%96%E5%A3%87%E8%88%87%E7%B7%9A%E4%B8%8A%E7%9B%B4%E6%92%AD#service" data-import="%7B%22topic%22%3A%22%E5%8F%B0%E8%82%A1%E4%B8%8B%E5%8D%8A%E5%B9%B4%20AI%20%E4%BE%9B%E6%87%89%E9%8F%85%E8%B6%A4%E5%8B%A2%E8%AB%96%E5%A3%87%20(%E6%B3%95%E8%AA%AA%E6%9C%83)%22%2C%22date%22%3A%222026-08-28%22%2C%22time%22%3A%2214%3A00%22%2C%22analyst%22%3A%22%E5%BC%B5%E7%A0%94%E7%A9%B6%E5%93%A1%22%2C%22notes%22%3A%22%E5%AF%A6%E9%AB%94%E8%AB%96%E5%A3%87%E8%88%87%E7%B7%9A%E4%B8%8A%E7%9B%B4%E6%92%AD%22%7D" class="link trigger-home-import" style="font-weight:600;" title="帶入此場次資料並新增服務紀錄">台股下半年 AI 供應鏈趨勢論壇 (法說會)</a>
+                                </td>
+                                <td>
+                                    2026/08/28 14:00~16:00
+                                    <br><span class="badge" style="background:#FFEDD5; color:#C2410C; padding:2px 6px; font-size:11px; border-radius:4px; font-weight:bold; display:inline-block; margin-top:2px;">📢 講師異動</span>
+                                </td>
+                                <td><span class="group-badge" style="background:#FEF3C7; color:#B45309; font-weight:600;">法說會</span></td>
+                                <td><strong>張研究員</strong></td>
+                                <td>45 人</td>
+                                <td>
+                                    <span style="font-size:13px; color:#475569;">實體論壇與線上直播</span>
+                                    <a href="marketing.html?action=new-service&topic=%E5%8F%B0%E8%82%A1%E4%B8%8B%E5%8D%8A%E5%B9%B4%20AI%20%E4%BE%9B%E6%87%89%E9%8F%85%E8%B6%A4%E5%8B%A2%E8%AB%96%E5%A3%87%20(%E6%B3%95%E8%AA%AA%E6%9C%83)&date=2026-08-28&time=14:00&analyst=%E5%BC%B5%E7%A0%94%E7%A9%B6%E5%93%A1&notes=%E5%AF%A6%E9%AB%94%E8%AB%96%E5%A3%87%E8%88%87%E7%B7%9A%E4%B8%8A%E7%9B%B4%E6%92%AD#service" data-import="%7B%22topic%22%3A%22%E5%8F%B0%E8%82%A1%E4%B8%8B%E5%8D%8A%E5%B9%B4%20AI%20%E4%BE%9B%E6%87%89%E9%8F%85%E8%B6%A4%E5%8B%A2%E8%AB%96%E5%A3%87%20(%E6%B3%95%E8%AA%AA%E6%9C%83)%22%2C%22date%22%3A%222026-08-28%22%2C%22time%22%3A%2214%3A00%22%2C%22analyst%22%3A%22%E5%BC%B5%E7%A0%94%E7%A9%B6%E5%93%A1%22%2C%22notes%22%3A%22%E5%AF%A6%E9%AB%94%E8%AB%96%E5%A3%87%E8%88%87%E7%B7%9A%E4%B8%8A%E7%9B%B4%E6%92%AD%22%7D" class="btn btn-secondary trigger-home-import" style="font-size:11px; padding:3px 10px; margin-left:6px; background:#0093C1; color:#FFFFFF; border:none; border-radius:4px; text-decoration:none; display:inline-block; font-weight:600;" title="點擊新增至服務紀錄表單">➕ 新增至服務紀錄</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add/Edit Schedule Modal -->
+    <div class="modal-overlay" id="schedule-modal">
+        <div class="modal-content">
+            <h3 class="modal-title">行程新增/編輯 <span style="font-size: 14px; font-weight: normal; color: #666;">Add/Edit Schedule</span></h3>
+            <form id="schedule-form">
+                <div class="form-group" style="align-items: flex-start;">
+                    <label style="line-height: 1.2; padding-top: 8px;">標題：<br><span style="font-size:11px; font-weight:normal; color:#666;">Title</span></label>
+                    <input type="text" id="modal-title" placeholder="請輸入標題" style="margin-top: 4px;">
+                </div>
+                <div class="form-group" style="align-items: flex-start;">
+                    <label style="line-height: 1.2; padding-top: 8px;">日期：<br><span style="font-size:11px; font-weight:normal; color:#666;">Date</span></label>
+                    <input type="text" id="modal-date" value="2026/6/30" readonly style="margin-top: 4px;">
+                </div>
+                <div class="form-group" style="align-items: flex-start;">
+                    <label style="line-height: 1.2; padding-top: 8px;">開始時間：<br><span style="font-size:11px; font-weight:normal; color:#666;">Start Time</span></label>
+                    <input type="time" id="modal-start" style="margin-top: 4px;">
+                </div>
+                <div class="form-group" style="align-items: flex-start;">
+                    <label style="line-height: 1.2; padding-top: 8px;">結束時間：<br><span style="font-size:11px; font-weight:normal; color:#666;">End Time</span></label>
+                    <input type="time" id="modal-end" style="margin-top: 4px;">
+                </div>
+                <div class="form-group" style="align-items: flex-start;">
+                    <label style="line-height: 1.2; padding-top: 8px;">備註：<br><span style="font-size:11px; font-weight:normal; color:#666;">Notes</span></label>
+                    <textarea id="modal-notes" rows="3" style="margin-top: 4px;"></textarea>
+                </div>
+                <div class="form-group" style="align-items: center; margin-top: 12px; padding: 8px; background: #F8FAFC; border-radius: 6px; border: 1px solid #E2E8F0; display: flex; flex-direction: column; width: 100%; box-sizing: border-box; text-align: left;">
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: #334155; cursor: pointer; width: 100%;">
+                        <input type="checkbox" id="modal-outlook-sync-checkbox" checked style="width: 16px; height: 16px; cursor: pointer;">
+                        <span>🔄 同步發送至 Outlook 行事曆</span>
+                    </label>
+                    <div id="modal-outlook-sync-hint" style="font-size: 10.5px; color: #64748B; margin-left: 24px; margin-top: 4px; line-height: 1.4;">
+                        * 提示：行程將自動推送至 Outlook。後續修改或刪除<strong>請統一在 CRM 內操作</strong>，以維持兩端資料一致。
+                    </div>
+                </div>
+                <div class="modal-actions" style="margin-top: 24px;">
+                    <button type="button" class="btn btn-primary" id="save-btn">儲存 <span style="font-size:11px;">Save</span></button>
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">取消 <span style="font-size:11px;">Cancel</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Microsoft Outlook OAuth 2.0 Consent Modal -->
+    <div class="modal-overlay" id="outlook-oauth-modal" style="z-index: 1100;">
+        <div class="modal-content" style="max-width: 480px; padding: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border: 1px solid #D1D5DB; background: white;">
+            <!-- Microsoft Header -->
+            <div style="background: #2F2F2F; padding: 16px 24px; color: white; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <img src="https://img.icons8.com/color/24/000000/microsoft.png" alt="Microsoft" style="width: 20px; height: 20px;">
+                    <span style="font-size: 15px; font-weight: 600; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Microsoft Azure Active Directory</span>
+                </div>
+                <span style="color: #A0A0A0; font-size: 13px;">fubon.com.tw</span>
+            </div>
+            <!-- Body -->
+            <div style="padding: 24px; text-align: left;">
+                <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+                    <img src="fubon-logo.png" style="width: 48px; height: 48px; object-fit: contain;" alt="Fubon Logo">
+                    <div>
+                        <h4 style="margin: 0; font-size: 15px; font-weight: 600; color: #111827;">富邦金控 法人客戶關係管理系統</h4>
+                        <span style="font-size: 11px; color: #6B7280;">已驗證的授權單位: Fubon IT Service</span>
+                    </div>
+                </div>
+                
+                <h5 style="font-size: 13px; font-weight: 600; margin-bottom: 12px; color: #374151;">此應用程式要求存取權限以：</h5>
+                <ul style="list-style: none; padding: 0; margin: 0 0 24px 0; font-size: 12px; color: #4B5563; display: flex; flex-direction: column; gap: 12px;">
+                    <li style="display: flex; gap: 8px; align-items: flex-start;">
+                        <span style="color: #2563EB; font-weight: bold; font-size: 14px;">✔</span>
+                        <div><strong>讀取與寫入您的行事曆 (Calendars.ReadWrite)</strong><br><span style="font-size:11px; color:#6B7280;">同步您的 Outlook 會議與工作行程，方便您直接在 CRM 檢視與調整。</span></div>
+                    </li>
+                    <li style="display: flex; gap: 8px; align-items: flex-start;">
+                        <span style="color: #2563EB; font-weight: bold; font-size: 14px;">✔</span>
+                        <div><strong>維持背景存取您的資料 (offline_access)</strong><br><span style="font-size:11px; color:#6B7280;">保持與 Outlook 連線以在背景自動更新，免除重複登入的繁瑣步驟。</span></div>
+                    </li>
+                    <li style="display: flex; gap: 8px; align-items: flex-start;">
+                        <span style="color: #2563EB; font-weight: bold; font-size: 14px;">✔</span>
+                        <div><strong>讀取基本個人檔案 (User.Read)</strong><br><span style="font-size:11px; color:#6B7280;">確認您的登入姓名與電子郵件，以綁定正確的行事曆帳戶。</span></div>
+                    </li>
+                </ul>
+                
+                <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 6px; padding: 12px; margin-bottom: 24px; font-size: 12px; color: #1E40AF; line-height: 1.5;">
+                    🛡️ <strong>隱私與安全說明：</strong><br>
+                    依據富邦資安規範，本系統絕不會取得您的 Outlook 密碼。在您同意後，系統僅會安全連動行程，您可以隨時在個人設定中取消綁定。
+                </div>
+                
+                <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                    <button type="button" class="btn" id="btn-oauth-accept" style="background: #0078D4; border-color: #0078D4; color: white; padding: 8px 24px; border-radius: 4px; font-size: 13px; font-weight: 500; cursor: pointer;">接受 (Accept)</button>
+                    <button type="button" class="btn btn-secondary" id="btn-oauth-cancel" style="padding: 8px 20px; border-radius: 4px; font-size: 13px; cursor: pointer;">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

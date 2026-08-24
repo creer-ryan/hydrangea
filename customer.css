@@ -1,0 +1,251 @@
+/* customer.css */
+
+/* Customer Comprehensive Query Top Tabs (Overriding global marketing-tabs) */
+.customer-top-tabs {
+    display: flex;
+    gap: 16px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 24px;
+    padding-bottom: 0px; 
+}
+
+.customer-top-tab-btn {
+    background: transparent;
+    border: 1px solid transparent; 
+    padding: 10px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    margin-bottom: -1px; /* Overlap border-bottom */
+    transition: all 0.2s;
+}
+
+.customer-top-tab-btn.active {
+    border: 1px solid var(--primary-color);
+    border-bottom: 1px solid white; /* Blend into the white content if any */
+    color: var(--primary-color);
+    background: white;
+    font-weight: 600;
+}
+
+.customer-top-tab-btn:hover:not(.active) {
+    color: var(--primary-hover);
+}
+
+.customer-container {
+    padding: 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Light Blue View Panel styling per mockups */
+.view-panel {
+    background-color: #E2EFF9;
+    border: 1px solid #D6E8F6;
+    border-radius: var(--radius-md);
+    padding: 16px 24px;
+    margin-bottom: 24px;
+}
+
+.view-panel-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 12px;
+}
+
+.search-row {
+    display: flex;
+    gap: 24px;
+    align-items: flex-end;
+}
+
+.search-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.search-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.search-group input, .search-group select {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    justify-content: flex-end;
+}
+
+/* Base Data Table overrides for customer tables */
+.data-table-wrapper {
+    overflow-x: auto;
+    background: white;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    font-size: 13px;
+    text-align: center; /* Adjust according to screenshot preference */
+}
+
+.data-table th {
+    background-color: white;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+/* Inner Tabs for Detail View */
+.inner-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 0;
+}
+
+.inner-tab-btn {
+    background: #DDEBF7;
+    border: none;
+    padding: 10px 32px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-color);
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+    transition: background 0.2s;
+}
+
+.inner-tab-btn.active {
+    background: #E2EFF9;
+}
+
+.inner-tab-btn:hover:not(.active) {
+    background: #cddff0;
+}
+
+.inner-content-panel {
+    display: none;
+}
+
+.inner-content-panel.active {
+    display: block;
+}
+
+/* Donut Chart and Assets Summary */
+.assets-summary-box {
+    background: #F8F9FA;
+    border: 1px solid var(--border-color);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: var(--radius-md);
+    height: 100%;
+}
+
+.assets-title {
+    font-size: 14px;
+    font-weight: 700;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.assets-value {
+    font-size: 20px;
+    font-weight: 700;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.chart-legend-container {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.donut-wrapper {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    /* 
+      40% 證券 (#4A90E2) -> 0% to 40%
+      25% 複委託 (#E67E22) -> 40% to 65%
+      5% 期貨 (#95A5A6) -> 65% to 70%
+      20% 信託 (#F1C40F) -> 70% to 90%
+      10% 自營 (#5DADE2) -> 90% to 100%
+      We'll add a 1% white gap between segments for that premium modern donut look via CSS!
+    */
+    background: conic-gradient(
+        #4A90E2 0% 39.5%, white 39.5% 40%, 
+        #E67E22 40% 64.5%, white 64.5% 65%, 
+        #95A5A6 65% 69.5%, white 69.5% 70%, 
+        #F1C40F 70% 89.5%, white 89.5% 90%, 
+        #5DADE2 90% 99.5%, white 99.5% 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(45deg); /* To match the visual start angle */
+}
+
+.donut-hole {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    background: #F8F9FA;
+    border-radius: 50%;
+}
+
+.legend-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+}
+
+/* Modal textareas */
+.modal-content textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px;
+    resize: vertical;
+    min-height: 80px;
+}

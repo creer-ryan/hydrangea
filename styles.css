@@ -1,0 +1,918 @@
+/* Base Variables & Reset (Fubon UI 2.0 Fusion) */
+:root {
+    /* 核心品牌色彩 */
+    --fubon-blue: #0093C1;         /* 富邦主藍色 */
+    --fubon-blue-hover: #007BB0;
+    --fubon-green: #00A59B;        /* 富邦主綠色 */
+    --fubon-dark: #014865;         /* 富邦深色背景 */
+    --fubon-gradient: linear-gradient(105deg, var(--fubon-blue) 5%, var(--fubon-green) 83%);
+
+    --primary-color: var(--fubon-blue);
+    --primary-hover: var(--fubon-blue-hover);
+    --text-main: #1E293B;          /* 深灰字，提升閱讀對比度 */
+    --text-muted: #64748B;
+    --bg-main: #F1F5F9;            /* 富邦質感灰底 */
+    --bg-panel: #FFFFFF;
+    --border-color: #E2E8F0;
+
+    /* 行程/狀態標記色彩 */
+    --color-personal: var(--fubon-blue);
+    --color-service: #E67E22;      /* 暖橘色，用於重要服務提示 */
+    --color-activity: var(--fubon-green); /* 富邦綠，用於一般活動 */
+
+    /* 質感微陰影 */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 10px 20px -3px rgba(0, 0, 0, 0.1);
+
+    /* 圓角規範 */
+    --radius-sm: 6px;
+    --radius-md: 10px;             /* 圓角略微放大 */
+    --radius-lg: 16px;             /* 大卡片/面板 */
+    --radius-pill: 9999px;         /* 藥丸型按鈕與狀態標記 */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    color: var(--text-main);
+    background-color: var(--bg-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-panel);
+    padding: 0 24px;
+    height: 72px;
+    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    margin-right: 48px;
+}
+
+.fubon-logo {
+    height: 48px;
+    object-fit: contain;
+    margin-right: 12px;
+}
+
+.logo-section h2 {
+    font-size: 18px;
+    color: var(--color-personal);
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 32px;
+}
+
+.nav-links > li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 72px;
+}
+
+.nav-links li > a {
+    text-decoration: none;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+    height: 100%;
+}
+
+.nav-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+}
+
+.nav-tw {
+    font-size: 15px;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.nav-en {
+    font-size: 10px;
+    color: #94A3B8;
+    transition: color 0.2s;
+}
+
+.nav-links li:hover > a .nav-tw,
+.nav-links li:hover > a .nav-en {
+    color: var(--primary-color);
+}
+
+.nav-links li > a.active .nav-tw,
+.nav-links li > a.active .nav-en {
+    color: var(--primary-color);
+}
+
+.nav-links > li > a.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 3px 3px 0 0;
+}
+
+/* Dropdown Menu Styles */
+.nav-dropdown {
+    position: absolute;
+    top: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    box-shadow: var(--shadow-md);
+    list-style: none;
+    min-width: 180px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 100;
+    padding: 8px 0;
+}
+
+.nav-links > li:hover .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-dropdown li {
+    padding: 0;
+    height: auto;
+}
+
+.nav-dropdown li a {
+    padding: 10px 16px;
+    font-size: 14px;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+}
+
+.nav-dropdown li a small {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.nav-dropdown li a:hover {
+    background-color: #F1F5F9;
+    color: var(--primary-color);
+}
+
+.nav-dropdown li a:hover small {
+    color: var(--primary-hover);
+}
+
+/* Third-level sub-dropdown (fly-out to the right) */
+.nav-dropdown li.has-sub {
+    position: relative;
+}
+
+.nav-dropdown li.has-sub > a::after {
+    content: '›';
+    float: right;
+    margin-left: 8px;
+    color: #94A3B8;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.nav-sub-dropdown {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    list-style: none;
+    min-width: 170px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.18s ease;
+    z-index: 110;
+    padding: 8px 0;
+}
+
+.nav-dropdown li.has-sub:hover .nav-sub-dropdown {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-sub-dropdown li a {
+    padding: 10px 16px;
+    font-size: 14px;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+}
+
+.nav-sub-dropdown li a small {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.nav-sub-dropdown li a:hover {
+    background-color: #F1F5F9;
+    color: var(--primary-color);
+}
+
+.nav-sub-dropdown li a:hover small {
+    color: var(--primary-hover);
+}
+
+.dropdown-arrow {
+    font-size: 10px;
+    margin-left: 4px;
+    color: #94A3B8;
+}
+
+/* Main Container */
+.main-container {
+    display: flex;
+    padding: 24px;
+    gap: 24px;
+    max-width: 1440px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+/* Base Panel Styles */
+.calendar-panel,
+.content-panel {
+    background: var(--bg-panel);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    background-clip: border-box;
+}
+
+/* Left Panel */
+.calendar-panel {
+    width: 340px;
+    flex-shrink: 0;
+    padding: 20px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.panel-header {
+    margin-bottom: 20px;
+}
+
+.title-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.calendar-icon {
+    background: var(--primary-color);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.title-with-icon h3 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.user-select {
+    margin-left: auto;
+    padding: 4px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--text-main);
+    background-color: var(--bg-main);
+    outline: none;
+}
+
+.calendar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.month-year {
+    font-weight: 600;
+}
+
+.legend {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dot.blue {
+    background-color: var(--color-personal);
+}
+
+.dot.yellow {
+    background-color: var(--color-service);
+}
+
+.dot.green {
+    background-color: var(--color-activity);
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn,
+.today-btn {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.nav-btn:hover,
+.today-btn:hover {
+    background: #F1F5F9;
+    color: var(--text-main);
+}
+
+.today-btn {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+}
+
+.day-header {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    background-color: var(--primary-color);
+    padding: 8px 0;
+    border-radius: 4px;
+}
+
+.day-cell {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    padding-top: 2px;
+}
+
+.day-cell:not(.empty):hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-sm);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.active-day {
+    color: var(--color-personal);
+    font-weight: bold;
+    background-color: #EFF6FF;
+    border-color: #BFDBFE;
+}
+
+.day-cell.today-cell {
+    border: 2px solid var(--fubon-blue) !important;
+    font-weight: bold;
+}
+
+.day-cell.today-cell::after {
+    content: '今';
+    position: absolute;
+    top: 1px;
+    right: 2px;
+    font-size: 9px;
+    background: var(--fubon-blue);
+    color: white;
+    padding: 0 3px;
+    border-radius: 3px;
+    line-height: 1.2;
+}
+
+.day-cell.selected-day {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-color: var(--primary-color) !important;
+}
+
+.day-cell.empty {
+    border-color: transparent;
+    cursor: default;
+}
+
+/* Event dots under date */
+.day-events-dots {
+    display: flex;
+    gap: 3px;
+    margin-top: 2px;
+    justify-content: center;
+    align-items: center;
+    height: 6px;
+    min-height: 6px;
+}
+
+.cell-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+}
+
+.cell-dot.blue {
+    background-color: var(--color-personal);
+}
+.cell-dot.yellow {
+    background-color: var(--color-service);
+}
+.cell-dot.green {
+    background-color: var(--color-activity);
+}
+
+/* Selected day dots style adjustments */
+.selected-day .cell-dot.blue {
+    background-color: #FFFFFF;
+}
+.selected-day .cell-dot.yellow {
+    background-color: #FFE082;
+}
+.selected-day .cell-dot.green {
+    background-color: #A7F3D0;
+}
+
+/* Right Panel */
+.content-panel {
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    background-color: #F8FAFC;
+}
+
+.tab-btn {
+    padding: 16px 24px;
+    background: none;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.tab-btn.active {
+    background-color: white;
+    color: var(--text-main);
+    border-bottom-color: var(--primary-color);
+}
+
+.tab-btn:hover:not(.active) {
+    color: var(--text-main);
+    background-color: #F1F5F9;
+}
+
+.tab-with-dropdown {
+    position: relative;
+}
+
+.tab-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    list-style: none;
+    width: 120px;
+    display: none;
+    z-index: 10;
+}
+
+.tab-dropdown.show {
+    display: block;
+}
+
+.tab-dropdown li {
+    padding: 10px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.tab-dropdown li:hover {
+    background-color: #F1F5F9;
+    color: var(--primary-color);
+}
+
+.tab-content {
+    display: none;
+    padding: 24px;
+    background: white;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Filters */
+.filter-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: flex-end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-group label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.filter-group select {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    min-width: 120px;
+    outline: none;
+    background-color: white;
+}
+
+.filter-group select:focus {
+    border-color: var(--primary-color);
+}
+
+.filter-actions {
+    gap: 8px;
+    display: flex;
+}
+
+.btn {
+    padding: 8px 18px;
+    border-radius: var(--radius-pill); /* 採用富邦圓潤膠囊風格 */
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 147, 193, 0.15);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 147, 193, 0.25);
+}
+
+.btn-secondary {
+    background-color: #64748B;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
+    transform: translateY(-1px);
+}
+
+.btn-text {
+    background: transparent;
+    padding: 4px 8px;
+}
+
+.blue-text {
+    color: var(--color-personal);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.blue-text:hover {
+    background: #EFF6FF;
+    border-radius: 4px;
+}
+
+/* Table */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.data-table th {
+    text-align: left;
+    padding: 12px 16px;
+    background-color: #F8FAFC;
+    color: var(--text-muted);
+    font-weight: 600;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table tr:hover td {
+    background-color: #F8FAFC;
+}
+
+.link {
+    color: var(--color-personal);
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.calendar-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.calendar-list-header h4 {
+    color: var(--color-personal);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 48px !important;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.modal-overlay.show {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 24px;
+    transform: translateY(20px);
+    transition: transform 0.2s ease;
+}
+
+.modal-overlay.show .modal-content {
+    transform: translateY(0);
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.form-group label {
+    width: 80px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* ---------------------------------------------------- */
+/* Home Executive KPI Cards Grid */
+/* ---------------------------------------------------- */
+.home-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.kpi-card {
+    background: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.kpi-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.kpi-icon.icon-blue { background: #E0F2FE; color: #0369A1; }
+.kpi-icon.icon-purple { background: #F3E8FF; color: #7E22CE; }
+.kpi-icon.icon-orange { background: #FFEDD5; color: #C2410C; }
+.kpi-icon.icon-green { background: #DCFCE7; color: #15803D; }
+
+.kpi-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.kpi-label {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.kpi-val {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-main);
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.kpi-unit {
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+.kpi-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.kpi-tag.green { background: #DCFCE7; color: #15803D; }
+.kpi-tag.blue { background: #E0F2FE; color: #0369A1; }
+.kpi-tag.orange { background: #FFEDD5; color: #C2410C; }
+
+/* Table badges */
+.org-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+}
+.org-badge.domestic { background: #E0F2FE; color: #0369A1; }
+.org-badge.foreign { background: #FCE7F3; color: #9D174D; }
+
+.group-badge {
+    background: #F1F5F9;
+    color: #334155;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 11.5px;
+}

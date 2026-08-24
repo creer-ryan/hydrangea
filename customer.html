@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客戶綜合查詢 - CRM System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="marketing.css"> <!-- 重用標籤與表格基礎樣式 -->
+    <link rel="stylesheet" href="customer.css">
+    <script src="navbar.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Main Container -->
+    <div class="customer-container">
+        <!-- Header -->
+        <div class="marketing-header" style="margin-bottom: 24px;">
+            <h2 id="customer-page-title" style="font-size: 24px; color: var(--text-main); font-weight: 700; line-height: 1.2;">客戶綜合查詢 - 總歸戶/法人戶檢視<br><span style="font-size: 14px; font-weight: normal; color: #666;">Customer Inquiry - Corporate Overview</span></h2>
+        </div>
+
+        <!-- TOP LEVEL TABS: Firm vs Single Client -->
+        <div class="marketing-tabs">
+            <button class="marketing-tab-btn active" data-target="wrapper-firm-mode" id="tab-firm-mode" style="line-height: 1.2; padding: 10px 20px;">總歸戶/法人戶檢視<br><span style="font-size: 11px; font-weight: normal; color: #666;">Corporate Overview</span></button>
+            <button class="marketing-tab-btn" data-target="wrapper-client-mode" id="tab-client-mode" style="line-height: 1.2; padding: 10px 20px;">單一客戶檢視<br><span style="font-size: 11px; font-weight: normal; color: #666;">Individual Client</span></button>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- MODE: FIRM (總歸戶/法人戶) -->
+        <!-- ============================================== -->
+        <div id="wrapper-firm-mode" class="top-mode-wrapper active" style="display:block;">
+            
+            <!-- PANEL 1: MASTER LIST (總歸戶檢視與列表) -->
+            <div id="panel-customer-list">
+            <div style="margin-bottom: 16px;">
+                <h2 style="font-size: 22px; color: var(--text-main); font-weight: 500;">客戶總覽 - 總歸戶/法人戶專頁</h2>
+            </div>
+            
+            <div class="view-panel-title">總歸戶/法人戶檢視</div>
+            <div class="view-panel">
+                <div class="search-row">
+                    <div class="search-group">
+                        <label style="line-height: 1.2;">單位<br><span style="font-size:11px; font-weight:normal; color:#666;">Unit.</span></label>
+                        <input type="text">
+                    </div>
+                    <div class="search-group">
+                        <label style="line-height: 1.2;">客群<br><span style="font-size:11px; font-weight:normal; color:#666;">Coverage</span></label>
+                        <input type="text">
+                    </div>
+                    <div class="search-group" style="flex: 2;">
+                        <label style="line-height: 1.2;">總歸戶/法人戶<br><span style="font-size:11px; font-weight:normal; color:#666;">Firm</span></label>
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="search-actions">
+                    <button class="btn btn-secondary" style="background-color: #334155; color: white; border: none;">重設條件</button>
+                    <button class="btn btn-primary" style="padding: 8px 32px;">查詢</button>
+                </div>
+            </div>
+
+            <div class="view-panel-title">總歸戶/法人戶列表</div>
+            <div class="data-table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="line-height: 1.2;">單位<br><span style="font-size:11px; font-weight:normal; color:#666;">Unit.</span></th>
+                            <th style="line-height: 1.2;">總歸戶/法人戶<br><span style="font-size:11px; font-weight:normal; color:#666;">Firm</span></th>
+                            <th style="line-height: 1.2;">客戶數<br><span style="font-size:11px; font-weight:normal; color:#666;">Client Count</span></th>
+                            <th style="line-height: 1.2;">客群<br><span style="font-size:11px; font-weight:normal; color:#666;">Coverage</span></th>
+                            <th style="line-height: 1.2;">關係企業<br><span style="font-size:11px; font-weight:normal; color:#666;">Affiliate</span></th>
+                            <th style="line-height: 1.2;">機構法人<br><span style="font-size:11px; font-weight:normal; color:#666;">Institution</span></th>
+                            <th style="line-height: 1.2;">註記1<br><span style="font-size:11px; font-weight:normal; color:#666;">Note 1</span></th>
+                            <th style="line-height: 1.2;">註記2<br><span style="font-size:11px; font-weight:normal; color:#666;">Note 2</span></th>
+                            <th style="line-height: 1.2;">註記3<br><span style="font-size:11px; font-weight:normal; color:#666;">Note 3</span></th>
+                            <th style="line-height: 1.2;">說明<br><span style="font-size:11px; font-weight:normal; color:#666;">Desc</span></th>
+                            <th style="line-height: 1.2;">編輯<br><span style="font-size:11px; font-weight:normal; color:#666;">Edit</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>內法</td>
+                            <td><a href="#" class="text-link trigger-firm-detail">富邦投信</a></td>
+                            <td>123</td>
+                            <td>投信</td>
+                            <td>關係</td>
+                            <td>法人</td>
+                            <td></td><td></td><td></td><td></td>
+                            <td><button class="icon-btn trigger-edit-firm" title="編輯">📝</button></td>
+                        </tr>
+                        <tr>
+                            <td>內法</td>
+                            <td><a href="#" class="text-link trigger-firm-detail">國泰人壽</a></td>
+                            <td>321</td>
+                            <td>產壽險</td>
+                            <td>一般</td>
+                            <td>法人</td>
+                            <td></td><td></td><td></td><td></td>
+                            <td><button class="icon-btn trigger-edit-firm" title="編輯">📝</button></td>
+                        </tr>
+                        <tr>
+                            <td>外法</td>
+                            <td><a href="#" class="text-link trigger-firm-detail">FMR</a></td>
+                            <td>10</td>
+                            <td>Jefferies / Fubon</td>
+                            <td></td>
+                            <td></td>
+                            <td>HK、ATL、LDN</td>
+                            <td>Long Only</td>
+                            <td>Tier 1</td>
+                            <td></td>
+                            <td><button class="icon-btn trigger-edit-firm" title="編輯">📝</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- PANEL 2: DETAIL DRILL-DOWN (單一法人戶專區) -->
+        <!-- ============================================== -->
+        <div id="panel-customer-detail" style="display: none;">
+            <div style="margin-bottom: 16px; display:flex; align-items:center; gap: 12px;">
+                <button class="btn btn-secondary btn-back-to-list" style="padding:4px 12px; font-size:13px;">← 返回列表</button>
+                <h2 style="font-size: 22px; color: var(--text-main); font-weight: 500;">客戶總覽 - 總歸戶/法人戶專頁 - <span id="detail-dynamic-title">客戶檢視</span></h2>
+            </div>
+
+            <!-- Profile Header Card (Reused from Marketing) -->
+            <div class="profile-header-card" style="margin-bottom: 24px;">
+                <div class="profile-title" style="margin-bottom: 16px;">
+                    <h2>FRM</h2>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <!-- Left Column -->
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="modal-field-row">
+                            <span class="field-label">組織：</span><span class="field-value">外法</span>
+                        </div>
+                        <div class="modal-field-row">
+                            <span class="field-label">業務：</span>
+                            <div style="display: flex; gap: 8px;">
+                                <span class="tag">王O明</span>
+                                <span class="tag">陳O潔</span>
+                            </div>
+                        </div>
+                        <div class="modal-field-row">
+                            <span class="field-label">客群：</span>
+                            <span class="tag">Jefferies/Fubon</span>
+                        </div>
+                        <div class="modal-field-row">
+                            <span class="field-label">關係企業：</span><span class="field-value"></span>
+                        </div>
+                        <div class="modal-field-row">
+                            <span class="field-label">機構法人：</span><span class="field-value"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column -->
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="modal-field-row">
+                            <span class="field-label">註記1：</span>
+                            <div style="display: flex; gap: 8px;">
+                                <span class="tag">HK</span><span class="tag">ATL</span><span class="tag">LDN</span>
+                            </div>
+                        </div>
+                        <div class="modal-field-row">
+                            <span class="field-label">註記2：</span>
+                            <span class="tag">Long Only</span>
+                        </div>
+                        <div class="modal-field-row">
+                            <span class="field-label">註記3：</span>
+                            <span class="tag">Tier 1</span>
+                        </div>
+                        <div class="modal-field-row" style="align-items: flex-start;">
+                            <span class="field-label">說明：</span><span class="field-value" style="color:var(--text-muted);"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inner Tabs -->
+            <div class="inner-tabs">
+                <button class="inner-tab-btn active" data-target="inner-client-view" style="line-height: 1.2;">客戶檢視<br><span style="font-size: 11px; font-weight: normal; color: #666;">Client View</span></button>
+                <button class="inner-tab-btn" data-target="inner-transaction-view" style="line-height: 1.2;">交易總覽<br><span style="font-size: 11px; font-weight: normal; color: #666;">Trades</span></button>
+                <button class="inner-tab-btn" data-target="inner-asset-view" style="line-height: 1.2;">庫存總覽<br><span style="font-size: 11px; font-weight: normal; color: #666;">Assets</span></button>
+                <button class="inner-tab-btn" data-target="inner-service-view" style="line-height: 1.2;">服務紀錄<br><span style="font-size: 11px; font-weight: normal; color: #666;">Services</span></button>
+            </div>
+
+            <!-- INNER PANEL: 1. 客戶檢視 -->
+            <div id="inner-client-view" class="inner-content-panel active">
+                <div class="data-table-wrapper" style="border-top-left-radius: 0;">
+                    <table class="data-table">
+                        <thead style="background:#DEEBF7;">
+                            <tr>
+                                <th style="line-height: 1.2;">姓名<br><span style="font-size:11px; font-weight:normal; color:#666;">Name</span></th>
+                                <th style="line-height: 1.2;">ID<br><span style="font-size:11px; font-weight:normal; color:#666;">ID</span></th>
+                                <th style="line-height: 1.2;">帳號<br><span style="font-size:11px; font-weight:normal; color:#666;">Account</span></th>
+                                <th style="line-height: 1.2;">帳號類別<br><span style="font-size:11px; font-weight:normal; color:#666;">Acct Type</span></th>
+                                <th style="line-height: 1.2;">業務<br><span style="font-size:11px; font-weight:normal; color:#666;">Sales (Internal)</span></th>
+                                <th style="line-height: 1.2;">營業員<br><span style="font-size:11px; font-weight:normal; color:#666;">Broker</span></th>
+                                <th style="line-height: 1.2;">帳號狀態<br><span style="font-size:11px; font-weight:normal; color:#666;">Status</span></th>
+                                <th style="line-height: 1.2;">客群<br><span style="font-size:11px; font-weight:normal; color:#666;">Coverage</span></th>
+                                <th style="line-height: 1.2;">關係企業<br><span style="font-size:11px; font-weight:normal; color:#666;">Affiliate</span></th>
+                                <th style="line-height: 1.2;">機構法人<br><span style="font-size:11px; font-weight:normal; color:#666;">Institution</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#" class="text-link">ZZZ</a></td>
+                                <td><a href="#" class="text-link">67575688</a></td>
+                                <td>96994567891</td>
+                                <td>台股</td>
+                                <td><div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
+                                    <span class="tag" style="margin:0;">王O明</span><span class="tag" style="margin:0;">陳O潔</span>
+                                </div></td>
+                                <td>陳O二</td>
+                                <td>有效</td>
+                                <td>Jefferies / Fubon</td>
+                                <td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="text-link">YYY</a></td>
+                                <td><a href="#" class="text-link">12345678</a></td>
+                                <td>96994567845</td>
+                                <td>台股</td>
+                                <td><span class="tag" style="margin:0;">陳O潔</span></td>
+                                <td>陳O一</td>
+                                <td>有效</td>
+                                <td>Jefferies / Fubon</td>
+                                <td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="text-link">KKK</a></td>
+                                <td><a href="#" class="text-link">83121234</a></td>
+                                <td>96998765432</td>
+                                <td>台股</td>
+                                <td><span class="tag" style="margin:0;">王O明</span></td>
+                                <td>陳O三</td>
+                                <td>銷戶</td>
+                                <td></td><td></td><td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- INNER PANEL: 2. 交易總覽 -->
+            <div id="inner-transaction-view" class="inner-content-panel">
+                <div class="view-panel" style="border-top-left-radius: 0; margin-bottom: 16px;">
+                    <div class="search-row">
+                        <div class="search-group">
+                            <label>帳號：</label>
+                            <input type="text" value="96991234567">
+                        </div>
+                        <div class="search-group">
+                            <label>帳號類別：</label>
+                            <input type="text" value="台股">
+                        </div>
+                        <div class="search-group">
+                            <label>商品類別：</label>
+                            <input type="text">
+                        </div>
+                        <div class="search-group" style="flex:2;">
+                            <label>交易日期：</label>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <input type="date" value="2025-01-01" style="flex:1;">
+                                <span>~</span>
+                                <input type="date" value="2025-12-31" style="flex:1;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-actions">
+                        <button class="btn btn-secondary" style="background-color: #334155; color: white; border: none;">重設條件</button>
+                        <button class="btn btn-primary" style="padding: 8px 32px;">查詢</button>
+                    </div>
+                </div>
+
+                <div class="view-panel-title">交易紀錄</div>
+                <div class="data-table-wrapper">
+                    <table class="data-table">
+                        <thead style="background:#DEEBF7;">
+                            <tr>
+                                <th style="line-height: 1.2;">商品類別<br><span style="font-size:11px; font-weight:normal; color:#666;">Prod Type</span></th>
+                                <th style="line-height: 1.2;">交易日期<br><span style="font-size:11px; font-weight:normal; color:#666;">Trade Date</span></th>
+                                <th style="line-height: 1.2;">標的代碼<br><span style="font-size:11px; font-weight:normal; color:#666;">Symbol</span></th>
+                                <th style="line-height: 1.2;">標的名稱<br><span style="font-size:11px; font-weight:normal; color:#666;">Name</span></th>
+                                <th style="line-height: 1.2;">買賣別<br><span style="font-size:11px; font-weight:normal; color:#666;">B/S</span></th>
+                                <th style="line-height: 1.2;">交易方式<br><span style="font-size:11px; font-weight:normal; color:#666;">Method</span></th>
+                                <th style="line-height: 1.2;">交易股數<br><span style="font-size:11px; font-weight:normal; color:#666;">Shares</span></th>
+                                <th style="line-height: 1.2;">交易量<br><span style="font-size:11px; font-weight:normal; color:#666;">Volume</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background:#FFF9E6; font-weight:bold;">
+                                <td>總計</td><td></td><td></td><td></td><td></td><td></td><td></td><td>2,920,000</td>
+                            </tr>
+                            <tr><td>現貨</td><td>2025/1/1</td><td>2330</td><td>台積電</td><td>買</td><td>現股</td><td>50</td><td>70,000</td></tr>
+                            <tr style="background:#F2F8FD;"><td>現貨</td><td>2025/1/3</td><td>2330</td><td>台積電</td><td>寫</td><td>現股</td><td>1000</td><td>1,400,000</td></tr>
+                            <tr><td>現貨</td><td>2025/1/5</td><td>2330</td><td>台積電</td><td>賣</td><td>現股</td><td>1000</td><td>1,450,000</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- INNER PANEL: 3. 庫存總覽 -->
+            <div id="inner-asset-view" class="inner-content-panel">
+                <div style="display:flex; gap: 24px;">
+                    <!-- Left: Search + Table -->
+                    <div style="flex: 3;">
+                        <div class="view-panel" style="border-top-left-radius: 0; margin-bottom: 16px;">
+                            <div class="search-row">
+                                <div class="search-group">
+                                    <label>帳號：</label><input type="text" value="96991234567">
+                                </div>
+                                <div class="search-group">
+                                    <label>帳號類別：</label><input type="text" value="台股">
+                                </div>
+                                <div class="search-group" style="flex:2;">
+                                    <label>庫存類別：</label><input type="text">
+                                </div>
+                            </div>
+                            <div class="search-actions">
+                                <button class="btn btn-secondary" style="background-color: #334155; color: white; border: none;">重設條件</button>
+                                <button class="btn btn-primary" style="padding: 8px 32px;">查詢</button>
+                            </div>
+                        </div>
+
+                        <div class="view-panel-title">庫存明細</div>
+                        <div class="data-table-wrapper">
+                            <table class="data-table">
+                                <thead style="background:#DEEBF7;">
+                                    <tr>
+                                        <th style="line-height: 1.2;">庫存類別<br><span style="font-size:11px; font-weight:normal; color:#666;">Asset Type</span></th>
+                                        <th style="line-height: 1.2;">標的代碼<br><span style="font-size:11px; font-weight:normal; color:#666;">Symbol</span></th>
+                                        <th style="line-height: 1.2;">標的名稱<br><span style="font-size:11px; font-weight:normal; color:#666;">Name</span></th>
+                                        <th style="line-height: 1.2;">幣別<br><span style="font-size:11px; font-weight:normal; color:#666;">Currency</span></th>
+                                        <th style="line-height: 1.2;">淨成本<br><span style="font-size:11px; font-weight:normal; color:#666;">Net Cost</span></th>
+                                        <th style="line-height: 1.2;">單位數<br><span style="font-size:11px; font-weight:normal; color:#666;">Units</span></th>
+                                        <th style="line-height: 1.2;">庫存市值<br><span style="font-size:11px; font-weight:normal; color:#666;">Market Value</span></th>
+                                        <th style="line-height: 1.2;">未實現損益<br><span style="font-size:11px; font-weight:normal; color:#666;">Unrealized P/L</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background:#FFF9E6; font-weight:bold;">
+                                        <td>總計</td><td></td><td></td><td></td>
+                                        <td>626,000</td><td></td><td>14,160,000</td><td>790,000</td>
+                                    </tr>
+                                    <tr><td>現貨</td><td>2330</td><td>台積電</td><td>台幣</td><td>600,000</td><td>1000</td><td>1,400,000</td><td>800,000</td></tr>
+                                    <tr style="background:#F2F8FD;"><td>現貨</td><td>2409</td><td>友達</td><td>台幣</td><td>26,000</td><td>1000</td><td>16,000</td><td>-10,000</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Right: Asset Donut Chart -->
+                    <div style="flex: 1;">
+                        <div class="assets-summary-box">
+                            <div class="assets-title">總資產</div>
+                            <div class="assets-value">123,456,789</div>
+                            
+                            <div class="chart-legend-container" style="flex-direction: column;">
+                                <!-- CSS Pure Conic Gradient Donut -->
+                                <div class="donut-wrapper">
+                                    <div class="donut-hole"></div>
+                                </div>
+                                
+                                <div class="legend-list">
+                                    <div class="legend-item"><span class="legend-dot" style="background:#4A90E2;"></span> 證券 40%</div>
+                                    <div class="legend-item"><span class="legend-dot" style="background:#E67E22;"></span> 複委託 25%</div>
+                                    <div class="legend-item"><span class="legend-dot" style="background:#95A5A6;"></span> 期貨 5%</div>
+                                    <div class="legend-item"><span class="legend-dot" style="background:#F1C40F;"></span> 信託 20%</div>
+                                    <div class="legend-item"><span class="legend-dot" style="background:#5DADE2;"></span> 自營 10%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INNER PANEL: 4. 服務紀錄 -->
+            <div id="inner-service-view" class="inner-content-panel">
+                <div class="view-panel" style="border-top-left-radius: 0; background-color: #fcfcfc;">
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">此為共用的 Interaction Record 元件，展示與該法人戶相關的活動紀錄。</p>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th style="line-height: 1.2;">事件日期<br><span style="font-size:11px; font-weight:normal; color:#666;">Event Date</span></th>
+                                    <th style="line-height: 1.2;">事件類型<br><span style="font-size:11px; font-weight:normal; color:#666;">Event Type</span></th>
+                                    <th style="line-height: 1.2;">事件標題<br><span style="font-size:11px; font-weight:normal; color:#666;">Event Title</span></th>
+                                    <th style="line-height: 1.2;">客戶類型<br><span style="font-size:11px; font-weight:normal; color:#666;">Client Type</span></th>
+                                    <th style="line-height: 1.2;">機構名稱<br><span style="font-size:11px; font-weight:normal; color:#666;">Institution Name</span></th>
+                                    <th style="line-height: 1.2;">客戶姓名<br><span style="font-size:11px; font-weight:normal; color:#666;">Client Name</span></th>
+                                    <th style="line-height: 1.2;">互動詳情<br><span style="font-size:11px; font-weight:normal; color:#666;">Interaction Detail</span></th>
+                                    <th style="line-height: 1.2;">類別<br><span style="font-size:11px; font-weight:normal; color:#666;">Category</span></th>
+                                    <th style="line-height: 1.2;">主辦人<br><span style="font-size:11px; font-weight:normal; color:#666;">Host</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2024/09/02</td><td>In Person</td><td><a href="#" class="text-link">Q3 Pipeline catch up</a></td>
+                                    <td>Institutional</td><td>FMR</td><td>Mike Ross</td>
+                                    <td>Discussed current portfolio</td><td>Marketing</td><td>Wang, Peter</td>
+                                </tr>
+                                <tr>
+                                    <td>2024/08/15</td><td>Call</td><td><a href="#" class="text-link">Monthly Sync</a></td>
+                                    <td>Institutional</td><td>FMR</td><td>Elizabeth Li</td>
+                                    <td>Confirmed attendance for seminar</td><td>Marketing</td><td>Chen, Alice</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- /#panel-customer-detail -->
+        </div> <!-- /#wrapper-firm-mode -->
+
+        <!-- ============================================== -->
+        <!-- MODE: SINGLE CLIENT (單一客戶) -->
+        <!-- ============================================== -->
+        <div id="wrapper-client-mode" class="top-mode-wrapper" style="display:none;">
+            <!-- Panel 3: Single Client Master List -->
+            <div id="panel-single-client-list">
+                <div style="margin-bottom: 16px;">
+                    <h2 style="font-size: 22px; color: var(--text-main); font-weight: 500;">客戶總覽 - 客戶總覽</h2>
+                </div>
+                
+                <div class="view-panel-title">客戶總覽</div>
+                <div class="view-panel">
+                    <div class="search-row" style="margin-bottom: 12px;">
+                        <div class="search-group"><label>客戶姓名：</label><input type="text"></div>
+                        <div class="search-group"><label>客戶ID：</label><input type="text"></div>
+                        <div class="search-group"><label>帳號：</label><input type="text"></div>
+                        <div class="search-group"><label>帳號類別：</label><input type="text"></div>
+                        <div class="search-group"><label>帳戶狀態：</label><input type="text"></div>
+                    </div>
+                    <div class="search-row">
+                        <div class="search-group"><label>組織：</label><input type="text"></div>
+                        <div class="search-group"><label>業務：</label><input type="text"></div>
+                        <div class="search-group"><label>總歸戶/法人戶：</label><input type="text"></div>
+                        <div class="search-group"><label>客群：</label><input type="text"></div>
+                        <div class="search-group"><label>關係企業：</label><input type="text"></div>
+                        <div class="search-group"><label>機構法人：</label><input type="text"></div>
+                    </div>
+                    <div class="search-actions" style="margin-top: 16px;">
+                        <button class="btn btn-secondary" style="background-color: #334155; color: white; border: none;">重設條件</button>
+                        <button class="btn btn-primary" style="padding: 8px 32px;">查詢</button>
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 12px;">
+                    <div class="view-panel-title" style="margin:0;">客戶列表</div>
+                    <div style="display:flex; gap: 8px;">
+                        <button class="btn btn-primary" id="btn-manage-groups" style="font-weight:normal; background:#E67E22; border-color:#E67E22;">👥 自訂群組管理</button>
+                        <button class="btn btn-primary trigger-add-to-group-global" style="font-weight:normal; background:#0078D4; border-color:#0078D4;">加入群組</button>
+                        <button class="btn btn-primary" style="font-weight:normal; background:#106EBE;">↑ 匯出列表</button>
+                    </div>
+                </div>
+                
+                <div class="data-table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>姓名</th><th>ID</th><th>帳號</th><th>帳號類別</th><th>組織</th><th>業務</th><th>營業員</th>
+                                <th>帳號狀態</th><th>總歸戶/法人戶</th><th>客群</th><th>關係企業</th><th>機構法人</th><th>加入群組</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#" class="text-link trigger-single-client-detail">OOO</a></td>
+                                <td><a href="#" class="text-link trigger-single-client-detail">78945433</a></td>
+                                <td>96991234567</td>
+                                <td>台股</td>
+                                <td>內法</td>
+                                <td><div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
+                                    <span class="tag" style="margin:0; font-size:11px;">王O明</span>
+                                    <span class="tag" style="margin:0; font-size:11px;">陳O潔</span>
+                                </div></td>
+                                <td>陳O明</td>
+                                <td>有效</td>
+                                <td><a href="#" class="text-link">富邦投信</a></td>
+                                <td>投信</td>
+                                <td>關係</td>
+                                <td>法人</td>
+                                <td style="text-align:center;"><button class="icon-btn trigger-add-to-group" style="cursor:pointer;" title="加入群組">👥</button></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="text-link trigger-single-client-detail">XXX</a></td>
+                                <td><a href="#" class="text-link trigger-single-client-detail">23459876</a></td>
+                                <td>96993456789</td>
+                                <td>複委託</td>
+                                <td>內法</td>
+                                <td><span class="tag" style="margin:0; font-size:11px;">趙O凱</span></td>
+                                <td>陳O一</td>
+                                <td>有效</td>
+                                <td><a href="#" class="text-link">國泰人壽</a></td>
+                                <td>產壽險</td>
+                                <td>一般</td>
+                                <td>法人</td>
+                                <td style="text-align:center;"><button class="icon-btn trigger-add-to-group" style="cursor:pointer;" title="加入群組">👥</button></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="text-link trigger-single-client-detail">ZZZ</a></td>
+                                <td><a href="#" class="text-link trigger-single-client-detail">67575688</a></td>
+                                <td>96994567891</td>
+                                <td>台股</td>
+                                <td>外法</td>
+                                <td><span class="tag" style="margin:0; font-size:11px;">梁O安</span></td>
+                                <td>陳O二</td>
+                                <td>有效</td>
+                                <td><a href="#" class="text-link">FMR</a></td>
+                                <td>Jefferies/Fubon</td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align:center;"><button class="icon-btn trigger-add-to-group" style="cursor:pointer;" title="加入群組">👥</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Panel 4: Single Client Drill-down Detail -->
+            <div id="panel-single-client-detail" style="display:none;">
+                <div style="margin-bottom: 16px; display:flex; align-items:center; gap: 12px;">
+                    <button class="btn btn-secondary btn-back-to-client-list" style="padding:4px 12px; font-size:13px;">← 返回列表</button>
+                    <h2 style="font-size: 22px; color: var(--text-main); font-weight: 500;">單一客戶檢視 - 單一客戶帳務總覽 - <span id="client-detail-dynamic-title">帳務總覽</span></h2>
+                </div>
+                
+                <div style="margin-bottom: 24px;">
+                    <h2 style="font-size: 20px; font-weight: bold; color: var(--text-main); margin-bottom: 4px;">安O投信</h2>
+                    <div style="font-size: 13px; color: var(--text-muted);">客戶ID：92930212</div>
+                </div>
+
+                <!-- Inner Tabs -->
+                <div class="inner-tabs">
+                    <button class="inner-tab-btn inner-client-tab-btn active" data-target="inner-client-acct-view">帳務總覽</button>
+                    <button class="inner-tab-btn inner-client-tab-btn" data-target="inner-client-trade-view">交易總覽</button>
+                    <button class="inner-tab-btn inner-client-tab-btn" data-target="inner-client-asset-view">庫存總覽</button>
+                    <button class="inner-tab-btn inner-client-tab-btn" data-target="inner-client-service-view" style="background:#5CB85C; color:white;">服務紀錄</button>
+                    <button class="inner-tab-btn inner-client-tab-btn" style="background:#5CB85C; color:white; margin-left: 8px;">活動紀錄</button>
+                </div>
+
+                <!-- 1. 帳務總覽 -->
+                <div id="inner-client-acct-view" class="inner-content-panel client-inner-panel active">
+                    <div class="view-panel" style="border-top-left-radius: 0; background:white; padding: 24px;">
+                        
+                        <div style="display:flex; gap:16px; margin-bottom: 24px;">
+                            <div style="border: 2px solid var(--primary-color); border-radius:8px; padding:16px; flex:1; min-width:180px;">
+                                <div style="font-weight:bold; font-size:16px; margin-bottom:8px;">台股帳戶</div>
+                                <div style="font-size:13px; color:var(--text-muted);">帳號：96991234567</div>
+                            </div>
+                            <div style="border: 1px solid var(--border-color); border-radius:8px; padding:16px; flex:1; min-width:180px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                    <div style="font-weight:bold; font-size:16px;">台股帳戶</div>
+                                    <div style="background:#D9534F; color:white; font-size:11px; padding:2px 8px; border-radius:4px; font-weight:bold;">已銷戶</div>
+                                </div>
+                                <div style="font-size:13px; color:var(--text-muted);">帳號：96999876543</div>
+                            </div>
+                            <div style="border: 1px solid var(--border-color); border-radius:8px; padding:16px; flex:1; min-width:180px;">
+                                <div style="font-weight:bold; font-size:16px; margin-bottom:8px;">複委託帳戶</div>
+                                <div style="font-size:13px; color:var(--text-muted);">帳號：96991234567</div>
+                            </div>
+                            <div style="border: 1px solid var(--border-color); border-radius:8px; padding:16px; flex:1; min-width:180px;">
+                                <div style="font-weight:bold; font-size:16px; margin-bottom:8px;">期貨帳戶</div>
+                            </div>
+                            <div style="border: 1px solid var(--border-color); border-radius:8px; padding:16px; flex:1; min-width:180px;">
+                                <div style="font-weight:bold; font-size:16px; margin-bottom:8px;">財管信託帳戶</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; justify-content:flex-end; gap:8px; margin-bottom:4px;">
+                            <button class="btn btn-primary" style="background:#0078D4;">編輯資訊</button>
+                            <button class="btn btn-primary" style="background:#0078D4;">加入群組</button>
+                        </div>
+                        
+                        <div class="data-table-wrapper">
+                            <table class="data-table" style="text-align:center;">
+                                <tbody>
+                                    <tr style="background:#E2EFF9;"><th style="width:120px;">帳號</th><td>96991234567</td><th>戶名</th><td>安O投信</td><th>ID</th><td>A12356789</td><th>開戶日期</th><td>2025/2/1</td></tr>
+                                    <tr><th>性別</th><td>法人</td><th>年齡</th><td></td><th>出生年月日</th><td>2025/2/1</td><th></th><td></td></tr>
+                                    <tr style="background:#E2EFF9;"><th>組織</th><td>內法</td><th>業務</th><td><span class="tag">王O明</span><span class="tag">陳O潔</span></td><th>營業員</th><td>陳O明</td><th>代理人</th><td></td></tr>
+                                    <tr><th>聯絡電話</th><td>02-2345-6789</td><th>Email</th><td>123@gmail.com</td><th>聯絡地址</th><td colspan="3">台北市信義區111巷</td></tr>
+                                    <tr style="background:#E2EFF9;"><th>交割銀行</th><td>台北富邦商業銀行</td><th>銀行帳號</th><td>8168xxxxxxx</td><th>買賣額度</th><td>500萬</td><th>融資額度</th><td>500萬</td></tr>
+                                    <tr><th>地區</th><td></td><th>職稱</th><td></td><th></th><td></td><th></th><td></td></tr>
+                                    <tr style="background:#E2EFF9;"><th>總歸戶/法人戶</th><td><a href="#" class="text-link">安O投信</a></td><th>客群</th><td>投信</td><th>關係企業</th><td>一般</td><th>機構法人</th><td>法人</td></tr>
+                                    <tr><th>補充資訊</th><td colspan="7"></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 交易總覽 -->
+                <div id="inner-client-trade-view" class="inner-content-panel client-inner-panel">
+                    <div class="view-panel" style="border-top-left-radius: 0; margin-bottom: 16px;">
+                        <div class="search-row">
+                            <div class="search-group"><label>帳號：</label><input type="text" value="96991234567"></div>
+                            <div class="search-group"><label>帳號類別：</label><input type="text" value="台股"></div>
+                            <div class="search-group"><label>商品類別：</label><input type="text"></div>
+                            <div class="search-group" style="flex:2;"><label>交易日期：</label>
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <input type="date" value="2025-01-01" style="flex:1;"><span>~</span><input type="date" value="2025-12-31" style="flex:1;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="search-actions"><button class="btn btn-secondary" style="background-color: #334155; color: white; border: none;">重設條件</button><button class="btn btn-primary" style="padding: 8px 32px;">查詢</button></div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:8px;">
+                        <div class="view-panel-title" style="margin:0;">交易明細</div>
+                        <button class="btn btn-primary" style="background:#106EBE;">↑ 匯出明細</button>
+                    </div>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead style="background:#DEEBF7;"><tr><th>商品類別</th><th>交易日期</th><th>帳號</th><th>標的代碼</th><th>標的名稱</th><th>買賣別</th><th>交易方式</th><th>交易股數</th><th>交易量</th></tr></thead>
+                            <tbody>
+                                <tr style="background:#FFF9E6; font-weight:bold;"><td>總計</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>1,570,000</td></tr>
+                                <tr><td>現貨</td><td>2025/1/1</td><td>96991234567</td><td>2330</td><td>台積電</td><td>買</td><td>現股</td><td>50</td><td>70,000</td></tr>
+                                <tr style="background:#F2F8FD;"><td>借券</td><td>2025/1/3</td><td>96991234567</td><td>2330</td><td>台積電</td><td>非買賣</td><td>借券</td><td>1000</td><td>1,400,000</td></tr>
+                                <tr><td>不限用途</td><td>2025/1/5</td><td>96991234567</td><td>2330</td><td>台積電</td><td>非買賣</td><td>新增</td><td></td><td>100,000</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 3. 庫存總覽 -->
+                <div id="inner-client-asset-view" class="inner-content-panel client-inner-panel">
+                    <div style="display:flex; gap: 24px;">
+                        <div style="flex: 3;">
+                            <div class="view-panel" style="border-top-left-radius: 0; margin-bottom: 16px;">
+                                <div class="search-row">
+                                    <div class="search-group"><label>帳號：</label><input type="text" value="96991234567"></div>
+                                    <div class="search-group"><label>帳號類別：</label><input type="text" value="台股"></div>
+                                    <div class="search-group" style="flex:2;"><label>庫存類別：</label><input type="text"></div>
+                                </div>
+                                <div class="search-actions"><button class="btn btn-secondary" style="background-color: #334155; color: white; border: none;">重設條件</button><button class="btn btn-primary" style="padding: 8px 32px;">查詢</button></div>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:8px;">
+                                <div class="view-panel-title" style="margin:0;">庫存明細</div>
+                                <button class="btn btn-primary" style="background:#106EBE;">↑ 匯出明細</button>
+                            </div>
+                            <div class="data-table-wrapper">
+                                <table class="data-table">
+                                    <thead style="background:#DEEBF7;"><tr><th>庫存類別</th><th>帳號</th><th>標的代碼</th><th>標的名稱</th><th>幣別</th><th>淨成本</th><th>單位數</th><th>庫存市值</th><th>未實現損益</th></tr></thead>
+                                    <tbody>
+                                        <tr style="background:#FFF9E6; font-weight:bold;"><td>總計</td><td></td><td></td><td></td><td></td><td>626,000</td><td></td><td>14,160,000</td><td>790,000</td></tr>
+                                        <tr><td>現貨</td><td>96991234567</td><td>2330</td><td>台積電</td><td>台幣</td><td>600,000</td><td>1000</td><td>1,400,000</td><td>800,000</td></tr>
+                                        <tr style="background:#F2F8FD;"><td>現貨</td><td>96991234567</td><td>2409</td><td>友達</td><td>台幣</td><td>26,000</td><td>1000</td><td>16,000</td><td>-10,000</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div style="flex: 1;">
+                            <div class="assets-summary-box">
+                                <div class="assets-title">總資產</div>
+                                <div class="assets-value">123,456,789</div>
+                                <div class="chart-legend-container" style="flex-direction: column;">
+                                    <div class="donut-wrapper"><div class="donut-hole"></div></div>
+                                    <div class="legend-list">
+                                        <div class="legend-item"><span class="legend-dot" style="background:#4A90E2;"></span> 證券 40%</div>
+                                        <div class="legend-item"><span class="legend-dot" style="background:#E67E22;"></span> 複委託 25%</div>
+                                        <div class="legend-item"><span class="legend-dot" style="background:#95A5A6;"></span> 期貨 5%</div>
+                                        <div class="legend-item"><span class="legend-dot" style="background:#F1C40F;"></span> 信託 20%</div>
+                                        <div class="legend-item"><span class="legend-dot" style="background:#5DADE2;"></span> 自營 10%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. 服務紀錄 -->
+                <div id="inner-client-service-view" class="inner-content-panel client-inner-panel">
+                    <div class="view-panel" style="border-top-left-radius: 0; background-color: #fcfcfc;">
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">此為共用的 Interaction Record 元件，展示與該客戶相關的活動紀錄。</p>
+                        <div class="data-table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Event Date</th><th>Event Type</th><th>Event Title</th>
+                                        <th>Client Type</th><th>Institution Name</th><th>Client Name</th>
+                                        <th>Interaction Detail</th><th>Category</th><th>Host</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2024/09/02</td><td>In Person</td><td><a href="#" class="text-link">Q3 Pipeline catch up</a></td>
+                                        <td>Institutional</td><td>安O投信</td><td>OOO</td>
+                                        <td>Discussed current portfolio</td><td>Marketing</td><td>Wang, Peter</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- /#panel-single-client-detail -->
+
+            <!-- Panel 5: Custom Groups Master List -->
+            <div id="panel-custom-groups-list" style="display:none;">
+                <div style="margin-bottom: 16px; display:flex; align-items:center; gap: 12px;">
+                    <button class="btn btn-secondary btn-back-to-client-list" style="padding:4px 12px; font-size:13px;">← 返回列表</button>
+                    <h2 style="font-size: 22px; color: var(--text-main); font-weight: 500;">單一客戶檢視 - 自訂群組</h2>
+                </div>
+
+                <div class="view-panel-title">群組管理</div>
+                <div class="view-panel" style="margin-bottom: 24px;">
+                    <div class="search-row">
+                        <div class="search-group" style="flex:1;">
+                            <label>群組搜尋</label>
+                            <input type="text">
+                        </div>
+                        <div class="search-actions" style="margin-top: 0; align-items: flex-end;">
+                            <button class="btn btn-primary" style="padding: 8px 32px; background:#0078D4;">查詢</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 12px;">
+                    <div class="view-panel-title" style="margin:0;">群組列表</div>
+                    <button class="btn btn-primary trigger-add-new-group" style="font-weight:normal; background:#0078D4;">+ 新增群組</button>
+                </div>
+
+                <div class="data-table-wrapper">
+                    <table class="data-table" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th>群組名稱</th><th>客戶數</th><th>群組說明</th><th style="width:60px;">編輯</th><th style="width:60px;">刪除</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#" class="text-link trigger-custom-group-detail">群組 A</a></td>
+                                <td>1,234</td><td></td>
+                                <td><button class="icon-btn trigger-edit-group" title="編輯">📝</button></td>
+                                <td><button class="icon-btn" style="color:#D9534F;" title="刪除">🗑️</button></td>
+                            </tr>
+                            <tr style="background-color: var(--bg-main);">
+                                <td><a href="#" class="text-link trigger-custom-group-detail">群組 B</a></td>
+                                <td>2,320</td><td></td>
+                                <td><button class="icon-btn trigger-edit-group" title="編輯">📝</button></td>
+                                <td><button class="icon-btn" style="color:#D9534F;" title="刪除">🗑️</button></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="text-link trigger-custom-group-detail">群組 C</a></td>
+                                <td>1,533</td><td></td>
+                                <td><button class="icon-btn trigger-edit-group" title="編輯">📝</button></td>
+                                <td><button class="icon-btn" style="color:#D9534F;" title="刪除">🗑️</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Panel 6: Custom Group Detail (Inside a Group) -->
+            <div id="panel-custom-group-detail" style="display:none;">
+                <div style="margin-bottom: 16px; display:flex; align-items:center; gap: 12px;">
+                    <button class="btn btn-secondary btn-back-to-groups-list" style="padding:4px 12px; font-size:13px;">← 返回群組管理</button>
+                    <h2 style="font-size: 22px; color: var(--text-main); font-weight: 500;">單一客戶檢視 - 自訂群組</h2>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 12px; margin-top: 24px;">
+                    <div class="view-panel-title" style="margin:0; font-size: 18px;">群組 A</div>
+                    <button class="btn btn-primary" id="btn-add-client-to-group" style="font-weight:normal; background:#0078D4;">+ 新增客戶</button>
+                </div>
+
+                <div class="data-table-wrapper">
+                    <table class="data-table" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th>姓名</th><th>ID</th><th>帳號</th><th>帳號類別</th><th>組織</th><th>業務</th><th>交易員</th>
+                                <th>帳號狀態</th><th>總歸戶/法人戶</th><th>客群</th><th>關係企業</th><th>機構法人</th><th>刪除</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#" class="text-link trigger-single-client-detail">OOO</a></td>
+                                <td><a href="#" class="text-link trigger-single-client-detail">78945433</a></td>
+                                <td>96991234567</td>
+                                <td>台股</td><td>內法</td>
+                                <td><div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
+                                    <span class="tag" style="margin:0; font-size:11px;">王O明</span>
+                                    <span class="tag" style="margin:0; font-size:11px;">陳O潔</span>
+                                </div></td>
+                                <td>陳O明</td><td>有效</td>
+                                <td><a href="#" class="text-link">富邦投信</a></td><td>投信</td><td>關係</td><td>法人</td>
+                                <td><button class="icon-btn" style="color:#D9534F;" title="刪除">🗑️</button></td>
+                            </tr>
+                            <tr style="background-color: var(--bg-main);">
+                                <td><a href="#" class="text-link trigger-single-client-detail">XXX</a></td>
+                                <td><a href="#" class="text-link trigger-single-client-detail">23459876</a></td>
+                                <td>96993456789</td>
+                                <td>複委託</td><td>內法</td>
+                                <td><span class="tag" style="margin:0; font-size:11px;">趙O凱</span></td>
+                                <td>陳O一</td><td>有效</td>
+                                <td><a href="#" class="text-link">國泰人壽</a></td><td>產壽險</td><td>一般</td><td>法人</td>
+                                <td><button class="icon-btn" style="color:#D9534F;" title="刪除">🗑️</button></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="text-link trigger-single-client-detail">KKK</a></td>
+                                <td><a href="#" class="text-link trigger-single-client-detail">83121234</a></td>
+                                <td>96998765432</td>
+                                <td>台股</td><td>內法</td>
+                                <td><span class="tag" style="margin:0; font-size:11px;">梁O安</span></td>
+                                <td>陳O三</td><td>銷戶</td>
+                                <td></td><td></td><td></td><td></td>
+                                <td><button class="icon-btn" style="color:#D9534F;" title="刪除">🗑️</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> <!-- /#wrapper-client-mode -->
+
+    </div> <!-- /customer-container -->
+
+    <!-- ============================================== -->
+    <!-- MODALS -->
+    <!-- ============================================== -->
+    <div class="modal-overlay" id="modal-edit-firm">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="modal-header">
+                <h2>總歸戶/法人戶資訊編輯</h2>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex; flex-direction:column; gap:8px; margin-bottom: 16px; font-size: 14px;">
+                    <div><strong>組織：</strong>內法</div>
+                    <div><strong>總歸戶/法人戶：</strong>富邦投信</div>
+                    <div><strong>客戶數：</strong>123</div>
+                    <div><strong>客群：</strong>投信</div>
+                    <div><strong>關係企業：</strong>關係</div>
+                    <div><strong>機構法人：</strong>法人</div>
+                </div>
+                
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <div class="form-group" style="display:flex; align-items:center; gap:8px;">
+                        <label style="width: 60px;">註記1：</label>
+                        <input type="text" value="" style="flex:1; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="display:flex; align-items:center; gap:8px;">
+                        <label style="width: 60px;">註記2：</label>
+                        <input type="text" value="" style="flex:1; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="display:flex; align-items:center; gap:8px;">
+                        <label style="width: 60px;">註記3：</label>
+                        <input type="text" value="" style="flex:1; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="display:flex; align-items:flex-start; gap:8px;">
+                        <label style="width: 60px;">說明：</label>
+                        <textarea style="flex:1; min-height: 80px; padding: 6px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions" style="justify-content: center; margin-top: 24px;">
+                <button type="button" class="btn btn-primary" id="btn-save-firm" style="padding: 8px 32px;">儲存</button>
+                <button type="button" class="btn btn-secondary" id="btn-cancel-firm" style="padding: 8px 32px;">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Custom Group Modal -->
+    <div class="modal-overlay" id="modal-group-manage">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="modal-header" style="margin-bottom: 24px;">
+                <h2 style="font-size: 18px;">新增/編輯群組</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="display:flex; flex-direction:column; gap:8px; margin-bottom: 16px;">
+                    <label style="font-weight: 600;">群組名稱</label>
+                    <input type="text" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+                <div class="form-group" style="display:flex; flex-direction:column; gap:8px;">
+                    <label style="font-weight: 600;">群組說明</label>
+                    <textarea style="flex:1; min-height: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                </div>
+            </div>
+            <div class="modal-actions" style="justify-content: flex-end; margin-top: 24px;">
+                <button type="button" class="btn btn-primary" id="btn-save-group-manage" style="padding: 8px 32px; background:#0078D4;">儲存</button>
+                <button type="button" class="btn btn-primary" id="btn-cancel-group-manage" style="padding: 8px 32px; background:#0078D4;">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Client To Existing Groups Modal -->
+    <div class="modal-overlay" id="modal-add-to-group">
+        <div class="modal-content" style="max-width: 500px; padding: 24px;">
+            <div class="modal-header" style="margin-bottom: 16px;">
+                <h2 style="font-size: 18px;">加入群組</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="display:flex; flex-direction:column; gap:8px; margin-bottom: 16px;">
+                    <label style="font-weight: 600;">搜尋群組</label>
+                    <div style="display:flex; gap:8px; align-items:stretch;">
+                        <input type="text" style="flex:1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        <button class="btn btn-secondary" style="padding: 0 16px; background:#E2EFF9; border-color:#D6E8F6;">🔍</button>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="display:flex; flex-direction:column; gap:8px;">
+                    <label style="font-weight: 600;">選擇群組</label>
+                    <div style="border: 1px solid #ccc; border-radius: 4px; max-height: 250px; overflow-y: auto;">
+                        
+                        <!-- Create inline -->
+                        <div style="display:flex; align-items:center; gap: 12px; padding: 12px; border-bottom: 1px solid #eee;">
+                            <span style="font-size:18px; font-weight:bold; cursor:pointer;">+</span>
+                            <input type="text" style="flex:1; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                            <button style="background:none; border:none; color:#27AE60; cursor:pointer; font-size:16px;" title="確認">✔️</button>
+                            <button style="background:none; border:none; color:#D9534F; cursor:pointer; font-size:16px;" title="取消">❌</button>
+                        </div>
+
+                        <!-- Checklist -->
+                        <div style="display:flex; align-items:center; gap: 16px; padding: 12px; border-bottom: 1px solid #eee;">
+                            <input type="checkbox" style="width: 16px; height: 16px;"> <span>群組 A</span> <button class="icon-btn" style="margin-left:auto;">📝</button>
+                        </div>
+                        <div style="display:flex; align-items:center; gap: 16px; padding: 12px; border-bottom: 1px solid #eee;">
+                            <input type="checkbox" style="width: 16px; height: 16px;"> <span>群組 B</span> <button class="icon-btn" style="margin-left:auto;">📝</button>
+                        </div>
+                        <div style="display:flex; align-items:center; gap: 16px; padding: 12px; border-bottom: 1px solid #eee;">
+                            <input type="checkbox" style="width: 16px; height: 16px;"> <span>群組 C</span> <button class="icon-btn" style="margin-left:auto;">📝</button>
+                        </div>
+                        <div style="display:flex; align-items:center; gap: 16px; padding: 12px; border-bottom: 1px solid #eee;">
+                            <input type="checkbox" style="width: 16px; height: 16px;"> <span>群組 D</span> <button class="icon-btn" style="margin-left:auto;">📝</button>
+                        </div>
+                        <div style="display:flex; align-items:center; gap: 16px; padding: 12px;">
+                            <input type="checkbox" style="width: 16px; height: 16px;"> <span>群組 E</span> <button class="icon-btn" style="margin-left:auto;">📝</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions" style="justify-content: flex-end; margin-top: 24px; gap: 12px;">
+                <button type="button" class="btn btn-primary" id="btn-save-add-to-group" style="padding: 8px 32px; background:#0078D4;">儲存</button>
+                <button type="button" class="btn btn-primary" id="btn-cancel-add-to-group" style="padding: 8px 32px; background:#0078D4;">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Specific Client to Group Modal -->
+    <div class="modal-overlay" id="modal-add-client-to-group">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header" style="margin-bottom: 24px;">
+                <h2 style="font-size: 18px;">新增客戶</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="display:flex; flex-direction:column; gap:8px; margin-bottom: 16px;">
+                    <label style="font-weight:600;">客戶姓名或ID</label>
+                    <input type="text" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+                <div class="form-group" style="display:flex; flex-direction:column; gap:8px;">
+                    <label style="font-weight:600;">客戶帳戶</label>
+                    <input type="text" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+            </div>
+            <div class="modal-actions" style="justify-content: center; margin-top: 32px; gap: 16px;">
+                <button type="button" class="btn btn-primary" id="btn-save-client-to-group" style="padding: 8px 32px; background:#0078D4;">儲存</button>
+                <button type="button" class="btn btn-primary" id="btn-cancel-client-to-group" style="padding: 8px 32px; background:#0078D4;">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script connection -->
+    <script src="customer.js"></script>
+</body>
+</html>
