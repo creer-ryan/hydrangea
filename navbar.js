@@ -44,9 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     <li class="has-sub">
                         <a href="marketing.html#service">服務管理 <small>Service Management</small></a>
                         <ul class="nav-sub-dropdown">
-                            <li><a href="marketing.html#analyst">研究員專頁 <small>Analyst Page</small></a></li>
-                            <li><a href="marketing.html#firm">法人戶專頁 <small>Firm Page</small></a></li>
-                            <li><a href="marketing.html#client">客戶專頁 <small>Client Page</small></a></li>
+                            <li><a href="marketing.html#service">1. 服務紀錄管理 <small>Service Records</small></a></li>
+                            <li><a href="marketing.html#new-service">2. 新增服務紀錄 <small>Add Service Record</small></a></li>
+                            <li><a href="marketing.html#analyst">3. 研究員專頁 <small>Analyst Page</small></a></li>
+                            <li><a href="marketing.html#firm">4. 法人戶專頁 <small>Firm Page</small></a></li>
+                            <li><a href="marketing.html#client">5. 客戶專頁 <small>Client Page</small></a></li>
                         </ul>
                     </li>
                     <li><a href="marketing.html#activity">活動管理 <small>Event Management</small></a></li>

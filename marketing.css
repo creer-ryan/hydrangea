@@ -205,24 +205,31 @@
 
 .data-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     min-width: 1400px;
 }
 
 .data-table th, .data-table td {
-    padding: 12px;
+    padding: 11px 12px;
     border-bottom: 1px solid var(--border-color);
     font-size: 13px;
     text-align: left;
 }
 
 .data-table th {
-    background-color: var(--bg-hover);
+    background-color: #F8FAFC !important;
     color: var(--text-main);
     font-weight: 600;
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 20;
+    border-bottom: 2px solid #CBD5E1 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.data-table td {
+    background-color: #FFFFFF;
 }
 
 .data-table tbody tr {
@@ -230,7 +237,7 @@
     transition: background-color 0.2s;
 }
 
-.data-table tbody tr:hover {
+.data-table tbody tr:hover td {
     background-color: #F1F5F9;
 }
 
@@ -414,6 +421,24 @@
 
 .email-action-btn:hover {
     background: #106EBE;
+}
+
+.email-save-btn {
+    background: white;
+    color: #323130;
+    border: 1px solid #8A8886;
+    padding: 6px 14px;
+    border-radius: 2px;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s ease;
+}
+
+.email-save-btn:hover {
+    background: #EDEBE9;
 }
 
 /* Panel Header Cards */
@@ -825,3 +850,184 @@
     background: white;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
+
+
+/* Option Management Modal in marketing.html (media_1788844119667.png) */
+.btn-del-opt {
+    color: #475569;
+    transition: color 0.15s, transform 0.15s;
+}
+.btn-del-opt:hover {
+    color: #DC2626 !important;
+    transform: scale(1.2);
+
+
+/* Option Management Modal in marketing.html (media_1788844119667.png) */
+.btn-del-opt {
+    color: #475569;
+    transition: color 0.15s, transform 0.15s;
+}
+.btn-del-opt:hover {
+    color: #DC2626 !important;
+    transform: scale(1.2);
+}
+#btn-add-type-plus:hover, #btn-add-method-plus:hover, #btn-add-topic-plus:hover {
+    color: #0076B6 !important;
+    transform: scale(1.2);
+}
+#btn-confirm-manage-options:hover, #btn-cancel-manage-options:hover {
+    filter: brightness(1.1);
+}
+
+/* Voice Dictation & Audio Memo Styles */
+.btn-voice-record {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    color: #166534;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+}
+
+.btn-voice-record:hover {
+    background: #dcfce7;
+    border-color: #4ade80;
+}
+
+.btn-voice-record.recording {
+    background: #fef2f2;
+    border-color: #fca5a5;
+    color: #dc2626;
+    animation: pulse-recording 1.2s infinite;
+}
+
+@keyframes pulse-recording {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.voice-status-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #991b1b;
+}
+
+.voice-wave-anim {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    height: 14px;
+}
+
+.voice-wave-bar {
+    width: 3px;
+    height: 100%;
+    background: #ef4444;
+    border-radius: 2px;
+    animation: wave-bar 0.8s ease-in-out infinite alternate;
+}
+.voice-wave-bar:nth-child(2) { animation-delay: 0.2s; height: 70%; }
+.voice-wave-bar:nth-child(3) { animation-delay: 0.4s; height: 100%; }
+.voice-wave-bar:nth-child(4) { animation-delay: 0.1s; height: 50%; }
+
+@keyframes wave-bar {
+    0% { transform: scaleY(0.3); }
+    100% { transform: scaleY(1); }
+}
+
+.voice-audio-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.voice-audio-chip:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+}
+
+.voice-audio-chip.playing {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+
+/* Ensure interview notes and service edit modals are fully visible with top z-index */
+#interview-note-modal,
+#service-record-edit-modal {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 99999 !important;
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    background: rgba(15, 23, 42, 0.6) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+#interview-note-modal.show,
+#service-record-edit-modal.show {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+#interview-note-modal.show .modal-content,
+#service-record-edit-modal.show .modal-content {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+}
+
+/* ==================================================== */
+/* Table Header Interactive Sorting Styles               */
+/* ==================================================== */
+.sortable-th {
+    cursor: pointer !important;
+    user-select: none !important;
+    position: relative;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+.sortable-th:hover {
+    background-color: #E2E8F0 !important;
+    color: #0284C7 !important;
+}
+.sortable-th.sort-active {
+    background-color: #E0F2FE !important;
+    color: #0369A1 !important;
+}
+.sortable-th .sort-icon {
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 11px;
+    vertical-align: baseline;
+    transition: color 0.15s ease;
+}
+
+

@@ -223,6 +223,16 @@ body {
     padding: 8px 0;
 }
 
+/* Invisible hover bridge to prevent sub-menu from closing during diagonal mouse movement */
+.nav-sub-dropdown::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -14px;
+    width: 14px;
+    height: 100%;
+}
+
 .nav-dropdown li.has-sub:hover .nav-sub-dropdown {
     opacity: 1;
     visibility: visible;
@@ -569,6 +579,15 @@ body {
     display: block;
 }
 
+/* Calendar Segmented Pills Styles */
+.cal-pill-btn {
+    transition: all 0.15s ease;
+}
+.cal-pill-btn:hover:not(.active) {
+    background-color: #E2E8F0 !important;
+    color: #0F172A !important;
+}
+
 .tab-dropdown li {
     padding: 10px 16px;
     font-size: 14px;
@@ -579,6 +598,10 @@ body {
 .tab-dropdown li:hover {
     background-color: #F1F5F9;
     color: var(--primary-color);
+}
+
+.service-calendar-row:hover {
+    background-color: #F8FAFC !important;
 }
 
 .tab-content {

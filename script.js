@@ -63,16 +63,28 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const defaultPinnedServices = [
-        { id: 's-aug-1', topic: '【研究員會議】台積電法說會前個股聚焦與產業評估', topicCompany: '富邦投顧', date: '2026/08/17', time: '10:00~11:30', serviceType: '研究員會議', speaker: 'Sherman Shang', attendees: '15人', notes: '研討 AI 晶片需求與 3nm 產能利用率', linkUrl: 'marketing.html#service?action=new-service' },
-        { id: 's-aug-2', topic: '【研究員會議】聯發科 Dimensity 旗艦晶片策略評估', topicCompany: '富邦投顧', date: '2026/08/24', time: '14:00~15:30', serviceType: '研究員會議', speaker: 'Titan Wang', attendees: '20人', notes: '客戶投資簡報與手機庫存回溫分析', linkUrl: 'marketing.html#service?action=new-service' },
-        { id: 's-aug-3', topic: '台股下半年 AI 供應鏈趨勢論壇 (法說會)', topicCompany: '富邦投顧', date: '2026/08/28', time: '14:00~16:00', serviceType: '法說會', speaker: '張研究員', attendees: '45人', notes: '實體論壇與線上直播', linkUrl: 'marketing.html#service' },
-        { id: 's-sep-1', topic: '【研究員會議】伺服器與散熱產業 Q3 季報趨勢研討', topicCompany: '富邦投顧', date: '2026/09/04', time: '11:00~12:00', serviceType: '研究員會議', speaker: 'Jason Lin', attendees: '25人', notes: '水冷散熱與液冷伺服器供應鏈排程', linkUrl: 'marketing.html#analyst' },
-        { id: 's-sep-2', topic: '【研究員會議】電動車與車用半導體大廠專題簡報', topicCompany: '富邦投顧', date: '2026/09/14', time: '15:00~16:30', serviceType: '研究員會議', speaker: 'Sherman Shang', attendees: '18人', notes: '鴻海與車用 Tier 1 供應商研討', linkUrl: 'marketing.html#service?action=new-service' },
-        { id: 's-sep-3', topic: '2026 Q3 全球半導體展望法說會 (法說會)', topicCompany: '富邦投顧', date: '2026/09/18', time: '10:00~11:30', serviceType: '法說會', speaker: '陳資深分析師', attendees: '60人', notes: '法人客戶專屬說明會', linkUrl: 'marketing.html#service' },
-        { id: 's-sep-4', topic: '【研究員會議】美股科技巨頭財報 Preview 與總體經濟', topicCompany: '富邦投顧', date: '2026/09/21', time: '09:30~11:00', serviceType: '研究員會議', speaker: 'Titan Wang', attendees: '30人', notes: '聯準會利率決策與科技股估值', linkUrl: 'marketing.html#analyst' }
+        // 來自服務管理明細之已釘選示範服務紀錄 (media_1788844357166.png)
+        { id: 'service-2025-1', topic: 'TSMC 2Q earnings', topicCompany: 'FMR', date: '2025/08/10', time: '10:05', serviceType: 'One off client meeting', speaker: 'Sherman Shang', attendees: '1x1', notes: '台積電第二季法說會與獲利分析', linkUrl: 'marketing.html?serviceId=service-2025-1&from=home#service-detail' },
+        { id: 'service-2025-2', topic: 'MTK ASICs potential', topicCompany: 'Oasis', date: '2025/08/11', time: '11:00', serviceType: 'Bespoke client request', speaker: 'Sherman Shang', attendees: '1x1', notes: '聯發科特殊應用晶片潛力探討', linkUrl: 'marketing.html?serviceId=service-2025-2&from=home#service-detail' },
+        { id: 'service-2025-3', topic: 'TSMC GM question', topicCompany: 'AP Asset', date: '2025/08/11', time: '9:00', serviceType: 'One off client meeting', speaker: 'Sherman Shang', attendees: '1x1', notes: '毛利率與資本支出展望', linkUrl: 'marketing.html?serviceId=service-2025-3&from=home#service-detail' },
+        { id: 'service-101', topic: 'TSMC 1Q Preview', topicCompany: 'FMR', date: '2026/01/08', time: '10:00', serviceType: 'One off client meeting', speaker: 'Sherman Shang', attendees: '1x1', notes: '第一季財報先行預覽', linkUrl: 'marketing.html?serviceId=service-101&from=home#service-detail' },
+        { id: 'service-102', topic: 'Financial Sector Earnings', topicCompany: 'Oasis', date: '2026/01/15', time: '11:30', serviceType: 'Bespoke client request', speaker: 'Titan Wang', attendees: '1x1', notes: '金控族群獲利與股利政策', linkUrl: 'marketing.html?serviceId=service-102&from=home#service-detail' },
+        { id: 's-aug-1', topic: '【研究員會議】台積電法說會前個股聚焦與產業評估', topicCompany: '富邦投顧', date: '2026/08/17', time: '10:00~11:30', serviceType: 'One off client meeting', speaker: 'Sherman Shang', attendees: '15人', notes: '研討 AI 晶片需求與 3nm 產能利用率', linkUrl: 'marketing.html?serviceId=s-aug-1&from=home#service-detail' },
+        { id: 's-aug-2', topic: '【研究員會議】聯發科 Dimensity 旗艦晶片策略評估', topicCompany: '富邦投顧', date: '2026/08/24', time: '14:00~15:30', serviceType: 'One off client meeting', speaker: 'Titan Wang', attendees: '20人', notes: '客戶投資簡報與手機庫存回溫分析', linkUrl: 'marketing.html?serviceId=s-aug-2&from=home#service-detail' },
+        { id: 's-aug-3', topic: '台股下半年 AI 供應鏈趨勢論壇 (法說會)', topicCompany: '富邦投顧', date: '2026/08/28', time: '14:00~16:00', serviceType: 'One off client meeting', speaker: '張研究員', attendees: '45人', notes: '實體論壇與線上直播', linkUrl: 'marketing.html?serviceId=s-aug-3&from=home#service-detail' },
+        { id: 's-sep-2-1', topic: '【研究員會議】電動車與車用半導體大廠專題簡報', topicCompany: '富邦投顧', date: '2026/09/14', time: '15:00', serviceType: 'One off client meeting', speaker: 'Sherman Shang', attendees: '18人', notes: '鴻海與車用 Tier 1 供應商研討', linkUrl: 'marketing.html?serviceId=s-sep-2-1&from=home#service-detail' },
+        { id: 's-sep-2-2', topic: '【研究員會議】電動車與車用半導體大廠專題簡報', topicCompany: '富邦投顧', date: '2026/09/14', time: '15:00', serviceType: 'Model request', speaker: 'Sherman Shang', attendees: '-', notes: '', linkUrl: 'marketing.html?serviceId=s-sep-2-2&from=home#service-detail' },
+        { id: 's-sep-3-1', topic: '2026 Q3 全球半導體展望法說會 (法說會)', topicCompany: '富邦投顧', date: '2026/09/18', time: '10:00', serviceType: 'One off client meeting', speaker: 'Sherman Shang', attendees: '60人', notes: '法人客戶專屬說明會', linkUrl: 'marketing.html?serviceId=s-sep-3-1&from=home#service-detail' },
+        { id: 's-sep-3-2', topic: '2026 Q3 全球半導體展望法說會 (法說會)', topicCompany: '富邦投顧', date: '2026/09/18', time: '10:00', serviceType: 'Model request', speaker: 'Sherman Shang', attendees: '-', notes: '', linkUrl: 'marketing.html?serviceId=s-sep-3-2&from=home#service-detail' },
+        { id: 's-sep-4-1', topic: '【研究員會議】美股科技巨頭財報 Preview 與總體經濟', topicCompany: '富邦投顧', date: '2026/09/21', time: '09:30', serviceType: 'One off client meeting', speaker: 'Titan Wang', attendees: '30人', notes: '聯準會利率決策與科技股估值', linkUrl: 'marketing.html?serviceId=s-sep-4-1&from=home#service-detail' }
     ];
 
-    const defaultPinnedEvents = [
+    const defaultPinnedServiceIds = [
+        'service-2025-1', 'service-2025-2', 'service-2025-3', 'service-101', 'service-102',
+        's-sep-2-1', 's-sep-2-2', 's-sep-3-1', 's-sep-3-2', 's-sep-4-1', 's-aug-1', 's-aug-2', 's-aug-3'
+    ];
+
+        const defaultPinnedEvents = [
         { id: 'e-aug-1', topic: '富邦尊榮法人客戶高爾夫球聚會 (活動)', topicCompany: '富邦金控', date: '2026/08/19', time: '08:00~13:00', serviceType: '活動', speaker: '展業二組', attendees: '20人', notes: '美麗華高爾夫球場' },
         { id: 'e-sep-1', topic: '秋季法人投資論壇與晚宴 (法說會/活動)', topicCompany: '富邦金控', date: '2026/09/25', time: '17:30~21:00', serviceType: '活動', speaker: '展業部', attendees: '80人', notes: '萬豪酒店 3F 宴會廳' }
     ];
@@ -87,20 +99,121 @@ document.addEventListener('DOMContentLoaded', () => {
         return list;
     };
 
-    // Get Pinned Services
-    const getPinnedServices = () => {
-        let list = JSON.parse(localStorage.getItem('crm_pinned_services'));
-        if (!list || !Array.isArray(list) || !list.some(item => item.id === 's-aug-1')) {
-            localStorage.setItem('crm_pinned_services', JSON.stringify(defaultPinnedServices));
-            return defaultPinnedServices;
+    // Get Pinned Service IDs (首頁僅顯示有被釘選加入個人行事曆之服務)
+    const getPinnedServiceIds = () => {
+        let ids = JSON.parse(localStorage.getItem('crm_pinned_services_ids') || 'null');
+        if (ids === null || !Array.isArray(ids)) {
+            ids = [...defaultPinnedServiceIds];
+            localStorage.setItem('crm_pinned_services_ids', JSON.stringify(ids));
+        } else {
+            // 清理舊有的測試 pending ID
+            const filteredIds = ids.filter(cid => !cid.startsWith('cal-pending-'));
+            const corePinned = [
+                'service-2025-1', 'service-2025-2', 'service-2025-3', 'service-101', 'service-102'
+            ];
+            let changed = (filteredIds.length !== ids.length);
+            ids = filteredIds;
+            corePinned.forEach(cid => {
+                if (!ids.includes(cid)) {
+                    ids.push(cid);
+                    changed = true;
+                }
+            });
+            if (changed) {
+                localStorage.setItem('crm_pinned_services_ids', JSON.stringify(ids));
+            }
+        }
+        return ids;
+    };
+
+    // Get Pinned Event IDs
+    const getPinnedEventIds = () => {
+        let ids = JSON.parse(localStorage.getItem('crm_pinned_events_ids') || 'null');
+        if (ids === null || !Array.isArray(ids)) {
+            ids = ['e-aug-1'];
+            localStorage.setItem('crm_pinned_events_ids', JSON.stringify(ids));
+        }
+        return ids;
+    };
+
+    // Get All Available Services Pool (含預設資料庫、明細釘選快取與自訂建立紀錄)
+    const getAllAvailableServices = () => {
+        const list = [...defaultPinnedServices];
+
+        // 1. 合併自 marketing.html 同步之所有釘選服務物件 (含預設與自訂)
+        const pinnedFromStorage = JSON.parse(localStorage.getItem('crm_pinned_services') || '[]');
+        if (Array.isArray(pinnedFromStorage)) {
+            pinnedFromStorage.forEach(s => {
+                if (s && s.id) {
+                    const existingIdx = list.findIndex(x => x.id === s.id);
+                    const itemData = {
+                        id: s.id,
+                        serviceName: s.serviceName || '',
+                        topic: s.serviceName || s.topic || s.title || s.topicCompany || '服務紀錄',
+                        topicCompany: s.firm || '富邦投顧',
+                        date: s.date ? s.date.replace(/-/g, '/') : '2026/09/08',
+                        time: s.time || '10:00',
+                        serviceType: s.type || s.serviceType || 'One off client meeting',
+                        speaker: s.analyst || s.speaker || '研究員',
+                        attendees: s.format || s.attendees || '-',
+                        interest: s.interest || '',
+                        notes: s.notes || '',
+                        linkUrl: `marketing.html?serviceId=${encodeURIComponent(s.id)}&from=home#service-detail`
+                    };
+                    if (existingIdx > -1) {
+                        list[existingIdx] = itemData;
+                    } else {
+                        list.push(itemData);
+                    }
+                }
+            });
+        }
+
+        // 2. 合併使用者於服務管理新增之自訂服務紀錄 (crm_custom_services)
+        const customServices = JSON.parse(localStorage.getItem('crm_custom_services') || '[]');
+        if (Array.isArray(customServices)) {
+            customServices.forEach(cs => {
+                if (cs && cs.id) {
+                    const existingIdx = list.findIndex(x => x.id === cs.id);
+                    const itemData = {
+                        id: cs.id,
+                        serviceName: cs.serviceName || '',
+                        topic: cs.serviceName || cs.topic || cs.title || '自訂服務',
+                        topicCompany: cs.firm || '富邦投顧',
+                        date: cs.date ? cs.date.replace(/-/g, '/') : '2026/09/08',
+                        time: cs.time || '10:00',
+                        serviceType: cs.type || cs.serviceType || 'One off client meeting',
+                        speaker: cs.analyst || cs.speaker || '研究員',
+                        attendees: cs.format || cs.attendees || '-',
+                        interest: cs.interest || '',
+                        notes: cs.notes || '',
+                        linkUrl: `marketing.html?serviceId=${encodeURIComponent(cs.id)}&from=home#service-detail`
+                    };
+                    if (existingIdx > -1) {
+                        list[existingIdx] = itemData;
+                    } else {
+                        list.push(itemData);
+                    }
+                }
+            });
         }
         return list;
     };
 
+    // Get Pinned Services (關鍵：僅回傳有在 crm_pinned_services_ids 釘選清單中的服務，並保證完全對應)
+    const getPinnedServices = () => {
+        const pinnedIds = getPinnedServiceIds();
+        const allServices = getAllAvailableServices();
+        const directPinned = JSON.parse(localStorage.getItem('crm_pinned_services') || '[]');
+        const directPinnedIds = Array.isArray(directPinned) ? directPinned.map(x => x.id).filter(Boolean) : [];
+        const combinedIds = Array.from(new Set([...pinnedIds, ...directPinnedIds]));
+        return allServices.filter(item => combinedIds.includes(item.id));
+    };
+
     // Get Pinned Events
     const getPinnedEvents = () => {
-        let list = JSON.parse(localStorage.getItem('crm_pinned_events'));
-        if (!list || !Array.isArray(list) || !list.some(item => item.id === 'e-aug-1')) {
+        let list = JSON.parse(localStorage.getItem('crm_pinned_events') || 'null');
+        if (!list || !Array.isArray(list) || list.length === 0) {
             localStorage.setItem('crm_pinned_events', JSON.stringify(defaultPinnedEvents));
             return defaultPinnedEvents;
         }
@@ -158,8 +271,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return sortByDate(filtered);
     };
 
-    // Toggle Dropdown for Calendar Tab
-    if (tabCalendarBtn) {
+    // Toggle Dropdown for Calendar Tab (legacy guard)
+    if (tabCalendarBtn && tabDropdown) {
         tabCalendarBtn.addEventListener('click', (e) => {
             tabDropdown.classList.toggle('show');
         });
@@ -167,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('.tab-with-dropdown')) {
+        if (tabDropdown && !e.target.closest('.tab-with-dropdown')) {
             tabDropdown.classList.remove('show');
         }
     });
@@ -175,16 +288,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle tab switching
     tabBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
+            const targetId = btn.getAttribute('data-target');
             if(!btn.classList.contains('active')) {
                 tabBtns.forEach(b => b.classList.remove('active'));
                 tabContents.forEach(c => c.classList.remove('active'));
                 
                 btn.classList.add('active');
-                const targetId = btn.getAttribute('data-target');
                 document.getElementById(targetId).classList.add('active');
 
-                if(targetId === 'tab-customer') {
+                if(targetId === 'tab-customer' && tabDropdown) {
                     tabDropdown.classList.remove('show');
+                }
+                if(targetId === 'tab-calendar') {
+                    renderCalendarView(currentType, currentDate);
                 }
             }
         });
@@ -334,11 +450,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderCalendarView = (type, date) => {
         let headers = [];
         let rowsHtml = '';
+        let displayedServices = [];
+
+        // Update Segmented Pill Nav State & Counts
+        document.querySelectorAll('.cal-pill-btn').forEach(btn => {
+            const pType = btn.getAttribute('data-type');
+            if (pType === type) {
+                btn.classList.add('active');
+                btn.style.background = 'white';
+                btn.style.color = '#0284C7';
+                btn.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+            } else {
+                btn.classList.remove('active');
+                btn.style.background = 'transparent';
+                btn.style.color = '#64748B';
+                btn.style.boxShadow = 'none';
+            }
+        });
+        const sBadge = document.getElementById('home-service-badge');
+        if (sBadge) {
+            const allPinned = getPinnedServices();
+            sBadge.textContent = allPinned.length;
+        }
         
         // Show/Hide Shortcut Buttons
         if (type === 'personal') {
-            addScheduleBtn.style.display = 'inline-block';
-            addServiceShortcutBtn.style.display = 'none';
+            if (addScheduleBtn) addScheduleBtn.style.display = 'inline-flex';
+            if (addServiceShortcutBtn) addServiceShortcutBtn.style.display = 'none';
             
             headers = ['標題', '時間', '備註', '操作'];
             let schedules = getPersonalSchedulesForDate(date);
@@ -362,75 +500,90 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } else if (type === 'service') {
-            addScheduleBtn.style.display = 'none';
-            addServiceShortcutBtn.style.display = 'inline-block';
+            if (addScheduleBtn) addScheduleBtn.style.display = 'none';
+            if (addServiceShortcutBtn) addServiceShortcutBtn.style.display = 'inline-flex';
             
-            headers = ['名稱 (主題)', '時間', '類型', '講師/研究員', '人數', '連結說明 / 操作'];
-            let services = getPinnedServicesForDate(date);
-            if (services.length === 0) {
-                services = getPinnedServicesFuture(date);
+            headers = ['追蹤', '服務名稱 (Key值)', '法人戶', '時間', '類型', '講師/研究員', '人數', '備註'];
+            
+            // 首頁「服務 Service」列表：
+            // 若當日有專屬會議則精準呈現；若當日無行程（如預設首頁檢視），直接顯示所有已釘選之服務紀錄（新至舊排序），
+            // 確保使用者在服務管理明細中所釘選之項目（包含2025/2026之投顧會議）100% 完整出現在首頁列表中！
+            const exactDateServices = getPinnedServicesForDate(date);
+            let services = [];
+            if (exactDateServices.length > 0) {
+                services = exactDateServices;
+            } else {
+                services = [...getPinnedServices()].sort((a, b) => {
+                    const dA = new Date(a.date.replace(/\//g, '-'));
+                    const dB = new Date(b.date.replace(/\//g, '-'));
+                    return dB - dA;
+                });
             }
-            
-            const buildMarketingLink = (item, targetHash = '#service') => {
-                if (!item) return `marketing.html?action=new-service${targetHash}`;
-                const topic = encodeURIComponent(item.topic || item.title || '');
-                const date = item.date ? item.date.replace(/\//g, '-') : '';
-                const time = item.time ? item.time.split('~')[0] : '';
-                const analyst = encodeURIComponent(item.speaker || item.analyst || '');
-                const notes = encodeURIComponent(item.notes || '');
-                return `marketing.html?action=new-service&topic=${topic}&date=${date}&time=${time}&analyst=${analyst}&notes=${notes}${targetHash}`;
-            };
+            displayedServices = services;
 
             if (services.length > 0) {
                 services.forEach(item => {
-                    const targetLink = buildMarketingLink(item, '#service');
-                    const importPayload = JSON.stringify({
-                        topic: item.topic || item.topicCompany || '',
-                        date: item.date ? item.date.replace(/\//g, '-') : '',
-                        time: item.time ? item.time.split('~')[0] : '',
-                        analyst: item.speaker || item.analyst || '',
-                        notes: item.notes || ''
-                    });
-                    const encodedPayload = encodeURIComponent(importPayload);
+                    const targetLink = item.linkUrl || `marketing.html?serviceId=${encodeURIComponent(item.id)}&from=home#service-detail`;
+                    const firmName = item.firm || (item.topicCompany !== '富邦投顧' ? item.topicCompany : '') || '—';
+                    let shortDate = '';
+                    if (item.date) {
+                        const parts = item.date.replace(/-/g, '/').split('/');
+                        if (parts.length === 3) shortDate = `${parseInt(parts[1])}/${parseInt(parts[2])}`;
+                    }
+                    const rawTopic = item.topic || '';
+                    const defaultSvcName = (firmName !== '—' && shortDate) ? `${firmName} ${shortDate} ${item.interest || rawTopic || '會議'}` : (rawTopic || '服務紀錄');
+                    const svcName = item.serviceName || defaultSvcName;
+                    const topicText = rawTopic;
+                    const noteText = item.notes || '';
 
                     rowsHtml += `
-                        <tr>
-                            <td><a href="${targetLink}" data-import="${encodedPayload}" class="link trigger-home-import" style="font-weight:600;" title="帶入此場次資料並建置紀錄">${item.topic || item.topicCompany || '未命名服務'}</a></td>
-                            <td>${item.date} ${item.time || ''}</td>
-                            <td><span class="group-badge" style="background:#FEF3C7; color:#B45309; font-weight:600;">${item.serviceType || item.type || '服務'}</span></td>
-                            <td><strong>${item.speaker || item.analyst || '研究員'}</strong></td>
-                            <td>${item.attendees || '-'}</td>
-                            <td>
-                                <span>${item.notes || ''}</span>
-                                <a href="${targetLink}" data-import="${encodedPayload}" class="btn btn-secondary trigger-home-import" style="font-size:11px; padding:3px 10px; margin-left:6px; background:#0093C1; color:#FFFFFF; border:none; border-radius:4px; text-decoration:none; display:inline-block; font-weight:600;" title="點擊新增至服務紀錄表單">➕ 新增至服務紀錄</a>
+                        <tr class="service-calendar-row" data-url="${targetLink}" style="cursor: pointer;">
+                            <td style="text-align: center; width: 60px;">
+                                <button class="home-pin-toggle" data-id="${item.id}" style="background:none; border:none; font-size:18px; cursor:pointer; color:#f1c40f; padding:0;" title="已加入追蹤（點擊可取消追蹤）">★</button>
                             </td>
+                            <td>
+                                <a href="${targetLink}" class="link" style="font-weight:700; color:#0284C7; font-size:13px;" title="前往檢視此筆服務紀錄詳情頁面">${svcName}</a>
+                                ${topicText && topicText !== svcName ? `<div style="font-size:11px; color:#64748B; margin-top:2px;">${topicText}</div>` : ''}
+                            </td>
+                            <td><span style="font-weight:600; color:#0F172A; background:#F1F5F9; padding:2px 8px; border-radius:4px; font-size:12px;">${firmName}</span></td>
+                            <td>${item.date} ${item.time || ''}</td>
+                            <td><span class="group-badge" style="background:#FEF3C7; color:#B45309; font-weight:600; padding:3px 8px; border-radius:4px; font-size:12px;">${item.serviceType || item.type || '服務'}</span></td>
+                            <td><strong>${item.speaker || item.analyst || '研究員'}</strong></td>
+                            <td>${item.attendees || item.format || '-'}</td>
+                            <td><span style="font-size:13px; color:#374151;">${noteText}</span></td>
                         </tr>
                     `;
                 });
             }
         } else if (type === 'activity') {
-            addScheduleBtn.style.display = 'none';
-            addServiceShortcutBtn.style.display = 'none';
+            if (addScheduleBtn) addScheduleBtn.style.display = 'none';
+            if (addServiceShortcutBtn) addServiceShortcutBtn.style.display = 'none';
             
-            headers = ['名稱 (活動)', '時間', '類型', '講師/研究員', '人數', '連結說明 / 操作'];
+            headers = ['追蹤', '名稱 (活動)', '時間', '類型', '講師/研究員', '人數', '備註'];
             let events = getPinnedEventsForDate(date);
             if (events.length === 0) {
                 events = getPinnedEventsFuture(date);
             }
             
             if (events.length > 0) {
+                const pinnedEventIds = getPinnedEventIds();
                 events.forEach(item => {
                     const targetLink = item.linkUrl || 'marketing.html#activity';
+                    const isPinned = pinnedEventIds.includes(item.id);
+                    const starColor = isPinned ? '#f1c40f' : '#94A3B8';
+                    const starIcon = isPinned ? '★' : '☆';
+                    const pinTitle = isPinned ? '已加入追蹤 (點擊可取消追蹤)' : '未追蹤 (點擊可加入追蹤)';
+
                     rowsHtml += `
                         <tr>
-                            <td><a href="${targetLink}" class="link" style="font-weight:600;">${item.topic || item.title || '未命名活動'}</a></td>
+                            <td style="text-align: center; width: 60px;"><button class="home-pin-toggle" data-id="${item.id}" data-type="event" style="background:none; border:none; font-size:18px; cursor:pointer; color:${starColor};" title="${pinTitle}">${starIcon}</button></td>
+                            <td><a href="${targetLink}" class="link" style="font-weight:600; color:#0369A1;">${item.topic || item.title || '未命名活動'}</a></td>
                             <td>${item.date} ${item.time || ''}</td>
-                            <td><span class="group-badge" style="background:#DCFCE7; color:#15803D; font-weight:600;">${item.serviceType || item.type || '活動'}</span></td>
+                            <td><span class="group-badge" style="background:#DCFCE7; color:#15803D; font-weight:600; padding:3px 8px; border-radius:4px; font-size:12px;">${item.serviceType || item.type || '活動'}</span></td>
                             <td><strong>${item.speaker || item.analyst || '展業部'}</strong></td>
                             <td>${item.attendees || '-'}</td>
                             <td>
-                                <span>${item.notes || ''}</span>
-                                <a href="${targetLink}" class="btn btn-secondary" style="font-size:11px; padding:2px 8px; margin-left:6px; background:#DCFCE7; color:#15803D; border-color:#BBF7D0; text-decoration:none; display:inline-block;">🔗 轉至活動頁面</a>
+                                <span style="font-size:12px; color:#374151;">${item.notes || ''}</span>
                             </td>
                         </tr>
                     `;
@@ -440,7 +593,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Update Title
         const typeLabels = { 'personal': '個人 Personal', 'service': '服務 Service', 'activity': '活動 Event' };
-        calendarTitle.innerHTML = `行事曆 <span style="font-size:12px; font-weight:normal; color:#666;">Calendar</span> - ${typeLabels[type]} / 日期 <span style="font-size:12px; font-weight:normal; color:#666;">Date</span> : ${date}`;
+        let dateSubtitle = `日期 <span style="font-size:12px; font-weight:normal; color:#666;">Date</span> : ${date}`;
+        if (type === 'service') {
+            const exactCount = getPinnedServicesForDate(date).length;
+            if (exactCount > 0) {
+                dateSubtitle += ` <span style="color:#0284C7; font-size:12px; font-weight:normal;">(當日排定會議)</span>`;
+            } else if (displayedServices.length > 0) {
+                dateSubtitle += ` <span style="color:#0284C7; font-size:12px; font-weight:normal;">(已釘選服務紀錄，共 ${displayedServices.length} 筆)</span>`;
+            }
+        }
+        calendarTitle.innerHTML = `行事曆 <span style="font-size:12px; font-weight:normal; color:#666;">Calendar</span> - ${typeLabels[type]} / ${dateSubtitle}`;
+
+        // Toggle red note for service calendar (僅顯示有被加入個人行事曆的服務)
+        const serviceNoteEl = document.getElementById('calendar-service-note');
+        if (serviceNoteEl) {
+            serviceNoteEl.style.display = (type === 'service') ? 'block' : 'none';
+        }
 
         // Render Headers
         const thead = calendarTable.querySelector('thead tr');
@@ -503,23 +671,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Handle Calendar Tab dropdown sub-item selection
-    dropdownItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const value = item.getAttribute('data-value');
-            currentType = value;
-            
-            // Switch tabs visually
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-            tabCalendarBtn.classList.add('active');
-            document.getElementById('tab-calendar').classList.add('active');
-            tabDropdown.classList.remove('show');
-
-            renderCalendarView(currentType, currentDate);
+    // Handle Calendar Segmented Pill Navigation
+    document.querySelectorAll('.cal-pill-btn').forEach(pill => {
+        pill.addEventListener('click', (e) => {
+            e.preventDefault();
+            const val = pill.getAttribute('data-type');
+            if (val) {
+                currentType = val;
+                renderCalendarView(currentType, currentDate);
+            }
         });
     });
+
+    // Handle Calendar Tab dropdown sub-item selection (legacy support)
+    if (dropdownItems && dropdownItems.length > 0) {
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const value = item.getAttribute('data-value');
+                currentType = value;
+                
+                // Switch tabs visually
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                tabCalendarBtn.classList.add('active');
+                document.getElementById('tab-calendar').classList.add('active');
+                if (tabDropdown) tabDropdown.classList.remove('show');
+
+                renderCalendarView(currentType, currentDate);
+            });
+        });
+    }
 
     // ----------------------------------------
     // Personal Schedule Modal Input Logic
@@ -800,12 +982,110 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
+
+        // Entire row click for service calendar items
+        const serviceRow = e.target.closest('.service-calendar-row');
+        if (serviceRow && !e.target.closest('.home-pin-toggle') && !e.target.closest('a') && !e.target.closest('button')) {
+            const url = serviceRow.getAttribute('data-url');
+            if (url) {
+                window.location.href = url;
+            }
+        }
+    });
+
+    // ----------------------------------------
+    // Homepage Pin Toggle & Toast Notification
+    // ----------------------------------------
+    const showHomeToast = (message) => {
+        let toast = document.getElementById('home-toast-notice');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'home-toast-notice';
+            toast.style.cssText = 'position:fixed; bottom:24px; right:24px; background:#1E293B; color:white; padding:12px 20px; border-radius:8px; font-size:14px; font-weight:500; box-shadow:0 4px 12px rgba(0,0,0,0.18); z-index:9999; transition:all 0.3s ease; display:flex; align-items:center; gap:8px;';
+            document.body.appendChild(toast);
+        }
+        toast.innerHTML = message;
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(0)';
+        toast.style.display = 'flex';
+        if (window._homeToastTimeout) clearTimeout(window._homeToastTimeout);
+        window._homeToastTimeout = setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(10px)';
+            setTimeout(() => { toast.style.display = 'none'; }, 300);
+        }, 2500);
+    };
+
+    const syncHomePinButtons = () => {
+        const pinnedIds = getPinnedServiceIds();
+        document.querySelectorAll('.home-pin-toggle').forEach(btn => {
+            const id = btn.getAttribute('data-id');
+            const isPinned = pinnedIds.includes(id);
+            if (isPinned) {
+                btn.textContent = '★';
+                btn.style.color = '#f1c40f';
+                btn.title = '已加入追蹤 (點擊可取消追蹤)';
+            } else {
+                btn.textContent = '☆';
+                btn.style.color = '#94A3B8';
+                btn.title = '未追蹤 (點擊可加入追蹤)';
+            }
+        });
+    };
+
+    // Delegated click handler for Pin toggles on the homepage
+    // 依使用者需求：首頁僅顯示在明細中有被釘選加入首頁個人行事曆的列表，取消釘選就會立即從首頁移除
+    document.addEventListener('click', (e) => {
+        const pinBtn = e.target.closest('.home-pin-toggle');
+        if (!pinBtn) return;
+        e.preventDefault();
+        e.stopPropagation();
+
+        const id = pinBtn.getAttribute('data-id');
+        if (!id) return;
+
+        let pinnedIds = getPinnedServiceIds();
+        // 取消釘選：自釘選列表中移除該服務 ID
+        pinnedIds = pinnedIds.filter(x => x !== id);
+        localStorage.setItem('crm_pinned_services_ids', JSON.stringify(pinnedIds));
+
+        // 同步更新快取之完整物件清單
+        let pinnedDetails = JSON.parse(localStorage.getItem('crm_pinned_services') || '[]');
+        if (Array.isArray(pinnedDetails)) {
+            pinnedDetails = pinnedDetails.filter(x => x && x.id !== id);
+            localStorage.setItem('crm_pinned_services', JSON.stringify(pinnedDetails));
+        }
+
+        // 立即重新生成月曆格點（更新點點）與表格清單（取消釘選項目立即自首頁移除）
+        generateCalendar(viewYear, viewMonth);
+        renderCalendarView(currentType, currentDate);
+
+        showHomeToast('❌ 已取消釘選，該項目已從首頁行事曆移除（仍保留於服務管理明細中）');
     });
 
     // ----------------------------------------
     // Initial Setup Execution
     // ----------------------------------------
+    // 若剛從服務管理新增紀錄返回首頁，自動跳轉至該紀錄之月份與日期
+    const latestServiceDate = localStorage.getItem('crm_latest_service_date');
+    if (latestServiceDate) {
+        const parts = latestServiceDate.split('/');
+        if (parts.length === 3) {
+            viewYear = parseInt(parts[0], 10);
+            viewMonth = parseInt(parts[1], 10) - 1;
+            currentDate = latestServiceDate;
+            currentType = 'service';
+
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            tabCalendarBtn.classList.add('active');
+            document.getElementById('tab-calendar').classList.add('active');
+        }
+        localStorage.removeItem('crm_latest_service_date');
+    }
+
     generateCalendar(viewYear, viewMonth);
     renderCalendarView(currentType, currentDate);
+    syncHomePinButtons();
 });
 

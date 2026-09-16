@@ -6,8 +6,8 @@
     <title>法人客戶關係管理系統</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <script src="navbar.js"></script>
+    <link rel="stylesheet" href="styles.css?v=20260908_1600">
+    <script src="navbar.js?v=20260909_1005"></script>
 </head>
 <body>
     <!-- Navbar -->
@@ -113,17 +113,10 @@
         <section class="content-panel">
             <div class="tabs" style="align-items: flex-end;">
                 <button class="tab-btn active" data-target="tab-customer" style="line-height: 1.2; padding: 10px 24px;">客戶列表<br><span style="font-size: 11px; font-weight: normal; color: #666;">Customer List</span></button>
-                <div class="tab-with-dropdown">
-                    <button class="tab-btn" data-target="tab-calendar" style="line-height: 1.2; padding: 10px 24px;">
-                        行事曆<br><span style="font-size: 11px; font-weight: normal; color: #666;">Calendar</span> <span class="dropdown-arrow">▼</span>
-                    </button>
-                    <ul class="tab-dropdown">
-                        <li data-value="personal">個人 <span style="font-size: 11px; color: #888;">Personal</span></li>
-                        <li data-value="service">服務 <span style="font-size: 11px; color: #888;">Service</span></li>
-                        <li data-value="activity">活動 <span style="font-size: 11px; color: #888;">Event</span></li>
-                    </ul>
-                </div>
-                <button class="tab-btn" data-target="tab-service-notice" style="background-color: #E2E8F0; line-height: 1.2; padding: 10px 24px;">服務通知 <span style="background:#EF4444; color:white; font-size:10px; padding:1px 6px; border-radius:10px; margin-left:4px; font-weight:bold;">2</span><br><span style="font-size: 11px; font-weight: normal; color: #666;">Service Notice</span></button>
+                <button class="tab-btn" data-target="tab-calendar" id="tab-calendar-btn" style="line-height: 1.2; padding: 10px 24px;">
+                    行事曆<br><span style="font-size: 11px; font-weight: normal; color: #666;">Calendar</span>
+                </button>
+                <button class="tab-btn" data-target="tab-service-notice" style="background-color: #F8FAFC; line-height: 1.2; padding: 10px 24px;">服務通知 <span style="background:#10B981; color:white; font-size:10px; padding:1px 6px; border-radius:10px; margin-left:4px; font-weight:bold;">已同步</span><br><span style="font-size: 11px; font-weight: normal; color: #666;">Service Notice</span></button>
             </div>
 
             <!-- Tab Content: Customer List -->
@@ -240,12 +233,21 @@
 
             <!-- Tab Content: Calendar List -->
             <div id="tab-calendar" class="tab-content">
-                 <div class="calendar-list-header">
-                     <h4 id="calendar-list-title">行事曆 <span style="font-size:12px; font-weight:normal; color:#666;">Calendar</span> - 個人 <span style="font-size:12px; font-weight:normal; color:#666;">Personal</span> / 日期 <span style="font-size:12px; font-weight:normal; color:#666;">Date</span> : 2026/6/30</h4>
-                     <div style="display: flex; gap: 8px;">
-                         <button class="btn btn-text blue-text" id="add-schedule-btn" style="display: none;">+ 新增行程 <span style="font-size:12px; font-weight:normal;">New</span></button>
-                         <button class="btn btn-text yellow-text" id="add-service-shortcut-btn" style="display: none; border-color: #E67E22; color: #E67E22;" onclick="window.location.href='marketing.html#service?action=new-service'">+ 新增服務紀錄 <span style="font-size:12px; font-weight:normal;">New Service</span></button>
+                 <!-- Calendar Segmented Pills Navigation -->
+                 <div class="calendar-segmented-nav" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; background: #F1F5F9; padding: 5px 8px; border-radius: 8px; flex-wrap: wrap; gap: 8px; border: 1px solid #E2E8F0;">
+                     <div class="calendar-type-pills" style="display: flex; gap: 6px;">
+                         <button type="button" class="cal-pill-btn active" data-type="personal" style="padding: 7px 16px; border-radius: 6px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; background: white; color: #0284C7; box-shadow: 0 1px 2px rgba(0,0,0,0.06); transition: all 0.2s;">👤 個人行程 <span style="font-size: 11px; font-weight: normal; opacity: 0.85;">Personal</span></button>
+                         <button type="button" class="cal-pill-btn" data-type="service" style="padding: 7px 16px; border-radius: 6px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; background: transparent; color: #64748B; transition: all 0.2s;">💼 服務紀錄 <span style="font-size: 11px; font-weight: normal; opacity: 0.85;">Service</span> <span id="home-service-badge" style="background: #E0F2FE; color: #0369A1; font-size: 11px; padding: 1px 7px; border-radius: 10px; margin-left: 4px; font-weight: bold;">11</span></button>
+                         <button type="button" class="cal-pill-btn" data-type="activity" style="padding: 7px 16px; border-radius: 6px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; background: transparent; color: #64748B; transition: all 0.2s;">🎪 活動會議 <span style="font-size: 11px; font-weight: normal; opacity: 0.85;">Event</span> <span style="background: #DCFCE7; color: #15803D; font-size: 11px; padding: 1px 7px; border-radius: 10px; margin-left: 4px; font-weight: bold;">2</span></button>
                      </div>
+                     <div style="display: flex; gap: 8px; align-items: center;">
+                         <button class="btn btn-primary" id="add-schedule-btn" style="display: inline-flex; align-items: center; gap: 4px; background: #0284C7; color: white; border: none; border-radius: 4px; padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer;">➕ 新增個人行程</button>
+                         <button class="btn btn-primary" id="add-service-shortcut-btn" style="display: none; background: #0284C7; color: white; border: none; border-radius: 4px; padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer;" onclick="window.location.href='marketing.html?action=new-service#new-service'">➕ 新增服務紀錄</button>
+                     </div>
+                 </div>
+
+                 <div class="calendar-list-header" style="margin-bottom: 10px;">
+                     <h4 id="calendar-list-title" style="margin: 0; font-size: 15px; color: #1E293B;">行事曆 <span style="font-size:12px; font-weight:normal; color:#666;">Calendar</span> - 個人 <span style="font-size:12px; font-weight:normal; color:#666;">Personal</span> / 日期 <span style="font-size:12px; font-weight:normal; color:#666;">Date</span> : 2026/6/30</h4>
                  </div>
                 <table class="data-table" id="calendar-table">
                     <!-- Table content generated dynamically via JS based on type -->
@@ -262,46 +264,52 @@
                         </tr>
                     </tbody>
                 </table>
+                <div id="calendar-service-note" style="display:none; color: #dc2626; font-size: 13px; text-align: center; margin-top: 14px; font-weight: 500;">僅顯示有被加入個人行事曆的服務</div>
             </div>
 
             <!-- Tab Content: Service Notice -->
             <div id="tab-service-notice" class="tab-content" style="background-color: #F2F8FC; border-radius: 8px; border: 1px solid #D1E4F3; padding: 16px;">
                 <div class="calendar-list-header" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-                    <h4 id="service-notice-title" style="color: #0078D4; font-size: 16px; margin: 0; font-weight: 600;">行事曆 <span style="font-size:12px; font-weight:normal;">Calendar</span> - 服務通知 <span style="font-size:12px; font-weight:normal;">Service Notice</span> / 異動紀錄 <span style="font-size:12px; font-weight:normal;">Updated Schedules (2)</span></h4>
-                    <span class="badge" style="background: #FEF3C7; color: #92400E; font-size: 12px; padding: 4px 10px; border-radius: 6px; font-weight: 600;">🔔 共有 2 筆服務行程時間/內容異動</span>
+                    <h4 id="service-notice-title" style="color: #0078D4; font-size: 16px; margin: 0; font-weight: 600;">行事曆 <span style="font-size:12px; font-weight:normal;">Calendar</span> - 服務通知 <span style="font-size:12px; font-weight:normal;">Service Notice</span></h4>
+                    <span class="badge" style="background: #DCFCE7; color: #15803D; font-size: 12px; padding: 4px 10px; border-radius: 6px; font-weight: 600;">✅ 所有服務行程異動皆已同步至「服務管理明細」</span>
                 </div>
                 <!-- 加上 wrapper 實現垂直捲動 -->
                 <div class="table-scroll-wrapper" style="max-height: 360px; overflow-y: auto; border: 1px solid #E1E9EF; border-radius: 6px; background: white;">
                     <table class="data-table" style="background: white; border: none; margin: 0; width: 100%;">
                         <thead style="position: sticky; top: 0; z-index: 10; background: #F8FAFC;">
                             <tr>
+                                <th style="line-height: 1.2; text-align: center; width: 60px;">追蹤<br><span style="font-size:11px; font-weight:normal; color:#666;">Follow up</span></th>
                                 <th style="line-height: 1.2;">名稱 (主題)<br><span style="font-size:11px; font-weight:normal; color:#666;">Topic</span></th>
                                 <th style="line-height: 1.2;">時間<br><span style="font-size:11px; font-weight:normal; color:#666;">Time</span></th>
                                 <th style="line-height: 1.2;">類型<br><span style="font-size:11px; font-weight:normal; color:#666;">Type</span></th>
                                 <th style="line-height: 1.2;">講師/研究員<br><span style="font-size:11px; font-weight:normal; color:#666;">Speaker/Analyst</span></th>
                                 <th style="line-height: 1.2;">人數<br><span style="font-size:11px; font-weight:normal; color:#666;">Attendees</span></th>
-                                <th style="line-height: 1.2;">連結說明 / 操作<br><span style="font-size:11px; font-weight:normal; color:#666;">Action</span></th>
+                                <th style="line-height: 1.2;">備註<br><span style="font-size:11px; font-weight:normal; color:#666;">Notes</span></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr style="background: #F0FDF4;">
+                                <td style="text-align: center;">
+                                    <button class="home-pin-toggle" data-id="s-aug-1" style="background:none; border:none; font-size:18px; cursor:pointer; color:#f1c40f;" title="已加入追蹤 (點擊可取消追蹤)">★</button>
+                                </td>
                                 <td>
-                                    <a href="marketing.html#service" class="link" style="font-weight:600; color:#0369A1;" title="已在服務管理 (點擊名稱直接開啟服務管理畫面)">【研究員會議】台積電法說會前個股聚焦與產業評估</a>
+                                    <a href="marketing.html#service" class="link" style="font-weight:600; color:#0369A1;" title="點擊名稱直接開啟服務管理畫面">【研究員會議】台積電法說會前個股聚焦與產業評估</a>
                                 </td>
                                 <td>
                                     2026/08/17 10:00~11:30
                                     <br><span class="badge" style="background:#FEE2E2; color:#991B1B; padding:2px 6px; font-size:11px; border-radius:4px; font-weight:bold; display:inline-block; margin-top:2px;">⚠️ 時間異動</span>
-                                    <span class="badge" style="background:#DCFCE7; color:#166534; padding:2px 6px; font-size:11px; border-radius:4px; font-weight:bold; display:inline-block; margin-top:2px; margin-left:4px;">✓ 已在服務管理</span>
                                 </td>
                                 <td><span class="group-badge" style="background:#FEF3C7; color:#B45309; font-weight:600;">研究員會議</span></td>
                                 <td><strong>Sherman Shang</strong></td>
                                 <td>15 人</td>
                                 <td>
                                     <span style="font-size:13px; color:#475569;">研討 AI 晶片需求與 3nm 產能利用率</span>
-                                    <span style="font-size:12px; color:#166534; font-weight:600; margin-left:6px;">(點選名稱可連結至服務管理)</span>
                                 </td>
                             </tr>
                             <tr style="background: #FFFBEB;">
+                                <td style="text-align: center;">
+                                    <button class="home-pin-toggle" data-id="s-aug-3" style="background:none; border:none; font-size:18px; cursor:pointer; color:#94A3B8;" title="未釘選 (點擊可釘選至首頁)">☆</button>
+                                </td>
                                 <td>
                                     <a href="marketing.html?action=new-service&topic=%E5%8F%B0%E8%82%A1%E4%B8%8B%E5%8D%8A%E5%B9%B4%20AI%20%E4%BE%9B%E6%87%89%E9%8F%85%E8%B6%A4%E5%8B%A2%E8%AB%96%E5%A3%87%20(%E6%B3%95%E8%AA%AA%E6%9C%83)&date=2026-08-28&time=14:00&analyst=%E5%BC%B5%E7%A0%94%E7%A9%B6%E5%93%A1&notes=%E5%AF%A6%E9%AB%94%E8%AB%96%E5%A3%87%E8%88%87%E7%B7%9A%E4%B8%8A%E7%9B%B4%E6%92%AD#service" data-import="%7B%22topic%22%3A%22%E5%8F%B0%E8%82%A1%E4%B8%8B%E5%8D%8A%E5%B9%B4%20AI%20%E4%BE%9B%E6%87%89%E9%8F%85%E8%B6%A4%E5%8B%A2%E8%AB%96%E5%A3%87%20(%E6%B3%95%E8%AA%AA%E6%9C%83)%22%2C%22date%22%3A%222026-08-28%22%2C%22time%22%3A%2214%3A00%22%2C%22analyst%22%3A%22%E5%BC%B5%E7%A0%94%E7%A9%B6%E5%93%A1%22%2C%22notes%22%3A%22%E5%AF%A6%E9%AB%94%E8%AB%96%E5%A3%87%E8%88%87%E7%B7%9A%E4%B8%8A%E7%9B%B4%E6%92%AD%22%7D" class="link trigger-home-import" style="font-weight:600;" title="帶入此場次資料並新增服務紀錄">台股下半年 AI 供應鏈趨勢論壇 (法說會)</a>
                                 </td>
@@ -314,7 +322,6 @@
                                 <td>45 人</td>
                                 <td>
                                     <span style="font-size:13px; color:#475569;">實體論壇與線上直播</span>
-                                    <a href="marketing.html?action=new-service&topic=%E5%8F%B0%E8%82%A1%E4%B8%8B%E5%8D%8A%E5%B9%B4%20AI%20%E4%BE%9B%E6%87%89%E9%8F%85%E8%B6%A4%E5%8B%A2%E8%AB%96%E5%A3%87%20(%E6%B3%95%E8%AA%AA%E6%9C%83)&date=2026-08-28&time=14:00&analyst=%E5%BC%B5%E7%A0%94%E7%A9%B6%E5%93%A1&notes=%E5%AF%A6%E9%AB%94%E8%AB%96%E5%A3%87%E8%88%87%E7%B7%9A%E4%B8%8A%E7%9B%B4%E6%92%AD#service" data-import="%7B%22topic%22%3A%22%E5%8F%B0%E8%82%A1%E4%B8%8B%E5%8D%8A%E5%B9%B4%20AI%20%E4%BE%9B%E6%87%89%E9%8F%85%E8%B6%A4%E5%8B%A2%E8%AB%96%E5%A3%87%20(%E6%B3%95%E8%AA%AA%E6%9C%83)%22%2C%22date%22%3A%222026-08-28%22%2C%22time%22%3A%2214%3A00%22%2C%22analyst%22%3A%22%E5%BC%B5%E7%A0%94%E7%A9%B6%E5%93%A1%22%2C%22notes%22%3A%22%E5%AF%A6%E9%AB%94%E8%AB%96%E5%A3%87%E8%88%87%E7%B7%9A%E4%B8%8A%E7%9B%B4%E6%92%AD%22%7D" class="btn btn-secondary trigger-home-import" style="font-size:11px; padding:3px 10px; margin-left:6px; background:#0093C1; color:#FFFFFF; border:none; border-radius:4px; text-decoration:none; display:inline-block; font-weight:600;" title="點擊新增至服務紀錄表單">➕ 新增至服務紀錄</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -416,6 +423,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=20260909_1200"></script>
 </body>
 </html>
